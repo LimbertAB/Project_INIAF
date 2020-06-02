@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LISTA DE USUARIOS</title>
+</head>
+<body>
+    <h1>LISTAR USUARIOS</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>nombres</th>
+                    <th>ci</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for us in usuarios%}
+                <tr>
+                    <td>{{ us.id }}</td>
+                    <td>{{ us.nombre }}</td>
+                    <td>{{ us.ci }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+</body>
+</html>
