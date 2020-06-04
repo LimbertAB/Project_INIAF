@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'jquery',
     'apps.usuario',
-    'apps.area',
-    'apps.ciudad',
+    'apps.formulario',
+    'apps.movilidad',
+    'apps.partida',
+    'apps.programa',
+    'apps.salida'
 ]
 
 MIDDLEWARE = [
@@ -80,8 +82,12 @@ WSGI_APPLICATION = 'djangoprimerproyecto.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'iniaf',
+        'USER': 'Postgres',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'DATABASE_PORT': '5432'
     }
 }
 
@@ -126,4 +132,5 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-LOGIN_REDIRECT_URL = reverse_lazy('area:crear_area')
+#LOGIN_REDIRECT_URL = reverse_lazy('area:crear_area')
+LOGIN_REDIRECT_URL = reverse_lazy('')
