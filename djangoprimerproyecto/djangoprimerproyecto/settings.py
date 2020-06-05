@@ -39,11 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.usuario',
-    'apps.formulario',
     'apps.movilidad',
     'apps.partida',
     'apps.programa',
-    'apps.salida'
+    'apps.salida',
+    'apps.formulario'
 ]
 
 MIDDLEWARE = [
@@ -84,7 +84,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'iniaf',
-        'USER': 'Postgres',
+        'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': '127.0.0.1',
         'DATABASE_PORT': '5432'

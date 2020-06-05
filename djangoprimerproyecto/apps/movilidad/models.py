@@ -10,3 +10,9 @@ class Movilidad(models.Model):
     estado = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.marca
+
+    class Meta:
+        ordering = ['marca']
