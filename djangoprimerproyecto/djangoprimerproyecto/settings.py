@@ -110,9 +110,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTH_USER_MODEL='usuario.Usuario'
+#LOGIN_REDIRECT_URL = '/'
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
+
 
 LANGUAGE_CODE = 'es-bo'
 
@@ -133,4 +135,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 #LOGIN_REDIRECT_URL = reverse_lazy('area:crear_area')
-LOGIN_REDIRECT_URL = reverse_lazy('')
+LOGIN_REDIRECT_URL = reverse_lazy('usuario:lista')
