@@ -25,6 +25,6 @@ urlpatterns = [
     #path('',views.LoginView.as_view(template_name='login.html'), name='login'),
     path('',views.login_user, name='login'),
     path('usuario/', include(('apps.usuario.urls'))),
-    #path('', views.LoginView.as_view(template_name='login.html')),
+    path('dashboard/', views.dashboard, name='dashboard'),
     #path('area/', include(('apps.area.urls'))),
 ]

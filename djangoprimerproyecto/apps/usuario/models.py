@@ -40,6 +40,7 @@ class Usuario(AbstractBaseUser):
     email = models.EmailField(max_length=200, unique=True, null=False, blank=False)
     estado = models.BooleanField(default=True)
     prioridad = models.IntegerField(blank=False,default=0, null=False)
+    unidad = models.CharField(max_length=200, blank=False, null=False,default="Semillas")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=UsuarioManager()
