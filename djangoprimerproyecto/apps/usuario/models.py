@@ -1,14 +1,23 @@
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
-# Create your models here.
+
 #0 - osoario
 #1 - administrador
 #2 - super - admin
+TIPO_USUARIO = [
+    (0, 'Usuario'),
+    (1, 'Administrador'),
+    (2, 'Super Administrador'),
+]
+ESTADO_USUARIO = [
+    (0, 'De Baja'),
+    (1, 'Activo'),
+]
+
 class UsuarioManager(BaseUserManager):
     def create_user(self,email,ci,nombre,apellido,password=None):
         if not ci:
             raise ValueError('inserte su numero de identificacion')
-
         usuario=self.model(
             ci=ci,
             email=self.normalize_email(email),
@@ -33,14 +42,15 @@ class UsuarioManager(BaseUserManager):
 
 class Usuario(AbstractBaseUser):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=200, blank=False, null=False)
-    apellido = models.CharField(max_length=200, blank=False, null=False)
-    ci = models.IntegerField(null=False, unique=True,blank=False)
-    password = models.CharField(max_length=200, blank=False, null=False)
-    email = models.EmailField(max_length=200, unique=True, null=False, blank=False)
-    estado = models.BooleanField(default=True)
-    prioridad = models.IntegerField(blank=False,default=0, null=False)
-    unidad = models.CharField(max_length=200, blank=False, null=False,default="Semillas")
+    nombre = models.CharField("Nombres", max_length=200, blank=False, null=False)
+    apellido = models.CharField("Apellidos", max_length=200, blank=False, null=False)
+    ci = models.IntegerField("Carnet de Identidad", null=False, unique=True,blank=False)
+    password = models.CharField("Contraseña", max_length=200, blank=False, null=False)
+    email = models.EmailField("Correo electronico", max_length=200, unique=True, null=False, blank=False)
+    estado = models.IntegerField("Estado", default=True, choices=ESTADO_USUARIO)
+    prioridad = models.IntegerField("Tipo de Usuario", blank=False,default=0, null=False, choices=TIPO_USUARIO)
+    unidad = models.CharField("Unidad", max_length=200, blank=False, null=False,default="Semillas")
+    last_login = models.DateTimeField('last login', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=UsuarioManager()
@@ -48,7 +58,7 @@ class Usuario(AbstractBaseUser):
     USERNAME_FIELD = 'ci'
     REQUIRED_FIELDS = ['nombre','apellido','email']
     def __str__(self):
-        return "%s %s" % (self.nombre, self.apellido)
+        return str(self.id)
     
     def has_perm(self, perm,obj=None):
         return True 

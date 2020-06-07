@@ -14,11 +14,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for us in usuarios%}
+            {% for us in object_list%}
             <tr>
                 <td>{{ us.id }}</td>
                 <td>{{ us.nombre }}</td>
                 <td>{{ us.ci }}</td>
+                <td><a href="{% url 'usuario:modificar' us.id %}" namespace='modificar'>Editar</a></td>
             </tr>
             {% endfor %}
         </tbody>
