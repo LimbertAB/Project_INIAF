@@ -1,23 +1,78 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
+  <div class="modal-dialog modal-lg" style="transform: translate(10px, 10px);">
+    <div class="modal-content white-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">REGISTRAR USUARIOS</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form method="POST" action="usuario/crear_usario">
+      <form method="POST" action="/usuario/crear_usuario/">
+        <div class="modal-body white-content">
             {% csrf_token %}
-            {{ usuario_form.as_p }}
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{ form.nombre.label }}</label>
+                  {{ form.nombre}}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{ form.apellido.label }}</label>
+                  {{ form.apellido}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{ form.ci.label }}</label>
+                  {{ form.ci}}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{ form.password.label }}</label>
+                  {{ form.password}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{ form.email.label }}</label>
+                  {{ form.email}}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{ form.unidad.label }}</label>
+                  {{ form.unidad}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{ form.estado.label }}</label>
+                  {{ form.estado}}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{ form.prioridad.label }}</label>
+                  {{ form.prioridad}}
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+          <button type="submit" class="btn btn-primary">REGISTRAR USUARIO</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
