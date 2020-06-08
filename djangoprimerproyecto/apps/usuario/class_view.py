@@ -7,6 +7,11 @@ from .models import Usuario
 class UsuarioList(ListView):
     model = Usuario
     template_name = 'usuario/index.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = UsuarioForm
+        return context
 
 class UsuarioCreate(CreateView):
     model = Usuario

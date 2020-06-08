@@ -9,7 +9,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST">
+        <form method="POST" action="usuario/crear_usario">
             {% csrf_token %}
             {{ usuario_form.as_p }}
         </form>
