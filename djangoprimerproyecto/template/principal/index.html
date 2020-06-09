@@ -12,7 +12,9 @@
   <!--     Fonts and icons  -->
   <link rel="stylesheet" href="{% static 'css/all.css' %}">
   <link rel="stylesheet" href="{% static 'css/nucleo-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/black-dashboard.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
 </head>
 <body class="">
@@ -150,7 +152,12 @@
       <div class="content">
         {% block content%}
         {% endblock %}
-
+        <div class="btn-group-fab" role="group" aria-label="FAB Menu" style="bottom: 20px;">
+          <div>
+            {% block floating%}
+            {% endblock %}
+          </div>
+        </div>
       </div>
     </div>
       <!--footer -->
@@ -162,7 +169,8 @@
   <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!--<script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>-->
+  <script src="{% static 'js/admin.js' %}"></script>
 
   <!--  Notifications Plugin    -->
   <!-- <script src="../assets/js/plugins/bootstrap-notify.js"></script> -->

@@ -135,4 +135,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 #LOGIN_REDIRECT_URL = reverse_lazy('area:crear_area')
-LOGIN_REDIRECT_URL = reverse_lazy('usuario:lista')
+LOGIN_REDIRECT_URL = reverse_lazy('usuario_baja')

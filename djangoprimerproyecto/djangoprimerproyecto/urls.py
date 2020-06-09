@@ -27,4 +27,5 @@ urlpatterns = [
     path('usuario/', include(('apps.usuario.urls'), namespace='usuario'), name='usuario'),
     path('dashboard/', views.dashboard, name='dashboard'),
     #path('area/', include(('apps.area.urls'))),
+    path('usuario/baja/',views.baja_objecto, name='usuario_baja')
 ]

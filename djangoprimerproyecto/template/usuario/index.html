@@ -1,28 +1,45 @@
 {% extends "principal/index.html" %}
 {% block content %}
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-      CREAR USUARIO
-    </button> 
-    <h1>LISTAR USUARIOS</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>nombres</th>
-                <th>ci</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for us in object_list%}
-            <tr>
-                <td>{{ us.id }}</td>
-                <td>{{ us.nombre }}</td>
-                <td>{{ us.ci }}</td>
-                <td><a href="{% url 'usuario:modificar' us.id %}" namespace='modificar'>Editar</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% include 'usuario/crear.html' %}
+
+<div class="col-md-12">
+    <div class="card ">
+        <div class="card-header">
+            <h4 class="card-title"> LISTA DE USUARIOS</h4>
+            <p class="category"> Total usuarios: 5</p>
+        </div>
+        <div class="card-body">
+              <table class="table tablesorter " id="">
+                <thead class=" text-primary">
+                  <tr>
+                    <th>Id</th>
+                    <th>NOMBRES Y APELLIDOS</th>
+                    <th>CARNET</th>
+                    <th>TIPO USUARIO</th>
+                    <th>ESTADO</th>
+                    <th>ACCION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for us in object_list%}
+                        <tr class="table-{{ us.estado | yesno:'active,info' }}">
+                            <td>{{ us.id }}</td>
+                            <td>{{ us.nombre }} {{ us.apellido }}</td>
+                            <td>{{ us.ci }}</td>
+                            <td>{{ us.prioridad | yesno:"Administrador,Usuario,Admin"}}</td>
+                            <td>{{ us.estado | yesno:"Activo,Inactivo"}}</td>
+                            <td><a href="{% url 'usuario:modificar' us.id %}" namespace='modificar'>Editar</a> |
+                                <a> Editar <button onclick="dar_de_baja({{ us.estado | yesno:' 0, 1 '}},{{ us.id }},'Usuario')"></button></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'usuario/crear.html' %}
+{% endblock %}
+{% block floating%}
+    <button type="button" class="btn btn-main btn-danger has-tooltip" data-placement="left" title="Registrar Usuario" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
 {% endblock %}
