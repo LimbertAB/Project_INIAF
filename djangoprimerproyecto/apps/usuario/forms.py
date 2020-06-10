@@ -8,12 +8,12 @@ class UsuarioForm(forms.ModelForm):
         model = Usuario
         fields = ['nombre', 'apellido', 'ci', 'password', 'email', 'estado', 'prioridad', 'unidad']
 
-        widgets = {'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Ejemplo: Juan'}),
-            'apellido': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Ejemplo: Colmillo'}),
-            'ci': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo: 5345436'}),
-            'password': forms.TextInput(attrs={'class': 'form-control','placeholder':'******'}),
-            'email': forms.TextInput(attrs={'class': 'form-control','placeholder':'threecode@gmail.com'}),
+        widgets = {'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control'}),
+            'ci': forms.TextInput(attrs={'class': 'form-control'}),
+            'password': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
             'estado': forms.Select(attrs={'class': 'form-control'}),
             'prioridad': forms.Select(attrs={'class': 'form-control'}),
-            'unidad': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo: Semillas'}),
+            'unidad': forms.TextInput(attrs={'class': 'form-control'}),
         }

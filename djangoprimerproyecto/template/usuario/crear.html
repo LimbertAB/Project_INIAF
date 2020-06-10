@@ -1,26 +1,26 @@
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" style="transform: translate(10px, 10px);">
-    <div class="modal-content white-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">REGISTRAR USUARIOS</h5>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background:#313131cc">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="background: #353542;">
+      <div class="modal-header" style="border-bottom: 0px;background:#4fb752">
+        <h5 class="modal-title" id="exampleModalLabel" style="color:#fff">REGISTRAR USUARIOS</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <form method="POST" action="/usuario/crear_usuario/">
-        <div class="modal-body white-content">
+        <div class="modal-body">
             {% csrf_token %}
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>{{ form.nombre.label }}</label>
+                  <label class="bmd-label-floating">{{ form.nombre.label }}</label>
                   {{ form.nombre}}
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>{{ form.apellido.label }}</label>
+                  <label class="bmd-label-floating">{{ form.apellido.label }}</label>
                   {{ form.apellido}}
                 </div>
               </div>
@@ -28,13 +28,13 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>{{ form.ci.label }}</label>
+                  <label class="bmd-label-floating">{{ form.ci.label }}</label>
                   {{ form.ci}}
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>{{ form.password.label }}</label>
+                  <label class="bmd-label-floating">{{ form.password.label }}</label>
                   {{ form.password}}
                 </div>
               </div>
@@ -42,18 +42,18 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>{{ form.email.label }}</label>
+                  <label class="bmd-label-floating">{{ form.email.label }}</label>
                   {{ form.email}}
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>{{ form.unidad.label }}</label>
+                  <label class="bmd-label-floating">{{ form.unidad.label }}</label>
                   {{ form.unidad}}
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row" style="padding-top: 20px;">
               <div class="col-md-6">
                 <div class="form-group">
                   <label>{{ form.estado.label }}</label>
@@ -68,9 +68,9 @@
               </div>
             </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-          <button type="submit" class="btn btn-primary">REGISTRAR USUARIO</button>
+        <div class="modal-footer" style="padding: 16px 16px 0 16px;border-top:0">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+          <button type="submit" class="btn btn-success">REGISTRAR USUARIO</button>
         </div>
       </form>
     </div>

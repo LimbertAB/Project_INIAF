@@ -2,14 +2,15 @@
 {% block content %}
 
 <div class="col-md-12">
-    <div class="card ">
-        <div class="card-header">
-            <h4 class="card-title"> LISTA DE USUARIOS</h4>
-            <p class="category"> Total usuarios: 5</p>
+    <div class="card">
+        <div class="card-header card-header-success">
+          <h4 class="card-title ">LISTA DE USUARIOS</h4>
+          <p class="card-category"> Total usuarios: 5</p>
         </div>
         <div class="card-body">
-              <table class="table tablesorter " id="">
-                <thead class=" text-primary">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class=" text-primary">
                   <tr>
                     <th>Id</th>
                     <th>NOMBRES Y APELLIDOS</th>
@@ -18,21 +19,25 @@
                     <th>ESTADO</th>
                     <th>ACCION</th>
                   </tr>
-                </thead>
-                <tbody>
-                    {% for us in object_list%}
-                        <tr class="table-{{ us.estado | yesno:'active,info' }}">
-                            <td>{{ us.id }}</td>
-                            <td>{{ us.nombre }} {{ us.apellido }}</td>
-                            <td>{{ us.ci }}</td>
-                            <td>{{ us.prioridad | yesno:"Administrador,Usuario,Admin"}}</td>
-                            <td>{{ us.estado | yesno:"Activo,Inactivo"}}</td>
-                            <td><a href="{% url 'usuario:modificar' us.id %}" namespace='modificar'>Editar</a> |
-                                <a> Editar <button onclick="dar_de_baja({{ us.estado | yesno:' 0, 1 '}},{{ us.id }},'Usuario')"></button></a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
+              </thead>
+              <tbody>
+                {% for us in object_list%}
+                    <tr style="background:#{{ us.estado | yesno:'1c2337,303a56' }}">
+                        <td>{{ us.id }}</td>
+                        <td>{{ us.nombre }} {{ us.apellido }}</td>
+                        <td>{{ us.ci }}</td>
+                        <td>{{ us.prioridad | yesno:"Administrador,Usuario,Admin"}}</td>
+                        <td>{{ us.estado | yesno:"Activo,Inactivo"}}</td>
+                        <td><a href="{% url 'usuario:modificar' us.id %}" namespace='modificar'>Editar</a> |
+                            {% if us.estado %}
+                                <button onclick="dar_de_baja(0,{{ us.id }},'Usuario',this.tagName)" class="btn btn-sm btn-success" style="padding: 4px;">baja</button>
+                            {% else %}
+                                <button onclick="dar_de_baja(1,{{ us.id }},'Usuario',this.tagName)" class="btn btn-sm btn-danger" style="padding: 4px;">alta</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+              </tbody>
               </table>
             </div>
         </div>
@@ -41,5 +46,5 @@
 {% include 'usuario/crear.html' %}
 {% endblock %}
 {% block floating%}
-    <button type="button" class="btn btn-main btn-danger has-tooltip" data-placement="left" title="Registrar Usuario" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
+    <button type="button" class="btn btn-main btn-success has-tooltip" data-placement="left" title="Registrar Usuario" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
 {% endblock %}
