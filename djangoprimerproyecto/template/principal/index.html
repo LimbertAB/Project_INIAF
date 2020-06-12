@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +13,7 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/material-dashboard.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sweetalert.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
 </head>
@@ -160,7 +161,7 @@
   <script type="text/javascript" src="{% static 'js/perfect-scrollbar.jquery.min.js' %}"></script>
 
   <script type="text/javascript" src="{% static 'js/bootstrap-material-design.min.js' %}"></script>
-
+  <script src="{% static 'js/sweetalert.min.js' %}"></script>
   <script src="{% static 'js/admin.js' %}"></script>
 
   <!--  Notifications Plugin    -->

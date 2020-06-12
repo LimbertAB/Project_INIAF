@@ -7,6 +7,8 @@ from .models import Usuario
 class UsuarioList(ListView):
     model = Usuario
     template_name = 'usuario/index.html'
+    queryset = Usuario.objects.all().order_by('id')
+    paginate_by = 4
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

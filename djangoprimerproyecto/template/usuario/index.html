@@ -8,37 +8,69 @@
           <p class="card-category"> Total usuarios: 5</p>
         </div>
         <div class="card-body">
-          <div class="table-responsive">
-            <table class="table">
-              <thead class=" text-primary">
-                  <tr>
-                    <th>Id</th>
-                    <th>NOMBRES Y APELLIDOS</th>
-                    <th>CARNET</th>
-                    <th>TIPO USUARIO</th>
-                    <th>ESTADO</th>
-                    <th>ACCION</th>
-                  </tr>
-              </thead>
-              <tbody>
-                {% for us in object_list%}
-                    <tr style="background:#{{ us.estado | yesno:'1c2337,303a56' }}">
-                        <td>{{ us.id }}</td>
-                        <td>{{ us.nombre }} {{ us.apellido }}</td>
-                        <td>{{ us.ci }}</td>
-                        <td>{{ us.prioridad | yesno:"Administrador,Usuario,Admin"}}</td>
-                        <td>{{ us.estado | yesno:"Activo,Inactivo"}}</td>
-                        <td><a href="{% url 'usuario:modificar' us.id %}" namespace='modificar'>Editar</a> |
-                            {% if us.estado %}
-                                <button onclick="dar_de_baja(0,{{ us.id }},'Usuario',this.tagName)" class="btn btn-sm btn-success" style="padding: 4px;">baja</button>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class=" text-primary">
+                        <tr>
+                            <th>Id</th>
+                            <th>NOMBRES Y APELLIDOS</th>
+                            <th>CARNET</th>
+                            <th>TIPO USUARIO</th>
+                            <th>ESTADO</th>
+                            <th>ACCION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for us in object_list%}
+                            <tr style="background:#{{ us.estado | yesno:'1c2337,303a56' }}" id="row{{ us.id }}">
+                                <td>{{ us.id }}</td>
+                                <td>{{ us.nombre }} {{ us.apellido }}</td>
+                                <td>{{ us.ci }}</td>
+                                <td>{{ us.prioridad | yesno:"Administrador,Usuario,Admin"}}</td>
+                                <td>
+                                    <div class="custom-control custom-switch">
+                                        {% if us.estado %}
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ us.id }}" onchange="modificarestado({{ us.id }},'Usuario')" checked>
+                                            <!-- <button onclick="dar_de_baja(0,{{ us.id }},'Usuario',this.tagName)" class="btn btn-sm btn-success" style="padding: 4px;">baja</button>-->
+                                        {% else %}
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ us.id }}" onchange="modificarestado({{ us.id }},'Usuario')">
+                                            <!-- <button onclick="dar_de_baja(1,{{ us.id }},'Usuario',this.tagName)" class="btn btn-sm btn-danger" style="padding: 4px;">alta</button> -->
+                                        {% endif %}
+                                        <label class="custom-control-label" for="customSwitch{{ us.id }}"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{% url 'usuario:modificar' us.id %}" namespace='modificar'>Editar</a> |
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if is_paginated %}
+                    <div class="mt-2">
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a href="?page={{page_obj.previous_page_number}}" class="page-link">Anterior</a>
+                                </li>
                             {% else %}
-                                <button onclick="dar_de_baja(1,{{ us.id }},'Usuario',this.tagName)" class="btn btn-sm btn-danger" style="padding: 4px;">alta</button>
+                                <li class="page-item disabled">
+                                    <a href="#" class="page-link">Anterior</a>
+                                </li>
                             {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-              </tbody>
-              </table>
+                            {% for i in paginator.page_range %}
+                                <li class="page-item {% if page_obj.number == i %} active {% endif %}" >
+                                    <a href="?page{{ i }}" class="page-link">{{ i }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a href="?page={{page_obj.next_page_number}}" class="page-link">Siguiente</a>
+                                </li>
+                            {% endif %} 
+                        </ul>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

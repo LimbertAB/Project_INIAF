@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.hashers import make_password
 from django.db import models
 
 #0 - osoario
@@ -69,3 +70,7 @@ class Usuario(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.prioridad
+    
+    def save(self, *args, **kwargs):
+        self.password = make_password(self.password)
+        super(Usuario, self).save(*args, **kwargs)

@@ -8,6 +8,7 @@ from apps.formulario.models import Formulario
 from apps.partida.models import Partida
 from apps.programa.models import Programa
 from apps.salida.models import Salida
+from django.http import JsonResponse
 
 
 def login_user(request):
@@ -17,7 +18,7 @@ def login_user(request):
         user=authenticate(request,ci=ci,password=password)
         if user is not None:
             login(request,user)
-            usuario= Usuario.objects.raw('select id,nombre,prioridad from usuario_usuario where id=1 LIMIT 1')[0]
+            usuario= Usuario.objects.raw('select id,nombre,prioridad from usuario_usuario where id=%s LIMIT 1',[user.id])[0]
             request.session['id'] = usuario.id
             request.session['nombre'] = usuario.nombre
             request.session['prioridad'] = usuario.prioridad
@@ -35,8 +36,7 @@ def baja_objecto(request):
     id=request.POST.get('id')
     estado=request.POST.get('estado')
     estado=eval(modelo).objects.filter(id=id).update(estado=estado)
-    return HttpResponse('<h1 style="color:red">hola mayfrined<small>esto es small</small></h1>')
-
+    return JsonResponse({'estado':estado})
 
 #def casa(request):
     #return HttpResponse('<h1 style="color:red">hola mayfrined<small>esto es small</small></h1>')
