@@ -27,5 +27,8 @@ urlpatterns = [
     path('usuario/', include(('apps.usuario.urls'), namespace='usuario'), name='usuario'),
     path('dashboard/', views.dashboard, name='dashboard'),
     #path('area/', include(('apps.area.urls'))),
-    path('usuario/baja/',views.baja_objecto, name='usuario_baja')
+    path('usuario/baja/',views.baja_objecto, name='usuario_baja'),
+
+    path('partida/', include(('apps.partida.urls'), namespace='partida'), name='partida'),
+    path('movilidad/', include(('apps.movilidad.urls'), namespace='movilidad'), name='movilidad')
 ]

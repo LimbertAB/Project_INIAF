@@ -3,49 +3,43 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content" style="background: #353542;">
       <div class="modal-header" style="border-bottom: 0px;background:#4fb752">
-        <h5 class="modal-title" id="exampleModalLabel" style="color:#fff">REGISTRAR USUARIOS</h5>
+        <h5 class="modal-title" id="exampleModalLabel" style="color:#fff">REGISTRAR PARTIDAS</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="/usuario/crear_usuario/">
+      <form method="POST" action="/partida/crear_partida/">
         <div class="modal-body">
             {% csrf_token %}
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.nombre.label }}</label>
-                  {{ form.nombre}}
+                  <label class="bmd-label-floating">{{ form.fuente.label }}</label>
+                  {{ form.fuente}}
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.apellido.label }}</label>
-                  {{ form.apellido}}
+                  <label class="bmd-label-floating">{{ form.numero.label }}</label>
+                  {{ form.numero}}
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.ci.label }}</label>
-                  {{ form.ci}}
+                  <label class="bmd-label-floating">{{ form.glosa_uno.label }}</label>
+                  {{ form.glosa_uno}}
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.password.label }}</label>
-                  {{ form.password}}
+                  <label class="bmd-label-floating">{{ form.glosa_dos.label }}</label>
+                  {{ form.glosa_dos}}
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.email.label }}</label>
-                  {{ form.email}}
-                </div>
-              </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="bmd-label-floating">{{ form.unidad.label }}</label>
@@ -53,18 +47,10 @@
                 </div>
               </div>
             </div>
-            <div class="row" style="padding-top: 20px;">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>{{ form.prioridad.label }}</label>
-                  {{ form.prioridad}}
-                </div>
-              </div>
-            </div>
         </div>
         <div class="modal-footer" style="padding: 16px 16px 0 16px;border-top:0">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-          <button type="submit" class="btn btn-success">REGISTRAR USUARIO</button>
+          <button type="submit" class="btn btn-success">REGISTRAR PARTIDA</button>
         </div>
       </form>
     </div>

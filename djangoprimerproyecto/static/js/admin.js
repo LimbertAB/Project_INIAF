@@ -6,7 +6,7 @@ var token=document.getElementsByName('csrfmiddlewaretoken')[0].value;
     var checked_estado="alta";
   }
   Swal.fire({
-    title: 'El '+modelo+' se dara de '+checked_estado,text: "desea guardar los cambios?",
+    title: modelo+' se dara de '+checked_estado,text: "desea guardar los cambios?",
     type: 'warning',confirmButtonColor: '#3085d6',confirmButtonText: 'Aceptar'
   }).then((result) => {
     if(result.value){

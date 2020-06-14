@@ -48,7 +48,7 @@ class Usuario(AbstractBaseUser):
     ci = models.IntegerField("Carnet de Identidad", null=False, unique=True,blank=False)
     password = models.CharField("Contraseña", max_length=200, blank=False, null=False)
     email = models.EmailField("Correo electronico", max_length=200, unique=True, null=False, blank=False)
-    estado = models.IntegerField("Estado", default=True, choices=ESTADO_USUARIO)
+    estado = models.IntegerField("Estado", default=1, choices=ESTADO_USUARIO)
     prioridad = models.IntegerField("Tipo de Usuario", blank=False,default=0, null=False, choices=TIPO_USUARIO)
     unidad = models.CharField("Unidad", max_length=200, blank=False, null=False,default="Semillas")
     last_login = models.DateTimeField('last login', blank=True, null=True)

@@ -13,6 +13,6 @@ class Movilidad(models.Model):
 
     def __str__(self):
         return self.marca
-
+ 
     class Meta:
         ordering = ['marca']

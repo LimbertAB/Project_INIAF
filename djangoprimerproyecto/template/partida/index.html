@@ -1,49 +1,53 @@
 {% extends "principal/index.html" %}
 {% block title_section%}
-    <a class="navbar-brand">Usuarios</a>
+    <a class="navbar-brand">Partidas</a>
 {% endblock %}
 {% block content %}
 
 <div class="col-md-12">
     <div class="card">
         <div class="card-header card-header-success">
-          <h4 class="card-title ">LISTA DE USUARIOS</h4>
-          <p class="card-category"> Total usuarios: 5</p>
+          <h4 class="card-title ">LISTA DE PARTIDAS</h4>
+          <p class="card-category"> Total partidas: 5</p>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
                     <thead class=" text-primary">
                         <tr>
-                            <th>Id</th>
-                            <th>NOMBRES Y APELLIDOS</th>
-                            <th>CARNET</th>
-                            <th>TIPO USUARIO</th>
+                            <th>ID</th>
+                            <th>FUENTE</th>
+                            <th>NUMERO</th>
+                            <th>GLOSA UNO</th>
+                            <th>GLOSA DOS</th>
+                            <th>UNIDAD</th>
                             <th>ESTADO</th>
-                            <th>ACCION</th>
+                            <th>OPCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for us in object_list%}
                             <tr style="background:#{{ us.estado | yesno:'1c2337,303a56' }}" id="row{{ us.id }}">
                                 <td>{{ us.id }}</td>
-                                <td>{{ us.nombre }} {{ us.apellido }}</td>
-                                <td>{{ us.ci }}</td>
-                                <td>{{ us.prioridad | yesno:"Administrador,Usuario,Admin"}}</td>
+                                <td>{{ us.fuente }}</td>
+                                <td>{{ us.numero }}</td>
+                                <td>{{ us.glosa_uno }}</td>
+                                <td>{{ us.glosa_dos }}</td>
+                                <td>{{ us.unidad }}</td>
                                 <td>
                                     <div class="custom-control custom-switch">
                                         {% if us.estado %}
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ us.id }}" onchange="modificarestado({{ us.id }},'Usuario')" checked>
-                                            <!-- <button onclick="dar_de_baja(0,{{ us.id }},'Usuario',this.tagName)" class="btn btn-sm btn-success" style="padding: 4px;">baja</button>-->
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ us.id }}" onchange="modificarestado({{ us.id }},'Partida')" checked>
+                                            <!-- <button onclick="dar_de_baja(0,{{ us.id }},'Partida',this.tagName)" class="btn btn-sm btn-success" style="padding: 4px;">baja</button>-->
                                         {% else %}
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ us.id }}" onchange="modificarestado({{ us.id }},'Usuario')">
-                                            <!-- <button onclick="dar_de_baja(1,{{ us.id }},'Usuario',this.tagName)" class="btn btn-sm btn-danger" style="padding: 4px;">alta</button> -->
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ us.id }}" onchange="modificarestado({{ us.id }},'Partida')">
+                                            <!-- <button onclick="dar_de_baja(1,{{ us.id }},'Partida',this.tagName)" class="btn btn-sm btn-danger" style="padding: 4px;">alta</button> -->
                                         {% endif %}
                                         <label class="custom-control-label" for="customSwitch{{ us.id }}"></label>
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="{% url 'usuario:modificar' us.id %}" namespace='modificar'>Editar</a> |
+                                    <a href="{% url 'partida:modificar' us.id %}" namespace='modificar'>Editar</a> |
                                 </td>
                             </tr>
                         {% endfor %}
@@ -78,8 +82,8 @@
         </div>
     </div>
 </div>
-{% include 'usuario/crear.html' %}
+{% include 'partida/crear.html' %}
 {% endblock %}
 {% block floating%}
-    <button type="button" class="btn btn-main btn-success has-tooltip" data-placement="left" title="Registrar Usuario" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
+    <button type="button" class="btn btn-main btn-success has-tooltip" data-placement="left" title="Registrar Partida" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
 {% endblock %}
