@@ -6,12 +6,12 @@ from .models import Partida
 class PartidaForm(forms.ModelForm):
     class Meta:
         model = Partida
-        fields = ['fuente', 'numero', 'glosa_uno', 'glosa_dos', 'unidad']
+        fields = ['fuente', 'numero', 'glosa_uno', 'glosa_dos','unidad','id_programa']
 
-        widgets = {'fuente': forms.TextInput(attrs={'class': 'form-control'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control'}),
-            'glosa_uno': forms.TextInput(attrs={'class': 'form-control'}),
-            'glosa_dos': forms.TextInput(attrs={'class': 'form-control'}),
-            'unidad': forms.TextInput(attrs={'class': 'form-control'}),
-            'estado': forms.Select(attrs={'class': 'form-control'}),
+        widgets = {'fuente': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....'}),
+            'numero': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....'}), 
+            'glosa_uno': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....'}),
+            'glosa_dos': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....'}),
+            'unidad': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....'}),
+            'id_programa': forms.Select(attrs={'class': 'form-control'}),
         }

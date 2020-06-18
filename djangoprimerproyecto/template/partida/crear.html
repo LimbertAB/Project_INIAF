@@ -1,56 +1,72 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background:#313131cc">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content" style="background: #353542;">
       <div class="modal-header" style="border-bottom: 0px;background:#4fb752">
-        <h5 class="modal-title" id="exampleModalLabel" style="color:#fff">REGISTRAR PARTIDAS</h5>
+        <h5 class="modal-title" id="exampleModalLabel" style="color:#fff">REGISTRO PARTIDA</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <form method="POST" action="/partida/crear_partida/">
         <div class="modal-body">
-            {% csrf_token %}
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.fuente.label }}</label>
-                  {{ form.fuente}}
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.numero.label }}</label>
-                  {{ form.numero}}
-                </div>
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-12 mt-4">
+              <div class="form-group label-floating has-success">
+                <label>{{ form.fuente.label }}</label>
+                {{ form.fuente}}
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.glosa_uno.label }}</label>
-                  {{ form.glosa_uno}}
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.glosa_dos.label }}</label>
-                  {{ form.glosa_dos}}
-                </div>
+            <div class="col-md-6 mt-4">
+              <div class="form-group label-floating has-success">
+                <label>{{ form.numero.label }}</label>
+                {{ form.numero}}
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.unidad.label }}</label>
-                  {{ form.unidad}}
-                </div>
+            <div class="col-md-6 mt-4">
+              <div class="form-group label-floating has-success">
+                <label>{{ form.glosa_uno.label }}</label>
+                {{ form.glosa_uno}}
               </div>
             </div>
+            <div class="col-md-6 mt-4">
+              <div class="form-group label-floating has-success">
+                <label>{{ form.glosa_dos.label }}</label>
+                {{ form.glosa_dos}}
+              </div>
+            </div>
+            <div class="col-md-6 mt-4">
+              <div class="form-group label-floating has-success">
+                <label>{{ form.unidad.label }}</label>
+                {{ form.unidad}}
+              </div>
+            </div>
+            <div class="col-md-12 mt-4">
+              <div class="form-group label-floating has-success">
+                <label>Seleccione el programa</label>
+                {{ form.id_programa}}
+              </div>
+            </div>
+            <table class="table">
+              <thead>
+                <th>fila1</th>
+                <th>fila 2</th>
+              </thead>
+              <tbody>
+                <td>
+                  <input type="text" class="form-control" name="fila1" id="fila1" value="hola">
+                </td>
+                <td>
+                  <input type="text" class="form-control" name="fila2" id="fila2" value="hola2">
+                </td>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="modal-footer" style="padding: 16px 16px 0 16px;border-top:0">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-          <button type="submit" class="btn btn-success">REGISTRAR PARTIDA</button>
+          <button type="submit" class="btn btn-success btn_registro_partida">REGISTRAR PARTIDA</button>
         </div>
       </form>
     </div>

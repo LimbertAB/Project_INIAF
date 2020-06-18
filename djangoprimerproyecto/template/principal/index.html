@@ -160,7 +160,7 @@
   <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/bootstrap-notify.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/perfect-scrollbar.jquery.min.js' %}"></script>
+  <!-- <script type="text/javascript" src="{% static 'js/perfect-scrollbar.jquery.min.js' %}"></script> -->
 
   <script type="text/javascript" src="{% static 'js/bootstrap-material-design.min.js' %}"></script>
   <script src="{% static 'js/sweetalert.min.js' %}"></script>
@@ -169,18 +169,10 @@
   <!--  Notifications Plugin    -->
   <!-- <script src="../assets/js/plugins/bootstrap-notify.js"></script> -->
   <script type="text/javascript" src="{% static 'js/material-dashboard.min.js' %}"></script>
-<script>
-    $(document).ready(function() {
-      $().ready(function() {
 
-      });
-    });
-  </script>
-<script>
-    $(document).ready(function() {
+  {% block javascript %}
+  {% endblock %}
 
-    });
-  </script>
 </body>
 
 </html>

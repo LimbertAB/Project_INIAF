@@ -1,6 +1,6 @@
 {% extends "principal/index.html" %}
 {% block title_section%}
-    <a class="navbar-brand">Partidas</a>
+    <a class="navbar-brand">Programas</a>
 {% endblock %}
 {% block content %}
 
@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-header card-header-success">
           <h4 class="card-title ">LISTA DE PARTIDAS</h4>
-          <p class="card-category"> Total partidas: 5</p>
+          <p class="card-category"> Total programas: 5</p>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -16,11 +16,10 @@
                     <thead class=" text-primary">
                         <tr>
                             <th>ID</th>
-                            <th>FUENTE</th>
-                            <th>NUMERO</th>
-                            <th>GLOSA UNO</th>
-                            <th>GLOSA DOS</th>
-                            <th>UNIDAD</th>
+                            <th>NOMBRE</th>
+                            <th>PROYECTO</th>
+                            <th>ACTIVIDAD</th>
+                            <th>DESCRIPCION</th>
                             <th>ESTADO</th>
                             <th>OPCIONES</th>
                         </tr>
@@ -29,25 +28,24 @@
                         {% for us in object_list%}
                             <tr style="background:#{{ us.estado | yesno:'1c2337,303a56' }}" id="row{{ us.id }}">
                                 <td>{{ us.id }}</td>
-                                <td>{{ us.fuente }}</td>
-                                <td>{{ us.numero }}</td>
-                                <td>{{ us.glosa_uno }}</td>
-                                <td>{{ us.glosa_dos }}</td>
-                                <td>{{ us.unidad }}</td>
+                                <td>{{ us.nombre }}</td>
+                                <td>{{ us.proyecto }}</td>
+                                <td>{{ us.actividad }}</td>
+                                <td>{{ us.descripcion }}</td>
                                 <td>
                                     <div class="custom-control custom-switch">
                                         {% if us.estado %}
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ us.id }}" onchange="modificarestado({{ us.id }},'Partida')" checked>
-                                            <!-- <button onclick="dar_de_baja(0,{{ us.id }},'Partida',this.tagName)" class="btn btn-sm btn-success" style="padding: 4px;">baja</button>-->
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ us.id }}" onchange="modificarestado({{ us.id }},'Programa')" checked>
+                                            <!-- <button onclick="dar_de_baja(0,{{ us.id }},'Programa',this.tagName)" class="btn btn-sm btn-success" style="padding: 4px;">baja</button>-->
                                         {% else %}
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ us.id }}" onchange="modificarestado({{ us.id }},'Partida')">
-                                            <!-- <button onclick="dar_de_baja(1,{{ us.id }},'Partida',this.tagName)" class="btn btn-sm btn-danger" style="padding: 4px;">alta</button> -->
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ us.id }}" onchange="modificarestado({{ us.id }},'Programa')">
+                                            <!-- <button onclick="dar_de_baja(1,{{ us.id }},'Programa',this.tagName)" class="btn btn-sm btn-danger" style="padding: 4px;">alta</button> -->
                                         {% endif %}
                                         <label class="custom-control-label" for="customSwitch{{ us.id }}"></label>
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="{% url 'partida:modificar' us.id %}" namespace='modificar'>Editar</a> |
+                                    <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#UpdateModal" onclick="verprograma({{ us.id }})">editar</button> |
                                 </td>
                             </tr>
                         {% endfor %}
@@ -82,15 +80,9 @@
         </div>
     </div>
 </div>
-{% include 'partida/crear.html' %}
+{% include 'programa/crear.html' %}
+{% include 'programa/modificar.html' %}
 {% endblock %}
 {% block floating%}
-    <button type="button" class="btn btn-main btn-success has-tooltip" data-placement="left" title="Registrar Partida" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
-{% endblock %}
-{% block javascript %}
-<script type="text/javascript">
-  $(function(){
-    console.log("lolllllllllllllll");
-  });
-</script>
+    <button type="button" class="btn btn-main btn-success has-tooltip" data-placement="left" title="Registrar Programa" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
 {% endblock %}

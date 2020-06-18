@@ -28,7 +28,8 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     #path('area/', include(('apps.area.urls'))),
     path('usuario/baja/',views.baja_objecto, name='usuario_baja'),
-
+    path('programa/', include(('apps.programa.urls'), namespace='programa'), name='programa'),
     path('partida/', include(('apps.partida.urls'), namespace='partida'), name='partida'),
-    path('movilidad/', include(('apps.movilidad.urls'), namespace='movilidad'), name='movilidad')
+    path('movilidad/', include(('apps.movilidad.urls'), namespace='movilidad'), name='movilidad'),
+    path('formulario/', include(('apps.formulario.urls'), namespace='formulario'), name='formulario')
 ]

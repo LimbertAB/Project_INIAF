@@ -1,0 +1,50 @@
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background:#313131cc">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="background: #353542;">
+      <div class="modal-header" style="border-bottom: 0px;background:#4fb752">
+        <h5 class="modal-title" id="exampleModalLabel" style="color:#fff">REGISTRAR PROGRAMA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="/programa/crear_programa/">
+        <div class="modal-body">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">{{ form.nombre.label }}</label>
+                  {{ form.nombre}}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">{{ form.proyecto.label }}</label>
+                  {{ form.proyecto}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">{{ form.actividad.label }}</label>
+                  {{ form.actividad}}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">{{ form.descripcion.label }}</label>
+                  {{ form.descripcion}}
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="padding: 16px 16px 0 16px;border-top:0">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+          <button type="submit" class="btn btn-success">REGISTRAR PARTIDA</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

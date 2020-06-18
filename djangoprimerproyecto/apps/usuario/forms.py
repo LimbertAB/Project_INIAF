@@ -11,7 +11,7 @@ class UsuarioForm(forms.ModelForm):
         widgets = {'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'apellido': forms.TextInput(attrs={'class': 'form-control'}),
             'ci': forms.TextInput(attrs={'class': 'form-control'}),
-            'password': forms.TextInput(attrs={'class': 'form-control'}),
+            'password': forms.TextInput(attrs={'class': 'form-control','type':'password'}),
             'email': forms.TextInput(attrs={'class': 'form-control'}),
             'prioridad': forms.Select(attrs={'class': 'form-control'}),
             'unidad': forms.TextInput(attrs={'class': 'form-control'}),

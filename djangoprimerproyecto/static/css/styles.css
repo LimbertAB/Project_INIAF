@@ -23,3 +23,6 @@
   padding-right: 11px;
   padding-left: 11px;
 }
+.form-control option{
+ color:#313131 !important;
+}

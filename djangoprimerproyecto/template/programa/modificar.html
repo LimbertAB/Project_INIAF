@@ -1,0 +1,48 @@
+<!-- Modal -->
+<div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background:#313131cc">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="background: #353542;">
+      <div class="modal-header" style="border-bottom: 0px;background:#4fb752">
+        <h5 class="modal-title" id="exampleModalLabel" style="color:#fff">MODIFICAR PROGRAMA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" id="form_registroprograma" name="form_registroprograma">
+        <div class="modal-body">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label >{{ form.nombre.label }}</label>
+                  <input type="text" class="form-control" name="nombre" id="#nombreu" required>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>{{ form.proyecto.label }}</label>
+                  <input type="text" class="form-control" name="proyecto" id="#proyectou" required>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>{{ form.actividad.label }}</label>
+                  <input type="text" class="form-control" name="actividad" id="#actividadu" required>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>{{ form.descripcion.label }}</label>
+                  <input type="text" class="form-control" name="descripcion" id="#descripcionu" required>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="padding: 16px 16px 0 16px;border-top:0">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+          <button type="submit" class="btn btn-success btn_registro_programa">MODIFICAR PROGRAMA</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

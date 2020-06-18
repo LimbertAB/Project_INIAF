@@ -1,0 +1,27 @@
+{% extends "principal/index.html" %}
+{% block content %}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-success">
+          <h4 class="card-title ">LISTA DE FORMULARIOS</h4>
+          <a href=""><button type="button" class="form-control btn btn-info">CREAR FORMULARIO</button></a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class=" text-primary">
+                    </thead>
+                    <tbody>
+                        <a href="">aqui va el dia</a>
+                        <a href="{% url 'formulario:crear'  %}" >crear</a>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block floating%}
+    <button type="button" class="btn btn-main btn-success has-tooltip" data-placement="left" title="Registrar Usuario" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
+{% endblock %}

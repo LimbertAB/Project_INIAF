@@ -11,9 +11,13 @@ class Partida(models.Model):
     estado = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    id_promagra = models.ForeignKey(Programa, on_delete=models.CASCADE)
+    id_programa = models.ForeignKey(Programa, on_delete=models.CASCADE,default=1)
     def __str__(self):
         return self.numero
 
     class Meta:
         ordering = ['numero']
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['id_´programa'].queryset =

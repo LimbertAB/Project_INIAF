@@ -1,5 +1,4 @@
 from django.urls import path
-from apps.usuario.views import crearUsuario, listarUsuario
 from apps.usuario.class_view import UsuarioUpdate,UsuarioList,UsuarioCreate
 
 app_name = 'usuario'
@@ -13,4 +12,4 @@ urlpatterns = [
 
 ]
 
-#localhost:8000/usuario/
+#localhost:8000/usuario/listar

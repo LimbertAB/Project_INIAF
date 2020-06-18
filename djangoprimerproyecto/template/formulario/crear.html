@@ -1,0 +1,194 @@
+{% extends "principal/index.html" %}
+{% load static %}
+{% block title %} Modificar Usuarios {% endblock %}
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-md-6"> <!-- SECTION 1 - formulario viaje -->
+      <div class="card">
+          <div class="card-header">
+            <h4 class="card-title ">FORMULARIO DE VIAJE</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3 pr-md-1">
+                <div class="form-group">
+                  <label>{{ form.numero.label }}</label>
+                  {{ form.numero}}
+                </div>
+              </div>
+              <div class="col-md-9 pl-md-1">
+                <div class="form-group">
+                  <label class="bmd-label-floating">{{ form.label }}</label>
+                  {{ form.fecha}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 pr-md-1">
+                <div class="form-group">
+                  <label>{{ form.descripcion.label }}</label>
+                  {{ form.descripcion}}
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="col-md-6"> <!-- SECTION 2 - solicitud viatico -->
+      <div class="card">
+          <div class="card-header">
+            <h4 class="card-title ">SOLICITUD DE VIATIVOS Y COMBUSTIBLE</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>{{ form.lugar.label }}</label>
+                  {{ form.lugar}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                  <label>{{ form.fecha_salida.label }}</label>
+                  {{ form.fecha_salida}}
+                </div>
+              </div>
+              <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                  <label>{{ form.fecha_llegada.label }}</label>
+                  {{ form.fecha_llegada}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                  <label>{{ form.id_movilidad.label }}</label>
+                  {{ form.id_movilidad}}
+                </div>
+              </div>
+              <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                  <label>{{ form.kilometraje.label }}</label>
+                  {{ form.kilometraje}}
+                </div>
+              </div>
+              <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                  <label>{{ form.kilometraje_viaje.label }}</label>
+                  {{ form.kilometraje_viaje}}
+                </div>
+              </div>
+              <div class="col-md-6 pr-md-1">
+                <div class="form-group">
+                  <label>{{ form.combustible.label }}</label>
+                  {{ form.combustible}}
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12"> <!-- SECTION 3 - requerimiento recursos -->
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title ">REQUERIMIENTOS DE RECURSOS</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>{{ form.id_programa.label }}</label>
+              {{ form.id_programa}}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+              <div class="table-responsive">
+                <table id="tabla_partida"class="table dataTable table-bordered table-sm" width="100%" border=1>
+                  <thead class=" text-primary">
+                    <tr style="background:#11172b">
+                      <th width="10%">CODIGO</th>
+                      <th width="50%">DESCRIPCION</th>
+                      <th width="10%">CANTIDAD</th>
+                      <th width="10%">UNIDAD</th>
+                      <th width="10%">P/U</th>
+                      <th width="10%">TOTAL</th>
+                    </tr>
+                  </thead>
+                  <tbody >       
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-md-12">
+              <div class="table-responsive" id="tabla_liquidacion">
+                <table class="table">
+                  <thead class=" text-primary">
+                    <tr style="background:#11172b">
+                      <th>PARTIDA PPTARIA</th>
+                      <th>DESCRIPCION DEL GASTO</th>
+                      <th>UNIDAD</th>
+                      <th>CANDIDAD</th>
+                      <th>P/U</th>
+                      <th>TOTAL REQUERIMIENTO</th>
+                      <th>RETENCIONES IMPOSITIVAS</th>
+                      <th>LIQUIDO PAGABLE</th>
+                    </tr>
+                  </thead>
+                  <tbody >       
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>     
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-fill btn-success">GUARDAR</button>
+</form>
+{% endblock %}
+
+{% block javascript %}
+  <script>
+    var token=document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $(function(){
+      $('select[name="id_programa"]').on('change', function(){
+          var id=$(this).val();
+          $('#tabla_partida tbody').empty();
+          $.ajax({
+            url: '/formulario/consultar/',
+            type: 'POST',
+            data:{
+              'action':'search_partida_id',
+              'id': id,
+              'csrfmiddlewaretoken':token
+            },
+            dataType: 'json',
+          }).done(function (data){
+            console.log(data);
+            if(!data.hasOwnProperty('error')){
+              $.each(data, function (key, value){
+                $('#tabla_partida tbody').append('<tr><td>'+value.numero+'</td><td>'+value.glosa_dos+'</td><td><input name="cantidad" type="text" class="form-control" value="1"></td><td>'+value.unidad+'</td><td><input name="precio_unitario" type="text" class="form-control"></td><td><h3 class="fila_total'+value.id+'">0</h3></td></tr>');
+              });
+              return false;
+            }
+            message_error(data.error);
+          }).fail(function(jqXHR, textStatus, errorThrown){
+            console.log(textStatus + ':' + errorThrown);
+          }).always(function(data){
+            
+
+          });
+      });
+    });
+  </script>
+{% endblock%}
