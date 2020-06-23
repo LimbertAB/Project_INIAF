@@ -3,11 +3,12 @@ from apps.movilidad.models import Movilidad
 from apps.programa.models import Programa
 from apps.usuario.models import Usuario
 from apps.partida.models import Partida
+from django.utils import timezone
 
 class Formulario(models.Model):
     id = models.AutoField(primary_key=True)
     numero = models.IntegerField(blank=False, null=False, default=0)
-    fecha = models.DateTimeField(blank=False, null=False)
+    fecha = models.DateField(blank=False, null=False)
     descripcion = models.CharField(max_length=999, blank=False, null=False)
     lugar = models.CharField(max_length=900, blank=False, null=False)
     fecha_salida = models.DateTimeField(blank=False, null=False)
@@ -31,5 +32,4 @@ class Formulario_Recurso(models.Model):
     id_partida = models.ForeignKey(Partida, on_delete=models.CASCADE)
     precio_unitario = models.FloatField(blank=False, null=False)
     cantidad = models.FloatField(blank=False, null=False)
-    unidad = models.CharField(max_length=50, blank=False, null=False)
     unidad_liquidacion = models.CharField(max_length=50,blank=False, null=False)

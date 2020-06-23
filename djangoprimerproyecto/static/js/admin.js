@@ -66,6 +66,8 @@ function verprograma(id){
   });
 }
 $(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+
   $('#form_registroprograma .btn_registro_programa').click(function(e){
     var valid= this.form.checkValidity();
     $('#valid').html(valid);
@@ -131,6 +133,11 @@ $(function(){
       });
     }
   });
+
+  $("#main").click(function() {
+    $("#mini-fab").toggleClass('hidden');
+  });
+  
 });
 
 function Registro_Object(id,modelo,tag){

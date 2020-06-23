@@ -2,46 +2,74 @@
 {% load static %}
 {% block title %} Modificar Usuarios {% endblock %}
 {% block content %}
-<form method="POST">
+<form method="POST" autocomplete="off">
   {% csrf_token %}
-  <div class="row">
-    <div class="col-md-6"> <!-- SECTION 1 - formulario viaje -->
-      <div class="card">
-          <div class="card-header">
-            <h4 class="card-title ">FORMULARIO DE VIAJE</h4>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-3 pr-md-1">
-                <div class="form-group">
-                  <label>{{ form.numero.label }}</label>
-                  {{ form.numero}}
-                </div>
+  <!-- Nav tabs -->
+  <div class="col-md-12">
+    <div class="card card-nav-tabs card-plain">
+      <div class="card-header card-header-success">
+          <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+          <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                  <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#home" data-toggle="tab">
+                        <i class="material-icons">list</i>FORMULARIO DE VIAJE
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#profile" data-toggle="tab">
+                        <i class="material-icons">directions_car</i>VIATICOS Y COMBUSTIBLE
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#messages" data-toggle="tab">
+                        <i class="material-icons">build</i>REQUERIMIENTO DE RECURSOS
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#final" data-toggle="tab">
+                        <i class="material-icons">build</i>OBSERVACIONES
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                  </ul>
               </div>
-              <div class="col-md-9 pl-md-1">
-                <div class="form-group">
-                  <label class="bmd-label-floating">{{ form.label }}</label>
-                  {{ form.fecha}}
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12 pr-md-1">
-                <div class="form-group">
-                  <label>{{ form.descripcion.label }}</label>
-                  {{ form.descripcion}}
-                </div>
-              </div>
-            </div>
           </div>
       </div>
-    </div>
-    <div class="col-md-6"> <!-- SECTION 2 - solicitud viatico -->
-      <div class="card">
-          <div class="card-header">
-            <h4 class="card-title ">SOLICITUD DE VIATIVOS Y COMBUSTIBLE</h4>
+      <div class="card-body" style="background: #202940;border-radius:6px;box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);">
+        <div class="tab-content">
+          <div class="tab-pane active px-5" id="home" role="tabpanel" aria-labelledby="home-tab"><!-- SECTION 1 - formulario viaje -->
+            <div class="row">
+                <div class="col-md-6">
+                  <div class="col-md-12">
+                    <div class="form-group label-floating has-success">
+                      <label class="bmd-label-floating">{{ form.numero.label }}</label>
+                      {{ form.numero}}
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group label-floating has-success">
+                      <label class="bmd-label-floating">{{ form.fecha.label }}</label>
+                      {{ form.fecha}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-12">
+                    <div class="form-group label-floating has-success">
+                      <label class="bmd-label-floating">{{ form.descripcion.label }}</label>
+                      {{ form.descripcion}}
+                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                  </div>
+                </div>
+            </div>
           </div>
-          <div class="card-body">
+          <div class="tab-pane px-5" id="profile" role="tabpanel" aria-labelledby="profile-tab"><!-- SECTION 2 - solicitud viatico -->
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
@@ -49,15 +77,13 @@
                   {{ form.lugar}}
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6 pr-md-1">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label>{{ form.fecha_salida.label }}</label>
                   {{ form.fecha_salida}}
                 </div>
               </div>
-              <div class="col-md-6 pr-md-1">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label>{{ form.fecha_llegada.label }}</label>
                   {{ form.fecha_llegada}}
@@ -91,65 +117,86 @@
               </div>
             </div>
           </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-12"> <!-- SECTION 3 - requerimiento recursos -->
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title ">REQUERIMIENTOS DE RECURSOS</h4>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label>{{ form.id_programa.label }}</label>
-              {{ form.id_programa}}
+          <div class="tab-pane px-3" id="messages" role="tabpanel" aria-labelledby="messages-tab"><!-- SECTION 3 - requerimiento recursos -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>{{ form.id_programa.label }}</label>
+                  {{ form.id_programa}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table id="tabla_partida" class="table dataTable table-bordered table-sm" width="100%" border=1>
+                      <thead class=" text-primary">
+                        <tr style="background:#11172b">
+                          <th width="10%">CODIGO</th>
+                          <th width="50%">DESCRIPCION</th>
+                          <th width="10%">CANTIDAD</th>
+                          <th width="10%">UNIDAD</th>
+                          <th width="10%">P/U</th>
+                          <th width="10%">TOTAL</th>
+                        </tr>
+                      </thead>
+                      <tbody >       
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table id="tabla_liquidacion" class="table dataTable table-bordered table-sm">
+                    <thead class=" text-primary">
+                      <tr style="background:#11172b">
+                        <th>PARTIDA PPTARIA</th>
+                        <th>DESCRIPCION DEL GASTO</th>
+                        <th>UNIDAD</th>
+                        <th>CANDIDAD</th>
+                        <th>P/U</th>
+                        <th>TOTAL REQUERIMIENTO</th>
+                        <th>RETENCIONES IMPOSITIVAS</th>
+                        <th>LIQUIDO PAGABLE</th>
+                      </tr>
+                    </thead>
+                    <tbody >       
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane px-5" id="final" role="tabpanel" aria-labelledby="home-tab"><!-- SECTION 1 - formulario viaje -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="col-md-12">
+                  <div class="form-group label-floating has-success">
+                    <label class="bmd-label-floating">{{ form.numero_memo.label }}</label>
+                    {{ form.numero_memo}}
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group label-floating has-success">
+                    <label class="bmd-label-floating">{{ form.resolucion_administrativa.label }}</label>
+                    {{ form.resolucion_administrativa}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="col-md-12">
+                  <div class="form-group label-floating has-success">
+                    <label class="bmd-label-floating">{{ form.observacion.label }}</label>
+                    {{ form.observacion}}
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-              <div class="table-responsive">
-                <table id="tabla_partida"class="table dataTable table-bordered table-sm" width="100%" border=1>
-                  <thead class=" text-primary">
-                    <tr style="background:#11172b">
-                      <th width="10%">CODIGO</th>
-                      <th width="50%">DESCRIPCION</th>
-                      <th width="10%">CANTIDAD</th>
-                      <th width="10%">UNIDAD</th>
-                      <th width="10%">P/U</th>
-                      <th width="10%">TOTAL</th>
-                    </tr>
-                  </thead>
-                  <tbody >       
-                  </tbody>
-                </table>
-              </div>
-          </div>
-        </div>
-        <div class="row mt-5">
-          <div class="col-md-12">
-              <div class="table-responsive" id="tabla_liquidacion">
-                <table class="table">
-                  <thead class=" text-primary">
-                    <tr style="background:#11172b">
-                      <th>PARTIDA PPTARIA</th>
-                      <th>DESCRIPCION DEL GASTO</th>
-                      <th>UNIDAD</th>
-                      <th>CANDIDAD</th>
-                      <th>P/U</th>
-                      <th>TOTAL REQUERIMIENTO</th>
-                      <th>RETENCIONES IMPOSITIVAS</th>
-                      <th>LIQUIDO PAGABLE</th>
-                    </tr>
-                  </thead>
-                  <tbody >       
-                  </tbody>
-                </table>
-              </div>
-          </div>
-        </div>     
       </div>
     </div>
   </div>
@@ -158,12 +205,22 @@
 {% endblock %}
 
 {% block javascript %}
+  <script type="text/javascript" src="{% static 'js/jquery.datetimepicker.full.min.js' %}"></script>
   <script>
     var token=document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    var PARTIDA_LENGTH=0;
     $(function(){
+      $('#id_fecha_salida,#id_fecha_llegada').datetimepicker({
+        format:'Y-m-d H:i'
+      });
+      // $('#id_fecha').datetimepicker({
+      //   format:'Y-m-d',
+      //   timepicker:false,
+      // });
+
       $('select[name="id_programa"]').on('change', function(){
           var id=$(this).val();
-          $('#tabla_partida tbody').empty();
+          $('#tabla_partida tbody,#tabla_liquidacion tbody').empty();
           $.ajax({
             url: '/formulario/consultar/',
             type: 'POST',
@@ -174,21 +231,40 @@
             },
             dataType: 'json',
           }).done(function (data){
+            PARTIDA_LENGTH=data.length;
             console.log(data);
             if(!data.hasOwnProperty('error')){
               $.each(data, function (key, value){
-                $('#tabla_partida tbody').append('<tr><td>'+value.numero+'</td><td>'+value.glosa_dos+'</td><td><input name="cantidad" type="text" class="form-control" value="1"></td><td>'+value.unidad+'</td><td><input name="precio_unitario" type="text" class="form-control"></td><td><h3 class="fila_total'+value.id+'">0</h3></td></tr>');
+                $('#tabla_partida tbody').append('<tr><td><input name="id_partida_id[]" required type="hidden" value="'+value.id+'">'+value.numero+'</td><td>'+value.glosa_dos+'</td><td><input name="cantidad[]" required type="number" onkeyup="cambios_input('+value.id+')" class="form-control pl-md-2 tabla1_cantidad'+value.id+'" style="background:#dedede;color:#313131" value="1"></td><td>'+value.unidad+'</td><td><input name="precio_unitario[]" required type="number" class="form-control pl-2 tabla1_preciounitario'+value.id+'" onkeyup="cambios_input('+value.id+','+1+')" style="background:#dedede;color:#313131"></td><td><h4 class="tabla1_total'+value.id+'" style="margin:0">0</h4></td></tr>');
+                $('#tabla_liquidacion tbody').append('<tr><td>'+value.numero+'</td><td>'+value.glosa_uno+'</td><td><input name="unidad_liquidacion[]" required type="text" class="form-control pl-md-2" style="background:#dedede;color:#313131" value=""></td><td class="tabla2_cantidad'+value.id+'">0</td><td class="tabla2_preciounitario'+value.id+'">0</td><td class="tabla2_requerimiento'+value.id+'">0</td><td class="tabla2_retenciones'+value.id+'">0</td><td class="tabla2_liquido'+value.id+'">0</td></tr>');
               });
+              $('#tabla_partida tbody').append('<tr><td colspan="6" style="text-align:right"><h4 style="margin:0">TOTAL: <small class="tabla1_total">0</small></h4></td></tr>');
+              $('#tabla_liquidacion tbody').append('<tr><td colspan="8" style="text-align:right"><h4 style="margin:0">TOTAL: <small class="tabla2_total">0</small></h4></td></tr>');
+              
               return false;
             }
             message_error(data.error);
           }).fail(function(jqXHR, textStatus, errorThrown){
             console.log(textStatus + ':' + errorThrown);
           }).always(function(data){
-            
-
           });
       });
     });
+    function cambios_input(fila){
+
+      var cantidad=$('.tabla1_cantidad'+fila).val();
+      var precio=$('.tabla1_preciounitario'+fila).val();
+      var total=cantidad*precio;
+      $('.tabla1_total'+fila).text(total);
+      $('.tabla2_cantidad'+fila).text(cantidad);
+      $('.tabla2_preciounitario'+fila).text(precio);
+      $('.tabla2_requerimiento'+fila).text(total);
+      $('.tabla2_retenciones'+fila).text((total*0.13).toFixed(1));
+      $('.tabla2_liquido'+fila).text(total-(total*0.13));
+      $('.tabla1_total').text($('.tabla1_total'+fila).text());
+      $('.tabla2_total').text($('.tabla2_liquido'+fila).text());
+      console.log(precio);
+    }
+    
   </script>
 {% endblock%}

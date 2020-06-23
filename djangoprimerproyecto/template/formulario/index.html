@@ -1,11 +1,11 @@
 {% extends "principal/index.html" %}
+{% load static %}
 {% block content %}
 
 <div class="col-md-12">
     <div class="card">
         <div class="card-header card-header-success">
           <h4 class="card-title ">LISTA DE FORMULARIOS</h4>
-          <a href=""><button type="button" class="form-control btn btn-info">CREAR FORMULARIO</button></a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -13,8 +13,7 @@
                     <thead class=" text-primary">
                     </thead>
                     <tbody>
-                        <a href="">aqui va el dia</a>
-                        <a href="{% url 'formulario:crear'  %}" >crear</a>
+                        <div id='calendar'></div>
                     </tbody>
                 </table>
             </div>
@@ -23,5 +22,71 @@
 </div>
 {% endblock %}
 {% block floating%}
-    <button type="button" class="btn btn-main btn-success has-tooltip" data-placement="left" title="Registrar Usuario" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
+<div class="container-fluid" id="floating_btn">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="btn-group-sm hidden" id="mini-fab">
+          <a href="#" class="btn btn-info btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario F15" title="Formulario F15" id="sms">
+            <i class="material-icons">directions_car</i>
+          </a>
+          <a href="#" class="btn btn-primary btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario Salida" title="Formulario Salida" id="mail">
+            <i class="material-icons">description</i>
+          </a>
+        </div>
+        <div class="btn-group">
+          <a href="javascript:void(0)" class="btn btn-success btn-fab" id="main">
+            <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript%}
+<script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/locales-all.js' %}"></script>
+<script>
+    $(function(){
+        var formulario_list = {{ formulario|safe }};
+        var salida_list = {{salida|safe}};
+
+        console.log(formulario_list);
+        console.log(salida_list);
+        
+        var formulario_all=[];
+
+        for (let i = 0; i < formulario_list.length; i++) {
+            form_row={
+                start:formulario_list[i].start,
+                end:formulario_list[i].end,
+                title:formulario_list[i].descripcion,
+                color: '#30522e'
+            }
+            formulario_all.push(form_row);
+        }
+        for (let i = 0; i < salida_list.length; i++) {
+            form_row={
+                start:salida_list[i].fecha_salida,
+                end:salida_list[i].fecha_retorno,
+                title:salida_list[i].motivo,
+                color: '#a73a00'
+            }
+            formulario_all.push(form_row);
+        }
+
+        $('#calendar').fullCalendar({
+            lang: 'es',
+            themeSystem: 'bootstrap4',
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay,listMonth'
+            },
+            weekNumbers: true,
+            eventLimit: true,
+            events: formulario_all
+        });
+    })
+</script>
 {% endblock %}

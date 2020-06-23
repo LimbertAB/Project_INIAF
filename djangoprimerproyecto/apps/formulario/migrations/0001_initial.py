@@ -47,7 +47,6 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('precio_unitario', models.FloatField()),
                 ('cantidad', models.FloatField()),
-                ('unidad', models.CharField(max_length=50)),
                 ('unidad_liquidacion', models.CharField(max_length=50)),
                 ('id_formulario', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='formulario.Formulario')),
                 ('id_partida', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='partida.Partida')),

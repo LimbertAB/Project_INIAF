@@ -118,7 +118,7 @@ AUTH_USER_MODEL='usuario.Usuario'
 
 LANGUAGE_CODE = 'es-bo'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/La_Paz'
 
 USE_I18N = True
 
