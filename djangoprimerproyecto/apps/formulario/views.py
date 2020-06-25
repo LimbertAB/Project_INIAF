@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView,CreateView,TemplateView
+from django.views.generic import ListView,CreateView,TemplateView,DetailView
 from .forms import FormularioForm
 from .models import Formulario 
 from apps.partida.models import Partida
 from apps.salida.models import Salida
 from .models import Formulario_Recurso
 from django.http import JsonResponse, HttpResponseRedirect
+from apps.usuario.views import JSONResponseMixin
 
 
 class FormularioList(ListView):
@@ -39,7 +40,6 @@ class FormularioList(ListView):
         context["salida"] = salida_list
         return context
     
-
 class FormularioCreate(CreateView):
     model = Formulario
     form_class = FormularioForm
@@ -89,4 +89,29 @@ class OBTNER_PARTIDAS(TemplateView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
-  
+
+class FormularioDetailView(JSONResponseMixin,DetailView):
+    model = Formulario
+    #json_dumps_kwargs={'indent': 1}
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context_dict = {
+            'id': self.object.id,
+            'fecha': self.object.fecha,
+            'descripcion': self.object.descripcion,
+            'lugar': self.object.lugar,
+            'fecha_salida': self.object.fecha_salida,
+            'fecha_llegada': self.object.fecha_llegada,
+            'numero_memo': self.object.numero_memo,
+            'estado': self.object.estado,
+            'id_movilidad_id': self.object.id_movilidad_id,
+            'id_programa_id': self.object.id_programa_id,
+            'combustible': self.object.combustible,
+            'kilometraje': self.object.kilometraje,
+            'kilometraje_viaje': self.object.kilometraje_viaje,
+            'numero': self.object.numero,
+            'observacion': self.object.observacion,
+            'resolucion_administrativa': self.object.resolucion_administrativa
+        }
+        return self.render_json_response(context_dict)

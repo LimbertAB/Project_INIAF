@@ -26,10 +26,10 @@
     <div class="row">
       <div class="col-md-12">
         <div class="btn-group-sm hidden" id="mini-fab">
-          <a href="#" class="btn btn-info btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario F15" title="Formulario F15" id="sms">
+          <a href="crear_formulario" class="btn btn-info btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario F15" title="Formulario F15" id="sms">
             <i class="material-icons">directions_car</i>
           </a>
-          <a href="#" class="btn btn-primary btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario Salida" title="Formulario Salida" id="mail">
+          <a href="{% url 'salida:crear' %}" class="btn btn-primary btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario Salida" title="Formulario Salida" id="mail">
             <i class="material-icons">description</i>
           </a>
         </div>
@@ -58,18 +58,22 @@
 
         for (let i = 0; i < formulario_list.length; i++) {
             form_row={
+                id:formulario_list[i].id,
                 start:formulario_list[i].start,
                 end:formulario_list[i].end,
                 title:formulario_list[i].descripcion,
+                description:'formulario',
                 color: '#30522e'
             }
             formulario_all.push(form_row);
         }
         for (let i = 0; i < salida_list.length; i++) {
             form_row={
+                id:salida_list[i].id,
                 start:salida_list[i].fecha_salida,
                 end:salida_list[i].fecha_retorno,
                 title:salida_list[i].motivo,
+                description:'salida',
                 color: '#a73a00'
             }
             formulario_all.push(form_row);
@@ -85,8 +89,31 @@
             },
             weekNumbers: true,
             eventLimit: true,
-            events: formulario_all
+            events: formulario_all,
+            eventClick: function(event) {
+              //ejecutar o abrir modal
+              ver_formulario_ajax(event.id,event.description);             
+            }
         });
-    })
+    });
+    function ver_formulario_ajax(id,tabla){
+      $.ajax({
+        url: '/'+tabla+'/ver/'+id+'/',
+        type: 'GET',
+        datatype: 'json'
+      }).done(function(obj){
+
+        console.log(obj);
+        
+        // GET_ID_UPDATE=obj.id;
+        // $('#UpdateModal input[name="nombre"]').val(obj.nombre);
+        // $('#UpdateModal input[name="proyecto"]').val(obj.proyecto);
+        // $('#UpdateModal input[name="descripcion"]').val(obj.descripcion);
+        // $('#UpdateModal input[name="actividad"]').val(obj.actividad);
+        // $('#UpdateModal input').focus();
+      }).fail(function(){
+        showNotification('bottom','left','error','Error Server: verifique su conexion con el servidor');
+      });
+    }
 </script>
 {% endblock %}

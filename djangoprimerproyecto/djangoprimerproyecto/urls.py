@@ -31,5 +31,6 @@ urlpatterns = [
     path('programa/', include(('apps.programa.urls'), namespace='programa'), name='programa'),
     path('partida/', include(('apps.partida.urls'), namespace='partida'), name='partida'),
     path('movilidad/', include(('apps.movilidad.urls'), namespace='movilidad'), name='movilidad'),
-    path('formulario/', include(('apps.formulario.urls'), namespace='formulario'), name='formulario')
+    path('formulario/', include(('apps.formulario.urls'), namespace='formulario'), name='formulario'),
+    path('salida/', include(('apps.salida.urls'), namespace='salida'), name='salida')
 ]

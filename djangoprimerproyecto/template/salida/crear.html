@@ -1,0 +1,62 @@
+{% extends "principal/index.html" %}
+{% load static %}
+{% block title %} Modificar Usuarios {% endblock %}
+{% block content %}
+<form method="POST" action="{% url 'salida:crear'  %} " autocomplete="off">
+  {% csrf_token %}
+  <div class="row">
+    <div class="card card-nav-tabs">
+      <div class="card-header card-header-success">
+        <h4 class="card-title ">PAPELETA DE SALIDA EN COMISION/PARTICULAR </h4>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <div class="card-body">
+            <div class="row">
+            <div class="col-md-4 pr-md-1">
+              <div class="form-group">
+                <label class="bmd-label-floating">{{ form.fecha_salida.label }}</label>
+                {{ form.fecha_salida}}
+              </div>
+            </div>
+            <div class="col-md-4 pl-md-1">
+              <div class="form-group">
+                <label class="bmd-label-floating">{{ form.fecha_retorno.label }}</label>
+                {{ form.fecha_retorno}}
+              </div>
+            </div>
+            <div class="col-md-4 pl-md-1">
+              <div class="form-group">
+                <label >{{ form.tiempo.label }}</label>
+                {{ form.tiempo}}
+              </div>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-6 pr-md-1">
+              <div class="form-group">
+                <label>{{ form.motivo.label }}</label>
+                {{ form.motivo}}
+              </div>
+            </div>
+            
+            </div>
+            <footer class="blockquote-footer">Instituto Nacional De Innovacion Agropecuaria y Forestal <cite title="Source Title">I.N.I.A.F Potosi</cite></footer>
+          </div>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-fill btn-success">GUARDAR</button>
+</form>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="{% static 'js/jquery.datetimepicker.full.min.js' %}"></script>
+<script>
+    $(function(){
+      $('#id_fecha_salida, #id_fecha_retorno').datetimepicker({
+        format:'Y-m-d H:i',
+      });
+    })
+</script>
+{% endblock%}

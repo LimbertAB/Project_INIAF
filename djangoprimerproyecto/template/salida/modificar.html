@@ -1,0 +1,74 @@
+{% extends "principal/index.html" %}
+{% load static %}
+{% block title %} Modificar Usuarios {% endblock %}
+{% block content %}
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="title">MODIFICAR FORMULARIO DE SALIDA</h5>
+          </div>
+          <div class="card-body">
+            <form method="POST">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-12"> <!-- SECTION 1 - formulario viaje -->
+                  <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 pr-md-1">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">{{ form.fecha_salida.label }}</label>
+                              {{ form.fecha_salida}}
+                            </div>
+                          </div>
+                          <div class="col-md-4 pl-md-1">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">{{ form.fecha_retorno.label }}</label>
+                              {{ form.fecha_retorno}}
+                            </div>
+                          </div>
+                          <div class="col-md-4 pl-md-1">
+                            <div class="form-group">
+                              <label >{{ form.tiempo.label }}</label>
+                              {{ form.tiempo}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12 pr-md-1">
+                            <div class="form-group">
+                              <label>{{ form.motivo.label }}</label>
+                              {{ form.motivo}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12 pr-md-1">
+                            <div class="form-group">
+                              <label>{{ form.id_usuario.label }}</label>
+                              {{ form.id_usuario}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-fill btn-success">GUARDAR</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+  <script>
+    $(function(){
+      $('#id_fecha_salida, #id_fecha_retorno').datetimepicker({
+        format:'Y-m-d H:i',
+      });
+      
+    })
+  </script>
+{% endblock%}
