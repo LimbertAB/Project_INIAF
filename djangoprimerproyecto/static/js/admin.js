@@ -1,4 +1,5 @@
 GET_ID_UPDATE=0;
+GET_ID_UPDATESALIDA=0;
 function modificarestado(id,modelo,tag){
   var token=document.getElementsByName('csrfmiddlewaretoken')[0].value;
   var checked_estado="baja",estado=0;
@@ -67,6 +68,9 @@ function verprograma(id){
 }
 $(function(){
   $('[data-toggle="tooltip"]').tooltip();
+  $("#main").click(function() {
+    $("#mini-fab").toggleClass('hidden');
+  });
 
   $('#form_registroprograma .btn_registro_programa').click(function(e){
     var valid= this.form.checkValidity();
@@ -102,42 +106,69 @@ $(function(){
       });
     }
   });
-  $('#wizard-subm').click(function(e){
+
+  // CRUD SALIDA
+  $('#actualizarModal .btnmodificarsalida').click(function(e){
     var valid= this.form.checkValidity();
     $('#valid').html(valid);
+    console.log(valid);
     if (valid) {
-      $(this).attr('disabled',true);
-      e.preventDefault();//--> para que no se regargue la pagina
-      var parametros=new FormData($("#form_registroactivo")[0]);
+      e.preventDefault();
+      var parameter=new FormData($("#form_modificar_salida")[0]);
+      console.log(parameter);
       $.ajax({
-        data: parametros,
-        url: '../controller/InventarioController.php/crear/1',
+        data: parameter,
+        url: '/salida/modificar_salida/'+GET_ID_UPDATESALIDA+'/',
         type: "POST",
         contentType:false,
-        processData:false
-      }).done(function(obj){
-        data=JSON.parse(obj);
+        processData:false,
+        datatype: 'json',
+      }).done(function(data){
+        console.log(data);
         if (data.estado == 1) {
-          $('#registraractivoModal').modal('hide');
-          var codigo=leftpad(data.id,5);
-          Get_IDENTIFY=data.id;
-          $('#updatecodigo_modal .vcodigoasignado').text("25-"+codigo);
-          $('#updatecodigo_modal').modal('show');
+          showNotification('bottom','left','success','a bueno esta cabron');
+          ver_formulario_ajax(GET_ID_UPDATESALIDA,"salida")
+          $('#myModal,#actualizarModal').modal('toggle')
         }else{
-          $('#wizard-subm').attr('disabled',false);
-          Swal.fire('ERROR','Ocurrio un problema con la conexión','error')
+          showNotification('bottom','left','danger','Error Server: llene los datos correctamente');
         }
       }).fail(function(){
-        $('#wizard-subm').attr('disabled',false);
-        Swal.fire('ERROR','Ocurrio un problema con la conexión','error')
+        showNotification('bottom','left','danger','Error Server: verifique su conexion con el servidor ');
       });
     }
   });
-
-  $("#main").click(function() {
-    $("#mini-fab").toggleClass('hidden');
-  });
-  
+  $('#actualizarModal .btneliminarsalida').click(function(e){
+    var valid= this.form.checkValidity();
+    $('#valid').html(valid);
+    console.log(valid);
+    console.log("llegaste validado")
+    if (valid) {
+      e.preventDefault();
+      var parameter=new FormData($("#form_modificar_salida")[0]);
+      console.log(parameter);
+      console.log("pasaste la validacion")
+      $.ajax({
+        data: parameter,
+        url: '/salida/eliminar_salida/'+GET_ID_UPDATESALIDA+'/',
+        type: "POST",
+        contentType:false,
+        processData:false,
+        datatype: 'json',
+      }).done(function(data){
+        console.log(data);
+        console.log("llegaste al done")
+        if (data.estado == 1) {
+          showNotification('bottom','left','success','a bueno esta cabron');
+          ver_formulario_ajax(GET_ID_UPDATESALIDA,"salida")
+          $('#myModal,#actualizarModal').modal('toggle')
+        }else{
+          showNotification('bottom','left','danger','Error Server: llene los datos correctamente');
+        }
+      }).fail(function(){
+        showNotification('bottom','left','danger','Error Server: verifique su conexion con el servidor ');
+      });
+    }
+  });  
 });
 
 function Registro_Object(id,modelo,tag){
@@ -176,4 +207,118 @@ function Registro_Object(id,modelo,tag){
     }else{
     }
   })
+}
+function ver_formulario_ajax(id,tabla,accion){
+  $.ajax({
+    url: '/'+tabla+'/ver/'+id+'/',
+    type: 'GET',
+    datatype: 'json'
+  }).done(function(obj){
+    console.log(obj);
+    if(tabla=="formulario")
+      accion=='ver'?modal_verformulario(obj):modal_modificarformulario(obj);
+    else{
+      modal_vermodificar_salida(obj);
+    }
+  }).fail(function(){
+    showNotification('bottom','left','error','Error Server: verifique su conexion con el servidor');
+  });
+}
+function modal_verformulario(obj){
+  // SECTION CABECERA
+  $('.vusuario').text(obj.usuario);
+  $('.vnumero').text(obj.numero);
+  $('.vfecha').text(obj.fecha);
+  $('.vestado').text(obj.estado?"No Aprobado":"Aprobado");
+  
+  // SECTION GENERAL
+  $('.vlugar').text(obj.lugar);
+  $('.vfecha_salida').text(obj.fecha_salida);
+  $('.vfecha_llegada').text(obj.fecha_llegada);
+  $('.vnumero_memo').text(obj.vnumero_memo);
+  $('.vresolucion_administrativa').text(obj.resolucion_administrativa);
+  $('.vdescripcion').text(obj.descripcion);
+  $('.vobservacion').text(obj.observacion);
+  
+  // SECTION VEHICULO
+  $('.vvehiculoestado small').text(obj.vehiculo.estado?"Activo":"Inactivo");
+  $('.vcombustible small').text(obj.vehiculo.combustible);
+  $('.vplaca small').text(obj.vehiculo.placa);
+  $('.vtipo').text(obj.vehiculo.tipo);
+  $('.vmarca').text(obj.vehiculo.marca);
+  $('.vmodelo').text(obj.vehiculo.modelo);
+  $('.vkilometraje small').text(obj.kilometraje);
+  $('.vkilometraje_viaje small').text(obj.kilometraje_viaje);
+  $('.vrendimiento small').text(obj.vehiculo.rendimiento);
+  $('#verformulariomodal .modal-footer .btn-info').attr('onclick', 'ver_formulario_ajax('+obj.id+',"formulario","modificar");');
+  llenar_tablarecurso(obj.recurso,obj.partida,'#section_recurso','#section_liquidacion');
+}
+function modal_modificarformulario(obj){
+  $('#modificarformulariomodal').modal('toggle');
+  console.log(obj);
+  $('#modificarformulariomodal input[name="combustible"]').val(obj.combustible);
+  $('#modificarformulariomodal textarea[name="descripcion"]').val(obj.descripcion);
+  $('#modificarformulariomodal input[name="fecha"]').val(obj.fecha);
+  $('#modificarformulariomodal input[name="kilometraje"]').val(obj.kilometraje);
+  $('#modificarformulariomodal input[name="kilometraje_viaje"]').val(obj.kilometraje_viaje);
+  $('#modificarformulariomodal input[name="lugar"]').val(obj.lugar);
+  $('#modificarformulariomodal input[name="numero"]').val(obj.numero);
+  $('#modificarformulariomodal input[name="numero_memo"]').val(obj.numero_memo);
+  $('#modificarformulariomodal input[name="observacion"]').val(obj.observacion);
+  $('#modificarformulariomodal input[name="resolucion_administrativa"]').val(obj.resolucion_administrativa);
+  // $('#modificarformulariomodal input[name=""]').val(obj.);
+  // $('#modificarformulariomodal input[name=""]').val(obj.);
+  // $('#modificarformulariomodal input[name=""]').val(obj.);
+  // $('#modificarformulariomodal input[name=""]').val(obj.);
+  // $('#modificarformulariomodal input[name=""]').val(obj.);
+  // $('#modificarformulariomodal input[name=""]').val(obj.);
+  // $('#modificarformulariomodal input[name=""]').val(obj.);
+  // $('#modificarformulariomodal input[name=""]').val(obj.);
+  
+  llenar_tablarecurso(obj.recurso,obj.partida,'#tabla_partida','#tabla_liquidacion');
+  console.log("para modificar");
+  var tabla1=0,tabla2=0,recurso=obj.recurso,partida=obj.partida;
+  for (let i = 0; i < recurso.length; i++) {
+    const element = recurso[i];
+    var totalfila=recurso[i].cantidad*recurso[i].precio_unitario;
+    var porcentaje=(totalfila*0.13).toFixed(1);
+    tabla1=tabla1+totalfila;
+    tabla2=tabla2+(totalfila-porcentaje);
+      
+    $('#tabla_liquidacion tbody').append('<tr><td>'+partida[i].numero+'</td><td>'+partida[i].glosa_uno+'</td><td><input name="unidad_liquidacion[]" required type="text" class="form-control pl-md-2" style="background:#dedede;color:#313131" value="'+recurso[i].unidad_liquidacion+'"></td><td class="tabla2_cantidad'+recurso[i].id+'">'+recurso[i].cantidad+'</td><td class="tabla2_preciounitario'+recurso[i].id+'">'+recurso[i].precio_unitario+'</td><td class="tabla2_requerimiento'+recurso[i].id+'">'+totalfila+'</td><td class="tabla2_retenciones'+recurso[i].id+'">'+porcentaje+'</td><td class="tabla2_liquido'+recurso[i].id+'">'+(totalfila-porcentaje)+'</td></tr>');
+    $('#tabla_partida tbody').append('<tr><td><input name="id_partida_id[]" required type="hidden" value="'+partida[i].numero+'">'+partida[i].numero+'</td><td>'+partida[i].glosa_dos+'</td><td><input name="cantidad[]" required type="number" onkeyup="cambios_input('+recurso[i].id+')" class="form-control pl-md-2 tabla1_cantidad'+recurso[i].id+'" style="background:#dedede;color:#313131" value="'+recurso[i].cantidad+'"></td><td>'+partida[i].unidad+'</td><td><input name="precio_unitario[]" required type="number" class="form-control pl-2 tabla1_preciounitario'+recurso[i].id+'" onkeyup="cambios_input('+recurso[i].id+','+1+')" style="background:#dedede;color:#313131" value="'+recurso[i].precio_unitario+'"></td><td><h4 class="tabla1_total'+recurso[i].id+'" style="margin:0">'+totalfila+'</h4></td></tr>');
+  }
+}
+function llenar_tablarecurso(recurso,partida,recursotag,liquidaciontag){
+  console.log("llegando al ver");
+  
+  // SECTION RECURSO
+  var tabla1=0,tabla2=0;
+  $(recursotag+' tbody',liquidaciontag+' tbody').empty();
+  for (let i = 0; i < recurso.length; i++) {
+    const element = recurso[i];
+    var totalfila=recurso[i].cantidad*recurso[i].precio_unitario;
+    var porcentaje=(totalfila*0.13).toFixed(1);
+    tabla1=tabla1+totalfila;
+    tabla2=tabla2+(totalfila-porcentaje);
+    $(recursotag+' tbody').append('<tr><th scope="row">'+partida[i].numero+'</th><td>'+partida[i].glosa_dos+'</td><td>'+recurso[i].cantidad+'</td><td>'+partida[i].unidad+'</td><td>'+recurso[i].precio_unitario+'</td><td>'+totalfila+'</td></tr>');
+    $(liquidaciontag+' tbody').append('<tr><th scope="row">'+partida[i].numero+'</th><td>'+partida[i].glosa_uno+'</td><td>'+recurso[i].unidad_liquidacion+'</td><td>'+recurso[i].cantidad+'</td><td>'+recurso[i].precio_unitario+'</td><td>'+totalfila+'</td><td>'+porcentaje+'</td><td>'+(totalfila-porcentaje)+'</td></tr>');     
+  }
+  $(recursotag+' tbody').append('<tr><td colspan="6" style="text-align:right"><h4 style="margin:0">TOTAL: <small>'+tabla1+'</small></h4></td></tr>');
+  $(liquidaciontag+' tbody').append('<tr><td colspan="8" style="text-align:right"><h4 style="margin:0">TOTAL: <small>'+tabla2+'</small></h4></td></tr>');
+  
+}
+function modal_vermodificar_salida(obj){
+  console.log(obj);
+  $('#mitabla .nombre_salida').text(obj.nombre)
+  $('#mitabla .motivo_salida').text(obj.motivo)
+  $('#mitabla .fecha_salida').text(obj.fecha_salida)
+  $('#mitabla .tiempo_salida').text(obj.tiempo)
+  $('#actualizarModal .fecha_salida').val(obj.fecha_salida.substring(0,10)+" "+ obj.fecha_salida.substring(11,16));
+  $('#actualizarModal .fecha_retorno').val(obj.fecha_retorno.substring(0,10)+" "+ obj.fecha_retorno.substring(11,16));
+  $('#actualizarModal .editar_tiempo').val(obj.tiempo)
+  $('#actualizarModal .editar_motivo').val(obj.motivo)
+}
+function cerrarmodal(){
+  $('#myModal').modal('toggle');
 }

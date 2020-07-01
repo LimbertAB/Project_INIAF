@@ -1,0 +1,238 @@
+<!-- MODAL DE VER UN FORMULARIO F15  -->
+{% load static %}
+<div class="modal fade bd-example-modal-lg" id="verformulariomodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0" style="margin:0px;background:#2bb8e2;">
+                <h4 class="modal-title text-center" style="color:#fff;font-weight:800;line-height:19px" id="exampleModalLabel">FORMULARIO F15</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color: white;">&times;</span></button>
+            </div>
+            <div class="modal-body" style="padding:0">
+                <div class="row" style="margin:0px;background:#2bb8e2;" id="head_modal">
+                    <div class="col-md-4 col-sm-6 col-6 col-lg-3" style="margin:0px;padding:0 0 15px 0;">
+                        <center>
+                            <img src="{% static 'images/icons/32/manager.png' %}" style="padding:15px 0 5px 0;margin:0"><br>
+                            <h6 class="m-0">RESPONSABLE</h6> 
+                            <p class="vusuario"><small>cargando..</small></p>
+                        </center>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-6 col-lg-3" style="margin:0px;padding:0 0 15px 0;">
+                        <center>
+                            <img src="{% static 'images/icons/32/form.png' %}" style="padding:15px 0 5px 0;margin-top:0px"><br>
+                            <h6 class="m-0"># FORMULARIO</h6>
+                            <p class="vnumero"><small>cargando..</small></p>
+                        </center>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-6 col-lg-3" style="margin:0px;padding:0 0 15px 0;">
+                        <center>
+                            <img src="{% static 'images/icons/32/elaborado.png' %}" style="padding:15px 0 5px 0;margin-top:0px"><br>
+                            <h6 class="m-0">FECHA REGISTRO</h6>
+                            <p class="vfecha"><small>cargando..</small></p>
+                        </center>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-6 col-lg-3" style="margin:0px;padding:0 0 15px 0;">
+                        <center>
+                            <!-- <i class="material-icons" style="color:#fff;font-size: 2.9em;font-weight: 200;">done</i><br> -->
+                            <img src="{% static 'images/icons/32/checked.png' %}" style="padding:17px 0 5px 0;margin:0"><br>
+                            <h6 class="m-0">ESTADO</h6>
+                            <p class="vestado"><small>cargando..</small></p>
+                        </center>
+                    </div>
+                </div>
+                <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist" style="background:#313131">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="section_general-tab" data-toggle="tab" href="#section_general" role="tab" aria-controls="section_general" aria-selected="true">GENERAL</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="section_vehiculo-tab" data-toggle="tab" href="#section_vehiculo" role="tab" aria-controls="section_vehiculo" aria-selected="false">VEHICULO</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="section_recurso-tab" data-toggle="tab" href="#section_recurso" role="tab" aria-controls="section_recurso" aria-selected="false">RECURSOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="section_liquidacion-tab" data-toggle="tab" href="#section_liquidacion" role="tab" aria-controls="section_liquidacion" aria-selected="false">LIQUIDACION</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="section_general" style="margin:20px 0 0 0" role="tabpanel" aria-labelledby="section_general-tab">
+                        <div class="row justify-content-center">
+                            <div class="col-4 col-sm-4 col-md-3 col-lg-3" style="margin-bottom:20px;">
+                                <img class="mx-auto d-block" src="{% static 'images/icons/32/ubicacion.png' %}">
+                                <div class="text-center">
+                                    <h5 class="m-0">LUGAR</h4>
+                                    <h6 class="vlugar">cargando..</h5>
+                                </div>
+                            </div>
+                            <div class="col-4 col-sm-4 col-md-3 col-lg-3" style="margin-bottom:20px;">
+                                <img class="mx-auto d-block" src="{% static 'images/icons/32/calendario.png' %}">
+                                <div class="text-center">
+                                    <h5 class="m-0">FECHA SALIDA</h4>
+                                    <h6 class="vfecha_salida">cargando..</h5>
+                                </div>
+                            </div>
+                            <div class="col-4 col-sm-4 col-md-3 col-lg-3 mx-auto" style="margin-bottom:20px;">
+                                <img class="mx-auto d-block" src="{% static 'images/icons/32/date.png' %}">
+                                <div class="text-center">
+                                    <h5 class="m-0">FECHA LLEGADA</h4>
+                                    <h6 class="vfecha_llegada">cargando..</h5>
+                                </div>
+                            </div>
+                            <div class="col-4 col-sm-4 col-md-3 col-lg-3 mx-auto" style="margin-bottom:20px;">
+                                <img class="mx-auto d-block" src="{% static 'images/icons/32/memorandum.png' %}">
+                                <div class="text-center">
+                                    <h5 class="m-0">MEMORANDUM</h4>
+                                    <h6 class="vnumero_memo">cargando..</h5>
+                                </div>
+                            </div>
+                            <div class="col-4 col-sm-4 col-md-3 col-lg-3 mx-auto" style="margin-bottom:20px;">
+                                <img class="mx-auto d-block" src="{% static 'images/icons/32/resolucion.png' %}">
+                                <div class="text-center">
+                                    <h5 class="m-0">RESOLUCION ADMINISTRATIVA</h4>
+                                    <h6 class="vresolucion_administrativa">cargando..</h5>
+                                </div>
+                            </div>
+                            <div class="col-4 col-sm-4 col-md-3 col-lg-3 mx-auto" style="margin-bottom:20px;">
+                                <img class="mx-auto d-block" src="{% static 'images/icons/32/descripcion.png' %}">
+                                <div class="text-center">
+                                    <h5 class="m-0">DESCRIPCION</h4>
+                                    <h6 class="vdescripcion">cargando..</h5>
+                                </div>
+                            </div>
+                            <div class="col-4 col-sm-4 col-md-3 col-lg-3 mx-auto" style="margin-bottom:20px;">
+                                <img class="mx-auto d-block" src="{% static 'images/icons/32/observacion.png' %}">
+                                <div class="text-center">
+                                    <h5 class="m-0">OBSERVACION</h4>
+                                    <h6 class="vobservacion">cargando..</h5>
+                                </div>
+                            </div>                         
+                        </div>
+                    </div>
+                    <div class="tab-pane fade m-0" id="section_vehiculo" role="tabpanel" aria-labelledby="section_vehiculo-tab">
+                        <div class="row justify-content-center m-0">
+                            <div class="col-md-3 col-lg-3 col-sm-12 py-3" style="background: #eaeaea;">
+                                <div class="col-12" >
+                                    <img class="mx-auto d-block" src="{% static 'images/icons/32/capacidad.png' %}">
+                                    <div class="text-center">
+                                        <h6 class="m-0">ESTADO</h6>
+                                        <p class="vvehiculoestado"><small class="blockquote-footer">cargando</small></p>
+                                    </div>
+                                </div>
+                                <div class="col-12" style="margin-bottom:20px;">
+                                    <img class="mx-auto d-block" src="{% static 'images/icons/32/fuel.png' %}">
+                                    <div class="text-center">
+                                        <h6>COMBUSTIBLE</h6>
+                                        <p class="vcombustible"><small class="blockquote-footer">cargando</small></p>
+                                    </div>
+                                </div>
+                                <div class="col-12" style="margin-bottom:20px;">
+                                    <img class="mx-auto d-block" src="{% static 'images/icons/32/placa.png' %}">
+                                    <div class="text-center">
+                                        <h6>PLACA</h6>
+                                        <p class="vplaca"><small class="blockquote-footer">cargando</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-12 py-3">
+                                <div class="row">
+                                    <div class="col-12" >
+                                        <img class="mx-auto d-block" style="width: 18%;" src="{% static 'images/icons/64/car.png' %}">
+                                        <div class="text-center">
+                                            <h5 style="font-weight: 200;" class="vtipo">TIPO</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" >
+                                        <img class="mx-auto d-block" src="{% static 'images/icons/32/marca.png' %}">
+                                        <div class="text-center">
+                                            <h6 class="m-0">MARCA</h6>
+                                            <p class="vmarca"><small class="blockquote-footer">cargando</small></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" >
+                                        <img class="mx-auto d-block" src="{% static 'images/icons/32/modelo.png' %}">
+                                        <div class="text-center">
+                                            <h6 class="m-0">MODELO</h6>
+                                            <p class="vmodelo"><small class="blockquote-footer">cargando</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-sm-12 py-3" style="background: #eaeaea;">
+                                <div class="col-12" style="margin-bottom:20px;">
+                                    <img class="mx-auto d-block" src="{% static 'images/icons/32/kilometraje.png' %}">
+                                    <div class="text-center">
+                                        <h6 class="m-0">KILOMETRAJE ACTUAL</h6>
+                                        <p class="vkilometraje"><small class="blockquote-footer">cargando</small></p>
+                                    </div>
+                                </div>
+                                <div class="col-12" style="margin-bottom:20px;">
+                                    <img class="mx-auto d-block" src="{% static 'images/icons/32/kilometraje_viaje.png' %}">
+                                    <div class="text-center">
+                                        <h6 class="m-0">KILOMETRAJE VIAJE</h6>
+                                        <p class="vkilometraje_viaje"><small class="blockquote-footer">cargando</small></p>
+                                    </div>
+                                </div>
+                                <div class="col-12" style="margin-bottom:20px;">
+                                    <img class="mx-auto d-block" src="{% static 'images/icons/32/rendimiento.png' %}">
+                                    <div class="text-center">
+                                        <h6>RENDIMIENTO</h6>
+                                        <p class="vrendimiento"><small class="blockquote-footer">cargando</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="section_recurso" style="margin:0 10px 0 10px" role="tabpanel" aria-labelledby="section_recurso-tab">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-sm">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="10%" class="p-1">CODIGO</th>
+                                                <th width="50%" class="p-1">DESCRIPCION</th>
+                                                <th width="10%" class="p-1">CANT.</th>
+                                                <th width="10%" class="p-1">UNIDAD</th>
+                                                <th width="10%" class="p-1">P/U</th>
+                                                <th width="10%" class="p-1">TOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="section_liquidacion" style="margin:20px 10px 0 10px" role="tabpanel" aria-labelledby="section_liquidacion-tab">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-sm">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="10%" class="p-1"><small>PARTIDA PPTARIA</small></th>
+                                                <th width="30%" class="p-1"><small>DESCRIPCION GASTO</small></th>
+                                                <th width="10%" class="p-1"><small>UNIDAD</small></th>
+                                                <th width="10%" class="p-1"><small>CANDIDAD</small></th>
+                                                <th width="10%" class="p-1"><small>P/U</small></th>
+                                                <th width="10%" class="p-1"><small>TOTAL REQ.</small></th>
+                                                <th width="10%" class="p-1"><small>RETENCIONES</small></th>
+                                                <th width="10%" class="p-1"><small>LIQUIDO PAGABLE</small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer py-1">
+                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-sm btn-info" data-dismiss="modal">Modificar</button>
+            </div>
+        </div>
+    </div>
+</div>

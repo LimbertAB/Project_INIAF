@@ -20,32 +20,37 @@
         </div>
     </div>
 </div>
+{% include 'salida/ver.html' %}
+{% include 'salida/modificar.html' %}
+{% include 'formulario/modificar.html' %}
+{% include 'formulario/ver.html' %}
 {% endblock %}
 {% block floating%}
-<div class="container-fluid" id="floating_btn">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="btn-group-sm hidden" id="mini-fab">
-          <a href="crear_formulario" class="btn btn-info btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario F15" title="Formulario F15" id="sms">
-            <i class="material-icons">directions_car</i>
-          </a>
-          <a href="{% url 'salida:crear' %}" class="btn btn-primary btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario Salida" title="Formulario Salida" id="mail">
-            <i class="material-icons">description</i>
-          </a>
-        </div>
-        <div class="btn-group">
-          <a href="javascript:void(0)" class="btn btn-success btn-fab" id="main">
-            <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i>
-          </a>
+  <div class="container-fluid" id="floating_btn">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="btn-group-sm hidden" id="mini-fab">
+            <a href="crear_formulario" class="btn btn-info btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario F15" title="Formulario F15" id="sms">
+              <i class="material-icons">directions_car</i>
+            </a>
+            <a href="{% url 'salida:crear' %}" class="btn btn-primary btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario Salida" title="Formulario Salida" id="mail">
+              <i class="material-icons">description</i>
+            </a>
+          </div>
+          <div class="btn-group">
+            <a href="javascript:void(0)" class="btn btn-success btn-fab" id="main">
+              <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-</div>
+  </div>
 {% endblock %}
 {% block javascript%}
 <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/locales-all.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.datetimepicker.full.min.js' %}"></script>
 <script>
     $(function(){
         var formulario_list = {{ formulario|safe }};
@@ -91,29 +96,17 @@
             eventLimit: true,
             events: formulario_all,
             eventClick: function(event) {
-              //ejecutar o abrir modal
-              ver_formulario_ajax(event.id,event.description);             
+              if (event.description=='salida') {
+                $('#myModal').modal('toggle');
+                ver_formulario_ajax(event.id,event.description,"ver");
+              } else {
+                //ejecutar o abrir modal
+                $('#verformulariomodal').modal('toggle');
+                ver_formulario_ajax(event.id,event.description,"ver");
+              }          
             }
         });
     });
-    function ver_formulario_ajax(id,tabla){
-      $.ajax({
-        url: '/'+tabla+'/ver/'+id+'/',
-        type: 'GET',
-        datatype: 'json'
-      }).done(function(obj){
-
-        console.log(obj);
-        
-        // GET_ID_UPDATE=obj.id;
-        // $('#UpdateModal input[name="nombre"]').val(obj.nombre);
-        // $('#UpdateModal input[name="proyecto"]').val(obj.proyecto);
-        // $('#UpdateModal input[name="descripcion"]').val(obj.descripcion);
-        // $('#UpdateModal input[name="actividad"]').val(obj.actividad);
-        // $('#UpdateModal input').focus();
-      }).fail(function(){
-        showNotification('bottom','left','error','Error Server: verifique su conexion con el servidor');
-      });
-    }
+    
 </script>
 {% endblock %}

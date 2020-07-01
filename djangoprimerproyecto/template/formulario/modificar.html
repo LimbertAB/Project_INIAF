@@ -1,0 +1,215 @@
+<!-- MODAL DE MODIFICAR UN FORMULARIO F15  -->
+<div class="modal fade bd-example-modal-lg" id="modificarformulariomodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="overflow-y: auto;background: #212529e0;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="POST" autocomplete="off" class="m-0" style="background: #202940;">
+                <div class="modal-header border-bottom-0" style="margin:0px;background: linear-gradient(60deg,#288c6c,#4ea752);">
+                    <h4 class="modal-title text-center" style="color:#fff;font-weight:800;line-height:19px" id="exampleModalLabel">MODIFICAR FORMULARIO F15</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color: white;">&times;</span></button>
+                </div>
+                    <div class="modal-body" style="padding:0">
+                        {% csrf_token %}
+                        <!-- Nav tabs -->
+                        <div class="col-md-12 p-0">
+                        <div class="card card-nav-tabs card-plain">
+                            <div class="card-header card-header-success">
+                                <div class="nav-tabs-navigation">
+                                    <div class="nav-tabs-wrapper">
+                                        <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#home" data-toggle="tab">
+                                                <i class="material-icons">list</i>FORMULARIO DE VIAJE
+                                                <div class="ripple-container"></div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#profile" data-toggle="tab">
+                                                <i class="material-icons">directions_car</i>VIATICOS
+                                                <div class="ripple-container"></div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#messages" data-toggle="tab">
+                                                <i class="material-icons">build</i>RECURSOS
+                                                <div class="ripple-container"></div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#final" data-toggle="tab">
+                                                <i class="material-icons">build</i>OBSERVACIONES
+                                                <div class="ripple-container"></div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body" style="background: #202940;border-radius:6px;box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);">
+                            <div class="tab-content">
+                                <div class="tab-pane active px-5" id="home" role="tabpanel" aria-labelledby="home-tab"><!-- SECTION 1 - formulario viaje -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-12">
+                                        <div class="form-group label-floating has-success">
+                                            <label class="bmd-label-floating">{{ form.numero.label }}</label>
+                                            {{ form.numero}}
+                                        </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                        <div class="form-group label-floating has-success">
+                                            <label class="bmd-label-floating">{{ form.fecha.label }}</label>
+                                            {{ form.fecha}}
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-12">
+                                        <div class="form-group label-floating has-success">
+                                            <label class="bmd-label-floating">{{ form.descripcion.label }}</label>
+                                            {{ form.descripcion}}
+                                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="tab-pane px-5" id="profile" role="tabpanel" aria-labelledby="profile-tab"><!-- SECTION 2 - solicitud viatico -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ form.lugar.label }}</label>
+                                        {{ form.lugar}}
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ form.fecha_salida.label }}</label>
+                                        {{ form.fecha_salida}}
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ form.fecha_llegada.label }}</label>
+                                        {{ form.fecha_llegada}}
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pr-md-1">
+                                    <div class="form-group">
+                                        <label>{{ form.id_movilidad.label }}</label>
+                                        {{ form.id_movilidad}}
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6 pr-md-1">
+                                    <div class="form-group">
+                                        <label>{{ form.kilometraje.label }}</label>
+                                        {{ form.kilometraje}}
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6 pr-md-1">
+                                    <div class="form-group">
+                                        <label>{{ form.kilometraje_viaje.label }}</label>
+                                        {{ form.kilometraje_viaje}}
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6 pr-md-1">
+                                    <div class="form-group">
+                                        <label>{{ form.combustible.label }}</label>
+                                        {{ form.combustible}}
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="tab-pane px-3" id="messages" role="tabpanel" aria-labelledby="messages-tab"><!-- SECTION 3 - requerimiento recursos -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ form.id_programa.label }}</label>
+                                        {{ form.id_programa}}
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                        <table id="tabla_partida" class="table dataTable table-bordered table-sm" width="100%" border=1>
+                                            <thead class=" text-primary">
+                                            <tr style="background:#11172b">
+                                                <th width="10%">CODIGO</th>
+                                                <th width="50%">DESCRIPCION</th>
+                                                <th width="10%">CANTIDAD</th>
+                                                <th width="10%">UNIDAD</th>
+                                                <th width="10%">P/U</th>
+                                                <th width="10%">TOTAL</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody >       
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table id="tabla_liquidacion" class="table dataTable table-bordered table-sm">
+                                        <thead class=" text-primary">
+                                            <tr style="background:#11172b">
+                                            <th>PARTIDA PPTARIA</th>
+                                            <th>DESCRIPCION DEL GASTO</th>
+                                            <th>UNIDAD</th>
+                                            <th>CANDIDAD</th>
+                                            <th>P/U</th>
+                                            <th>TOTAL REQUERIMIENTO</th>
+                                            <th>RETENCIONES IMPOSITIVAS</th>
+                                            <th>LIQUIDO PAGABLE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody >       
+                                        </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="tab-pane px-5" id="final" role="tabpanel" aria-labelledby="home-tab"><!-- SECTION 1 - formulario viaje -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group label-floating has-success">
+                                        <label class="bmd-label-floating">{{ form.numero_memo.label }}</label>
+                                        {{ form.numero_memo}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group label-floating has-success">
+                                        <label class="bmd-label-floating">{{ form.resolucion_administrativa.label }}</label>
+                                        {{ form.resolucion_administrativa}}
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group label-floating has-success">
+                                        <label class="bmd-label-floating">{{ form.observacion.label }}</label>
+                                        {{ form.observacion}}
+                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer py-1 border-0">
+                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-sm btn-info" data-dismiss="modal">Modificar</button>
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>
