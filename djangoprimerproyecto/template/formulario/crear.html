@@ -1,6 +1,6 @@
 {% extends "principal/index.html" %}
 {% load static %}
-{% block title %} Modificar Usuarios {% endblock %}
+{% block title %} CrearFormulario F15 {% endblock %}
 {% block content %}
 <form method="POST" autocomplete="off">
   {% csrf_token %}
@@ -44,29 +44,24 @@
         <div class="tab-content">
           <div class="tab-pane active px-5" id="home" role="tabpanel" aria-labelledby="home-tab"><!-- SECTION 1 - formulario viaje -->
             <div class="row">
-                <div class="col-md-6">
-                  <div class="col-md-12">
-                    <div class="form-group label-floating has-success">
-                      <label class="bmd-label-floating">{{ form.numero.label }}</label>
-                      {{ form.numero}}
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="form-group label-floating has-success">
-                      <label class="bmd-label-floating">{{ form.fecha.label }}</label>
-                      {{ form.fecha}}
-                    </div>
-                  </div>
+              <div class="col-md-12">
+                <div class="form-group label-floating has-success">
+                  <label class="bmd-label-floating">{{ form.numero.label }}</label>
+                  {{ form.numero}}
                 </div>
-                <div class="col-md-6">
-                  <div class="col-md-12">
-                    <div class="form-group label-floating has-success">
-                      <label class="bmd-label-floating">{{ form.descripcion.label }}</label>
-                      {{ form.descripcion}}
-                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div>
-                  </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group label-floating has-success">
+                  <label class="bmd-label-floating">{{ form.fecha.label }}</label>
+                  {{ form.fecha}}
                 </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group label-floating has-success">
+                  <label class="bmd-label-floating">Seleccione Programa: </label>
+                  {{ form.id_programa}}
+                </div>
+              </div>
             </div>
           </div>
           <div class="tab-pane px-5" id="profile" role="tabpanel" aria-labelledby="profile-tab"><!-- SECTION 2 - solicitud viatico -->
@@ -118,14 +113,7 @@
             </div>
           </div>
           <div class="tab-pane px-3" id="messages" role="tabpanel" aria-labelledby="messages-tab"><!-- SECTION 3 - requerimiento recursos -->
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label>{{ form.id_programa.label }}</label>
-                  {{ form.id_programa}}
-                </div>
-              </div>
-            </div>
+            
             <div class="row">
               <div class="col-md-12">
                   <div class="table-responsive">
@@ -218,53 +206,10 @@
       //   timepicker:false,
       // });
 
-      $('select[name="id_programa"]').on('change', function(){
-          var id=$(this).val();
-          $('#tabla_partida tbody,#tabla_liquidacion tbody').empty();
-          $.ajax({
-            url: '/formulario/consultar/',
-            type: 'POST',
-            data:{
-              'action':'search_partida_id',
-              'id': id,
-              'csrfmiddlewaretoken':token
-            },
-            dataType: 'json',
-          }).done(function (data){
-            PARTIDA_LENGTH=data.length;
-            console.log(data);
-            if(!data.hasOwnProperty('error')){
-              $.each(data, function (key, value){
-                $('#tabla_partida tbody').append('<tr><td><input name="id_partida_id[]" required type="hidden" value="'+value.id+'">'+value.numero+'</td><td>'+value.glosa_dos+'</td><td><input name="cantidad[]" required type="number" onkeyup="cambios_input('+value.id+')" class="form-control pl-md-2 tabla1_cantidad'+value.id+'" style="background:#dedede;color:#313131" value="1"></td><td>'+value.unidad+'</td><td><input name="precio_unitario[]" required type="number" class="form-control pl-2 tabla1_preciounitario'+value.id+'" onkeyup="cambios_input('+value.id+','+1+')" style="background:#dedede;color:#313131"></td><td><h4 class="tabla1_total'+value.id+'" style="margin:0">0</h4></td></tr>');
-                $('#tabla_liquidacion tbody').append('<tr><td>'+value.numero+'</td><td>'+value.glosa_uno+'</td><td><input name="unidad_liquidacion[]" required type="text" class="form-control pl-md-2" style="background:#dedede;color:#313131" value=""></td><td class="tabla2_cantidad'+value.id+'">0</td><td class="tabla2_preciounitario'+value.id+'">0</td><td class="tabla2_requerimiento'+value.id+'">0</td><td class="tabla2_retenciones'+value.id+'">0</td><td class="tabla2_liquido'+value.id+'">0</td></tr>');
-              });
-              $('#tabla_partida tbody').append('<tr><td colspan="6" style="text-align:right"><h4 style="margin:0">TOTAL: <small class="tabla1_total">0</small></h4></td></tr>');
-              $('#tabla_liquidacion tbody').append('<tr><td colspan="8" style="text-align:right"><h4 style="margin:0">TOTAL: <small class="tabla2_total">0</small></h4></td></tr>');
-              
-              return false;
-            }
-            message_error(data.error);
-          }).fail(function(jqXHR, textStatus, errorThrown){
-            console.log(textStatus + ':' + errorThrown);
-          }).always(function(data){
-          });
-      });
+      
+    
     });
-    function cambios_input(fila){
-
-      var cantidad=$('.tabla1_cantidad'+fila).val();
-      var precio=$('.tabla1_preciounitario'+fila).val();
-      var total=cantidad*precio;
-      $('.tabla1_total'+fila).text(total);
-      $('.tabla2_cantidad'+fila).text(cantidad);
-      $('.tabla2_preciounitario'+fila).text(precio);
-      $('.tabla2_requerimiento'+fila).text(total);
-      $('.tabla2_retenciones'+fila).text((total*0.13).toFixed(1));
-      $('.tabla2_liquido'+fila).text(total-(total*0.13));
-      $('.tabla1_total').text($('.tabla1_total'+fila).text());
-      $('.tabla2_total').text($('.tabla2_liquido'+fila).text());
-      console.log(precio);
-    }
+    
     
   </script>
 {% endblock%}

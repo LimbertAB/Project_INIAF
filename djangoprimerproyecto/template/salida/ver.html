@@ -1,6 +1,6 @@
 <!-- The Modal 1 -->
 {% load static %}
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="eliminar_salida_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #0288D1;">
@@ -21,6 +21,7 @@
             </div>
             </div>
             <div class="modal-body">
+
             <table class="table" id="mitabla">
                 <tbody>
                     <tr>
@@ -69,11 +70,13 @@
                     </tr>
                 </tbody>
             </table>
+                {% csrf_token %}
             </div>
             <div class="modal-footer" id="pie_de_pagina">
-            <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#actualizarModal" onclick="cerrarmodal()">editar</button>
-            <!-- <a class="btn btn-warning"  role="button" id="boton_editar">Editar</a> -->
-            <a class="btn btn-sm btn-danger" href="#" role="button">Eliminar</a>
+                <button type="button" class="btn btn-sm btn-success " onclick="">IMPRIMIR</button>    
+            <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#actualizar_salida_modal" onclick="cerrarmodal()">EDITAR</button>
+            
+            <button type="submit" class="btn btn-sm btn-danger btneliminarsalida">ELIMINAR</button>
             </div>
         </div>
     </div>

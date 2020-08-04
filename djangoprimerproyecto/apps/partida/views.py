@@ -4,17 +4,17 @@ from django.views.generic import CreateView,DeleteView,ListView,UpdateView,Detai
 from django.http import JsonResponse
 from .forms import PartidaForm
 from .models import Partida
-from apps.usuario.views import JSONResponseMixin
+from apps.usuario.mixins import JSONResponseMixin
 
-class JSONResponseMixin:
-    def render_to_json_response(self, context, **response_kwargs):
-        return JsonResponse(
-            self.get_data(context),
-            **response_kwargs
-        )
+# class JSONResponseMixin:
+#     def render_to_json_response(self, context, **response_kwargs):
+#         return JsonResponse(
+#             self.get_data(context),
+#             **response_kwargs
+#         )
 
-    def get_data(self, context):
-        return context
+#     def get_data(self, context):
+#         return context
 
 class PartidaList(ListView):
     model = Partida
@@ -62,7 +62,6 @@ class PartidaDetailView(JSONResponseMixin,TemplateView):
             'name': self.object.user.fuente,
             'location': self.object.numero
         }
-
         return self.render_json_response(context_dict)
 
 

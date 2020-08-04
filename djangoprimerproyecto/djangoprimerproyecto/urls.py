@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 
+from django.conf.urls.static import static
 from django.urls import path,include
 from django.contrib.auth import views
 from . import views
+from django.conf import settings
 
 
 urlpatterns = [
@@ -32,5 +34,9 @@ urlpatterns = [
     path('partida/', include(('apps.partida.urls'), namespace='partida'), name='partida'),
     path('movilidad/', include(('apps.movilidad.urls'), namespace='movilidad'), name='movilidad'),
     path('formulario/', include(('apps.formulario.urls'), namespace='formulario'), name='formulario'),
-    path('salida/', include(('apps.salida.urls'), namespace='salida'), name='salida')
+    path('salida/', include(('apps.salida.urls'), namespace='salida'), name='salida'),
+    path('mensaje/', include(('apps.mensaje.urls'), namespace='mensaje'), name='mensaje')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

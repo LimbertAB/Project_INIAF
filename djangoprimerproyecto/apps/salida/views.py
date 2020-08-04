@@ -4,7 +4,7 @@ from django.views.generic import CreateView,DeleteView,ListView,UpdateView,Detai
 from .forms import SalidaForm
 from .models import Salida 
 from apps.usuario.models import Usuario
-from apps.usuario.views import JSONResponseMixin
+from apps.usuario.mixins import JSONResponseMixin
 from django.http import JsonResponse
 
 class SalidaList(CreateView):
@@ -18,11 +18,11 @@ class SalidaCreate(CreateView):
     form_class = SalidaForm
     template_name = 'Salida/crear.html'
 
-
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.id_usuario_id = self.request.session['id']
         obj.save()
+        return JsonResponse({'estado': 1})
 
 class SalidaUpdate(UpdateView):
     model = Salida
@@ -43,8 +43,8 @@ class SalidaDetailView(JSONResponseMixin,DetailView):
         query_usuario=Usuario.objects.filter(id=self.request.session.get('id'))[0]
         context_dict = {
             'id': self.object.id,
-            'fecha_salida': self.object.fecha_salida,
-            'fecha_retorno': self.object.fecha_retorno,
+            'fecha_salida': str(self.object.fecha_salida),
+            'fecha_retorno': str(self.object.fecha_retorno),
             'tiempo': self.object.tiempo,
             'motivo': self.object.motivo,
             'nombre':query_usuario.nombre,
@@ -56,9 +56,7 @@ class SalidaDelete(DeleteView):
     model = Salida
     form_class = SalidaForm
 
-    def post(self,request, pk, *args, **kwargs):
-        obj = Salida.objects.get(id=pk)
-        obj.id_usuario_id = self.request.session['id']
-        obj.estado = False
-        obj.save()
-        return JsonResponse({'estado': 0})
+    def delete(self,request, pk, *args, **kwargs):
+        if request.is_ajax():
+            Salida.objects.filter(id=pk).delete()
+            return JsonResponse({'estado': 1})

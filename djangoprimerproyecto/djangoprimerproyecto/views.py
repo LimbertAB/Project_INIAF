@@ -18,6 +18,7 @@ def login_user(request):
         user=authenticate(request,ci=ci,password=password)
         if user is not None:
             login(request,user)
+            print(user.id)
             usuario= Usuario.objects.raw('select id,nombre,prioridad from usuario_usuario where id=%s LIMIT 1',[user.id])[0]
             request.session['id'] = usuario.id
             request.session['nombre'] = usuario.nombre

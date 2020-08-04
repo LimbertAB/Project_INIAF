@@ -59,7 +59,7 @@ class Usuario(AbstractBaseUser):
     USERNAME_FIELD = 'ci'
     REQUIRED_FIELDS = ['nombre','apellido','email']
     def __str__(self):
-        return str(self.id)
+        return str(self.nombre+" "+self.apellido)
     
     def has_perm(self, perm,obj=None):
         return True 

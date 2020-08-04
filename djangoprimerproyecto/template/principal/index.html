@@ -33,40 +33,35 @@
               <p>Dashboard</p>
             </a>
           </li>
+          
+          <li class="nav-item ">
+            <a class="nav-link" href="/formulario">
+              <i class="material-icons">insert_invitation</i>
+              <p>Formularios</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/programa">
+              <i class="material-icons">content_paste</i>
+              <p>Programas</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/partida">
+              <i class="material-icons">format_list_bulleted</i>
+              <p>Partidas</p>
+            </a>
+          </li>
           <li class="nav-item ">
             <a class="nav-link" href="/usuario">
-              <i class="material-icons">Usuario</i>
-              <p>User Profile</p>
+              <i class="material-icons">perm_identity</i>
+              <p>Usuario</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./tables.html">
-              <i class="material-icons">content_paste</i>
-              <p>Table List</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./typography.html">
-              <i class="material-icons">library_books</i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./icons.html">
-              <i class="material-icons">bubble_chart</i>
-              <p>Icons</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./map.html">
-              <i class="material-icons">location_ons</i>
-              <p>Maps</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./notifications.html">
+            <a class="nav-link" href="/movilidad">
               <i class="material-icons">notifications</i>
-              <p>Notifications</p>
+              <p>Vehiculos</p>
             </a>
           </li>
           <!-- <li class="nav-item active-pro ">
@@ -111,10 +106,21 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <!--<a class="nav-link" data-toggle="modal" data-target="#Modalmensaje" id="ejecutar">-->
+                <a class="nav-link" id="ejecutar" href="#">
+                  <i class="material-icons">note_add</i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">
+                  <i class="material-icons">mail</i>
+                </a>
+              </li>
               <li class="nav-item dropdown">
                 <a class="nav-link" href="javscript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">notifications</i>
-                  <span class="notification">5</span>
+                  <span class="notification notificacion"></span>
                   <p class="d-lg-none d-md-block">
                     Some Actions
                   </p>
@@ -143,6 +149,7 @@
         <div class="container-fluid">
           {% block content%}
           {% endblock %}
+          {% include 'mensaje/crear.html' %}
           <div class="btn-group-fab" role="group" aria-label="FAB Menu" style="bottom: 20px;">
             <div>
               {% block floating%}
@@ -175,7 +182,39 @@
 
   {% block javascript %}
   {% endblock %}
-
+  <script type="text/javascript" >
+    $.ajax({
+      url: '/formulario/notificaciones/',
+      type: "GET",
+      datatype: 'json'
+    }).done(function(data){
+      console.log(data);
+      $(".notificacion").text(data.formulario_notificacion + data.salida_notificacion)
+    }).fail(function(){
+      showNotification('bottom','left','danger','Error Server: verifique su conexion con el servidor');
+    });
+    function verusuarios(id){
+      $.ajax({
+        url: '/usuario/obtenerusuario/',
+        type: 'GET',
+        datatype: 'json'
+      }).done(function(obj){
+        console.log(obj)
+        for (let i = 0; i < obj.listausuario.length; i++) {
+          $('#id_usuario_mensaje').append($('<option>', {
+            value: obj.listausuario[i].id,
+            text: obj.listausuario[i].nombre 
+          })); 
+        }
+        $('#Modalmensaje').modal('toggle');
+      }).fail(function(){
+        showNotification('bottom','left','error','Error Server: verifique su conexion con el servidor');
+      });
+    }
+    document.getElementById("ejecutar").onclick = function(){
+      verusuarios();
+    }
+  </script>
 </body>
 
 </html>

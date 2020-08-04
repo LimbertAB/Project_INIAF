@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %} Modificar Usuarios {% endblock %}
 {% block content %}
-<form method="POST" action="{% url 'salida:crear'  %} " autocomplete="off">
+<form method="POST" id="form_registrosalida" name="form_registrosalida" autocomplete="off">
   {% csrf_token %}
   <div class="row">
     <div class="card card-nav-tabs">
@@ -36,7 +36,7 @@
             <div class="col-md-6 pr-md-1">
               <div class="form-group">
                 <label>{{ form.motivo.label }}</label>
-                {{ form.motivo}}
+                {{ form.motivo}} 
               </div>
             </div>
             
@@ -47,7 +47,7 @@
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-fill btn-success">GUARDAR</button>
+  <button type="submit" class="btn btn-fill btn-success btn_registrar_salida">GUARDAR</button>
 </form>
 {% endblock %}
 {% block javascript %}

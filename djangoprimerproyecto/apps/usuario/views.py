@@ -1,95 +1,45 @@
-import warnings
+from django.shortcuts import render,redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView,DeleteView,ListView,UpdateView,TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import UsuarioForm
+from .models import Usuario
+from .mixins import JSONResponseMixin,UsuarioAdministradorMixin
 
-from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.contrib.auth.views import redirect_to_login
-from django.core import serializers
-from django.core.exceptions import ImproperlyConfigured, PermissionDenied
-from django.core.serializers.json import DjangoJSONEncoder
-#from django.core.urlresolvers import reverse
-from django.http import HttpResponse
-from django.utils.decorators import method_decorator
-from django.views.generic import CreateView
-from django.views.decorators.csrf import csrf_exempt
-try:
-    import json
-except ImportError:  # pragma: no cover
-    from django.utils import simplejson as json
+class UsuarioList(LoginRequiredMixin,UsuarioAdministradorMixin,ListView):
+    model = Usuario
+    template_name = 'usuario/index.html'
+    queryset = Usuario.objects.all().order_by('id')
+    paginate_by = 4
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = UsuarioForm
+        return context
 
-class JSONResponseMixin(object):
-    """
-    A mixin that allows you to easily serialize simple data such as a dict or
-    Django models.
-    """
-    content_type = "application/json"
-    json_dumps_kwargs = None
+class UsuarioCreate(LoginRequiredMixin,UsuarioAdministradorMixin,CreateView):
+    model = Usuario
+    form_class = UsuarioForm
+    success_url = reverse_lazy('usuario:listar')
 
-    def get_content_type(self):
-        if self.content_type is None:
-            raise ImproperlyConfigured(
-                "%(cls)s is missing a content type. "
-                "Define %(cls)s.content_type, or override "
-                "%(cls)s.get_content_type()." % {
-                "cls": self.__class__.__name__}
-            )
-        return self.content_type
+class UsuarioUpdate(LoginRequiredMixin,UsuarioAdministradorMixin,UpdateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'usuario/modificar.html'
+    success_url = reverse_lazy('usuario:listar')
 
-    def get_json_dumps_kwargs(self):
-        if self.json_dumps_kwargs is None:
-            self.json_dumps_kwargs = {}
-        self.json_dumps_kwargs.setdefault('ensure_ascii', False)
-        return self.json_dumps_kwargs
+class ListUsuario(JSONResponseMixin,TemplateView):
 
-    def render_json_response(self, context_dict, status=200):
-        """
-        Limited serialization for shipping plain data. Do not use for models
-        or other complex or custom objects.
-        """
-        json_context = json.dumps(context_dict, cls=DjangoJSONEncoder,
-                                  **self.get_json_dumps_kwargs())
-        return HttpResponse(json_context,
-                            content_type=self.get_content_type(),
-                            status=status)
+    def get(self, request, *args, **kwargs):
+        usuario_list=[]
+        for i in Usuario.objects.exclude(id = request.session['id']):
+            usuario_list.append({
+                'id':i.id,
+                'nombre': i.nombre +" "+i.apellido,
+            })
+        return self.render_json_response({'listausuario':usuario_list})
 
-    def render_json_object_response(self, objects, **kwargs):
-        """
-        Serializes objects using Django's builtin JSON serializer. Additional
-        kwargs can be used the same way for django.core.serializers.serialize.
-        """
-        json_data = serializers.serialize("json", objects, **kwargs)
-        return HttpResponse(json_data, content_type=self.get_content_type())
-
-
-class AjaxResponseMixin(object):
-    """
-    Mixin allows you to define alternative methods for ajax requests. Similar
-    to the normal get, post, and put methods, you can use get_ajax, post_ajax,
-    and put_ajax.
-    """
-    def dispatch(self, request, *args, **kwargs):
-        request_method = request.method.lower()
-
-        if request.is_ajax() and request_method in self.http_method_names:
-            handler = getattr(self, '%s_ajax' % request_method,
-                              self.http_method_not_allowed)
-            self.request = request
-            self.args = args
-            self.kwargs = kwargs
-            return handler(request, *args, **kwargs)
-
-        return super(AjaxResponseMixin, self).dispatch(
-            request, *args, **kwargs)
-
-    def get_ajax(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
-
-    def post_ajax(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
-
-    def put_ajax(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
-
-    def delete_ajax(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
-
+class UsuarioDelete(LoginRequiredMixin,UsuarioAdministradorMixin,DeleteView):
+    model = Usuario
+    template_name = 'usuario/crear.html'
+    success_url = reverse_lazy('usuario.index')

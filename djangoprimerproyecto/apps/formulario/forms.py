@@ -1,18 +1,14 @@
 from django import forms
 from django.core.exceptions import NON_FIELD_ERRORS
-
-
-
 from .models import Formulario
-#nombre apellido ci password email estado prioridad unidad
+
 class FormularioForm(forms.ModelForm):
     class Meta:
         model = Formulario
-        fields = ['numero' , 'fecha' , 'descripcion' , 'lugar' , 'fecha_salida' , 'fecha_llegada' , 'kilometraje','combustible', 'kilometraje_viaje', 'numero_memo' , 'resolucion_administrativa' , 'observacion'  , 'id_movilidad' , 'id_programa' ]
+        fields = ['numero' , 'fecha', 'lugar' , 'fecha_salida' , 'fecha_llegada' , 'kilometraje','combustible', 'kilometraje_viaje', 'numero_memo' , 'resolucion_administrativa' , 'observacion'  , 'id_movilidad' , 'id_programa' ]
 
         widgets = {'numero': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha': forms.DateInput(attrs={'class': 'form-control',"type":'date'}),
-            'descripcion': forms.Textarea(attrs={'class':'form-control','rows':5}),
             'lugar': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha_salida': forms.DateTimeInput(attrs={'class': 'form-control'}),
             'fecha_llegada': forms.DateTimeInput(attrs={'class': 'form-control'}),

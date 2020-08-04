@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView,CreateView,TemplateView,DetailView
+from django.views.generic import ListView,CreateView,TemplateView,DetailView,UpdateView
 from .forms import FormularioForm
 from .models import Formulario
 from apps.partida.models import Partida
@@ -10,26 +10,30 @@ from apps.usuario.models import Usuario
 from apps.programa.models import Programa
 from .models import Formulario_Recurso
 from django.http import JsonResponse, HttpResponseRedirect
-from apps.usuario.views import JSONResponseMixin
-
+from apps.usuario.mixins import JSONResponseMixin
+from django.utils import timezone
+from django.utils.dateparse import parse_datetime
+import pytz
 
 class FormularioList(ListView):
     model = Formulario
     template_name = 'formulario/index.html'
 
     def get_context_data(self, **kwargs):
+        
         context = super().get_context_data(**kwargs)
-        query = Formulario.objects.filter(id_usuario=self.request.session.get('id')) 
+        query = Formulario.objects.filter(id_usuario=self.request.session.get('id'))
+        
         formulario_output_list = []
         for form in query:
             for_dict = {
                 "id": form.id,
                 "start": str(form.fecha_salida),
                 "end": str(form.fecha_llegada),
-                'descripcion':form.descripcion
+                # 'descripcion':form.descripcion
             }
             formulario_output_list.append(for_dict)
-        query_salida=Salida.objects.filter(id_usuario_id=self.request.session.get('id'), estado = True)
+        query_salida=Salida.objects.filter(id_usuario_id=self.request.session.get('id'))
         salida_list=[]
         for sal in query_salida:
             sal_list={
@@ -70,8 +74,44 @@ class FormularioCreate(CreateView):
                 id_formulario_id=obj.id,
                 id_partida_id=i,
             ).save()
-        
-class OBTNER_PARTIDAS(TemplateView):
+
+class FormularioUpdate(UpdateView):
+    model = Formulario
+    form_class = FormularioForm
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.id_usuario_id = self.request.session['id']
+        obj.save()
+        print(obj.id)
+        cantidad=self.request.POST.getlist('cantidad[]')
+        precio_unitario=self.request.POST.getlist('precio_unitario[]')
+        unidad_liquidacion=self.request.POST.getlist('unidad_liquidacion[]')
+        id_recurso=self.request.POST.getlist('id_recurso[]') or None
+        id_partida_id=self.request.POST.getlist('id_partida_id[]') or None
+ 
+        if id_recurso is None:
+            recurso_status = Formulario_Recurso.objects.filter(id_formulario_id=obj.id).delete()
+            print("entro por if")
+            for p,c,u,i in zip(precio_unitario,cantidad,unidad_liquidacion,id_partida_id):
+                recurso_object = Formulario_Recurso.objects.create(
+                    precio_unitario=p,
+                    cantidad=c,
+                    unidad_liquidacion=u,
+                    id_formulario_id=obj.id,
+                    id_partida_id=i,
+                ).save()
+        else:
+            print("entro por else")
+            for p,c,u,i in zip(precio_unitario,cantidad,unidad_liquidacion,id_recurso):
+                recurso_object = Formulario_Recurso.objects.filter(id=i).update(
+                    precio_unitario=p,
+                    cantidad=c,
+                    unidad_liquidacion=u
+                )
+        return JsonResponse({'estado': 1})
+
+class FormularioPartidaList(TemplateView):
     template_name = "crear.html"
 
     def post(self, request, *args, **kwargs):
@@ -97,7 +137,6 @@ class OBTNER_PARTIDAS(TemplateView):
 
 class FormularioDetailView(JSONResponseMixin,DetailView):
     model = Formulario
-    #json_dumps_kwargs={'indent': 1}
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -134,10 +173,9 @@ class FormularioDetailView(JSONResponseMixin,DetailView):
         context_dict = {
             'id': self.object.id,
             'fecha': self.object.fecha,
-            'descripcion': self.object.descripcion,
             'lugar': self.object.lugar,
-            'fecha_salida': self.object.fecha_salida,
-            'fecha_llegada': self.object.fecha_llegada,
+            'fecha_salida': str(self.object.fecha_salida),
+            'fecha_llegada': str(self.object.fecha_llegada),
             'numero_memo': self.object.numero_memo,
             'estado': self.object.estado,
             'id_movilidad_id': self.object.id_movilidad_id,
@@ -155,3 +193,14 @@ class FormularioDetailView(JSONResponseMixin,DetailView):
             'programa':programa_query.nombre
         }
         return self.render_json_response(context_dict)
+
+class FormularioNotificaciones(TemplateView):
+    model = Formulario
+    model = Salida
+    
+    def get(self, request, *args, **kwargs):
+        context_dict = {
+            'formulario_notificacion': Formulario.objects.filter(estado=True).count(),
+            'salida_notificacion': Salida.objects.filter(estado=True).count(),
+        }
+        return JsonResponse(context_dict)

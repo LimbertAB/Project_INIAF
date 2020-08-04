@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'apps.partida',
     'apps.programa',
     'apps.salida',
-    'apps.formulario'
+    'apps.formulario',
+    'apps.mensaje'
 ]
 
 MIDDLEWARE = [
@@ -124,7 +125,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -136,3 +137,9 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 #LOGIN_REDIRECT_URL = reverse_lazy('area:crear_area')
 LOGIN_REDIRECT_URL = reverse_lazy('usuario_baja')
+
+LOGIN_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+MEDIA_URL = '/documentos/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "documentos")

@@ -1,6 +1,6 @@
  <!-- The Modal 2 -->
  {% load static %}
- <div class="modal fade" id="actualizarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+ <div class="modal fade" id="actualizar_salida_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #0288D1;">
@@ -30,37 +30,36 @@
                     <div class="row">
                       <div class="col-md-12 pr-md-1">
                         <div class="form-group">
-                          <label class="bmd-label-floating">fecha_salida</label>
-                          <input id="fecha_salida" name="fecha_salida" required class="fecha_salida" type="text" >
+                          <label for="exampleInput1" class="bmd-label-floating">Fecha de Salida</label>
+                          <input id="fech_salida" name="fecha_salida" required class="form-control" type="text" >
                         </div>
                       </div>
                       <div class="col-md-12 pr-md-1">
                         <div class="form-group">
-                          <label class="bmd-label-floating">fecha_retorno</label>
-                          <input id="fecha_retorno" name="fecha_retorno" required class="fecha_retorno" type="text" >
+                          <label for="exampleInput1" class="bmd-label-floating">Fecha de Retorno</label>
+                          <input id="fech_retorno" name="fecha_retorno" required class="form-control" type="text" >
                         </div>
                       </div>
                       <div class="col-md-12 pl-md-1">
                         <div class="form-group">
-                          <label >tiempo</label>
-                          <input type="text" name="tiempo" required maxlength="200" id="editar_tiempo" class="editar_tiempo">
+                          <label for="exampleInput1" class="bmd-label-floating">Tiempo</label>
+                          <input type="text" name="tiempo" required maxlength="200" id="editar_tiempo" class="form-control">
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-12 pr-md-1">
                         <div class="form-group">
-                          <label>motivo</label>
-                          <input type="text" name="motivo" id="editar_motivo" required maxlength="900" class="editar_motivo" value="">
+                          <label for="exampleInput1" class="bmd-label-floating">Motivo de Salida</label>
+                          <input type="text" name="motivo" id="editar_motivo" required maxlength="900" class="form-control">
                         </div>
                       </div>
                     </div>
                   </div>
               </div>
             </div>
-          </div>
+          </div> 
           <button type="submit" class="btn btn-fill btn-success btnmodificarsalida">GUARDAR</button>
-          <button type="submit" class="btn btn-danger btneliminarsalida">ELIMINAR</button>
 
         </form>
       </div>

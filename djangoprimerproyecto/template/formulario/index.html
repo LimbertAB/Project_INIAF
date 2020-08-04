@@ -26,87 +26,684 @@
 {% include 'formulario/ver.html' %}
 {% endblock %}
 {% block floating%}
-  <div class="container-fluid" id="floating_btn">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="btn-group-sm hidden" id="mini-fab">
-            <a href="crear_formulario" class="btn btn-info btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario F15" title="Formulario F15" id="sms">
-              <i class="material-icons">directions_car</i>
-            </a>
-            <a href="{% url 'salida:crear' %}" class="btn btn-primary btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario Salida" title="Formulario Salida" id="mail">
-              <i class="material-icons">description</i>
-            </a>
-          </div>
-          <div class="btn-group">
-            <a href="javascript:void(0)" class="btn btn-success btn-fab" id="main">
-              <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i>
-            </a>
-          </div>
+    <button type="button" onclick="ver_formulario_ajax(id,'salida','pdf')" style="background: none;border: 0;"></button>
+    <div class="container-fluid" id="floating_btn">
+        <div class="row">
+            <div class="col-md-12">
+            <div class="btn-group-sm hidden" id="mini-fab">
+                <a href="crear_formulario" class="btn btn-info btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario F15" title="Formulario F15" id="sms">
+                <i class="material-icons">directions_car</i>
+                </a>
+                <a href="{% url 'salida:crear' %}" class="btn btn-primary btn-fab" data-toggle="tooltip" data-placement="left" data-original-title="Formulario Salida" title="Formulario Salida" id="mail">
+                <i class="material-icons">description</i>
+                </a>
+            </div>
+            <div class="btn-group">
+                <a href="javascript:void(0)" class="btn btn-success btn-fab" id="main">
+                <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i>
+                </a>
+            </div>
+            </div>
         </div>
-      </div>
-  </div>
+    </div>
 {% endblock %}
 {% block javascript%}
 <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/locales-all.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.datetimepicker.full.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/pdfmake.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/vfs_fonts.min.js' %}"></script>
 <script>
-    $(function(){
-        var formulario_list = {{ formulario|safe }};
-        var salida_list = {{salida|safe}};
+       
+var iniaf='data:image/jpeg;base64,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';
+var logo='data:image/jpeg;base64,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';
 
-        console.log(formulario_list);
-        console.log(salida_list);
-        
-        var formulario_all=[];
-
-        for (let i = 0; i < formulario_list.length; i++) {
-            form_row={
-                id:formulario_list[i].id,
-                start:formulario_list[i].start,
-                end:formulario_list[i].end,
-                title:formulario_list[i].descripcion,
-                description:'formulario',
-                color: '#30522e'
-            }
-            formulario_all.push(form_row);
-        }
-        for (let i = 0; i < salida_list.length; i++) {
-            form_row={
-                id:salida_list[i].id,
-                start:salida_list[i].fecha_salida,
-                end:salida_list[i].fecha_retorno,
-                title:salida_list[i].motivo,
-                description:'salida',
-                color: '#a73a00'
-            }
-            formulario_all.push(form_row);
-        }
-
-        $('#calendar').fullCalendar({
-            lang: 'es',
-            themeSystem: 'bootstrap4',
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay,listMonth'
-            },
-            weekNumbers: true,
-            eventLimit: true,
-            events: formulario_all,
-            eventClick: function(event) {
-              if (event.description=='salida') {
-                $('#myModal').modal('toggle');
-                ver_formulario_ajax(event.id,event.description,"ver");
-              } else {
-                //ejecutar o abrir modal
-                $('#verformulariomodal').modal('toggle');
-                ver_formulario_ajax(event.id,event.description,"ver");
-              }          
-            }
-        });
-    });
     
+  $(function(){
+    $('#fech_salida, #fech_retorno').datetimepicker({
+        format:'Y-m-d H:i',
+    });
+    var formulario_list = {{ formulario|safe }};
+    var salida_list = {{salida|safe}};
+
+    console.log(formulario_list);
+    console.log(salida_list);
+    
+    var formulario_all=[];
+
+    for (let i = 0; i < formulario_list.length; i++) {
+        form_row={
+            id:formulario_list[i].id,
+            start:formulario_list[i].start,
+            end:formulario_list[i].end,
+            title:formulario_list[i].descripcion,
+            description:'formulario',
+            color: '#30522e'
+        }
+        formulario_all.push(form_row);
+    }
+    for (let i = 0; i < salida_list.length; i++) {
+        form_row={
+            id:salida_list[i].id,
+            start:salida_list[i].fecha_salida,
+            end:salida_list[i].fecha_retorno,
+            title:salida_list[i].motivo,
+            description:'salida',
+            color: '#a73a00'
+        }
+        formulario_all.push(form_row);
+    }
+
+    $('#calendar').fullCalendar({
+          lang: 'es',
+          themeSystem: 'bootstrap4',
+          header: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'month,agendaWeek,agendaDay,listMonth'
+          },
+          weekNumbers: true,
+          eventLimit: true,
+          events: formulario_all,
+          eventClick: function(event) {
+            if (event.description=='salida') {
+                $('#eliminar_salida_modal').modal('toggle');
+                ver_formulario_ajax(event.id,event.description,"ver");
+            } else {
+              //ejecutar o abrir modal
+              $('#verformulariomodal').modal('toggle');
+              ver_formulario_ajax(event.id,event.description,"ver");
+            }          
+          }
+          //evente
+      });
+  });
+
+
+function formulario_pdf(obj){
+    console.log("desde pdf");
+    console.log(obj);
+    var viatico=[],recurso=[];
+    recurso.push(
+        [
+            {text: "PARTE III. REQUERIMIENTO DE RECURSO",colSpan:6, style: 'tableHeader'},'','','','','',
+        ],
+        [
+            {text: "Descripcion de Gastos", style: 'tableHeadercenter'},
+            {text: "Efectivo / Vales", style: 'tableHeadercenter'},
+            {text: "Cantidad", style: 'tableHeadercenter'},
+            {text: "unidad", style: 'tableHeadercenter'},
+            {text: "P/U.", style: 'tableHeadercenter'},
+            {text: "Total", style: 'tableHeadercenter'},
+        ],
+    );
+    viatico.push(
+        [
+            {text: "SOLICITUD DE VIATICOS, VEHICULO Y COMBUSTIBLE",colSpan:8, style: 'tableHeader'},'','','','','','',''
+        ],
+        [
+            {text: "Partida Pptaria", style: 'tableHeadercenter'},
+            {text: "Descripcion del Gasto", style: 'tableHeadercenter'},
+            {text: "UNIDAD", style: 'tableHeadercenter'},
+            {text: "Cantidad", style: 'tableHeadercenter'},
+            {text: "Precio Unitario", style: 'tableHeadercenter'},
+            {text: "Total Requerimiento", style: 'tableHeadercenter'},
+            {text: "Retenciones Impositivas", style: 'tableHeadercenter'},
+            {text: "Liquido Pagable", style: 'tableHeadercenter'}
+        ],
+    );
+    var tabla1=0,tabla2=0;
+    for(let i=0;i<obj.recurso.length;i++){
+        var totalfila=obj.recurso[i].cantidad*obj.recurso[i].precio_unitario;
+        var porcentaje=(totalfila*0.13).toFixed(1);
+        tabla1=tabla1+totalfila;
+        tabla2=tabla2+(totalfila-porcentaje);
+        recurso.push(
+            [
+                {text: obj.partida[i].numero, style: 'tablebody'},
+                {text: obj.partida[i].glosa_dos, style: 'tablebody'},
+                {text: obj.recurso[i].cantidad, style: 'tablebodycenter'},
+                {text: obj.partida[i].unidad, style: 'tablebodycenter'},
+                {text: obj.recurso[i].precio_unitario, style: 'tablebodycenter'},
+                {text: totalfila, style: 'tablebodycenter'},
+            ]
+        );
+        viatico.push(
+            [
+                {text: obj.partida[i].numero, style: 'tablebodycenter'},
+                {text: obj.partida[i].glosa_uno, style: 'tablebody'},
+                {text: obj.recurso[i].unidad_liquidacion, style: 'tablebodycenter'},
+                {text: obj.recurso[i].cantidad, style: 'tablebodycenter'},
+                {text: obj.recurso[i].precio_unitario, style: 'tablebodycenter'},
+                {text: totalfila, style: 'tablebodycenter'},
+                {text: porcentaje, style: 'tablebodycenter'},
+                {text: (totalfila-porcentaje), style: 'tablebodycenter'}
+            ]
+        );
+    }
+    viatico.push(
+        [
+            {text: "TOTAL GENERAL",colSpan:5, style: 'tablebodycenter'},'','','','',
+            {text: "", style: 'tablebody'},
+            {text: "", style: 'tablebody'},
+            {text: tabla2, style: 'tablebody'},
+        ],
+        [
+            {text: ".",colSpan:8, style: 'tablebody',color:"#fff"},'','','','','','',''
+        ],
+        [
+            {text: "Numeros de Vales Gasolina(10 Lts.)",colSpan:2, style: 'tablebodycenter'},'',
+            {text: "", style: 'tablebody'},
+            {text: "Numero de Memorandum", colSpan:3,style: 'tablebody'},'','',
+            {text: obj.numero_memo,colSpan:2,style: 'tablebody'},''
+        ],
+        [
+            {text: "Numeros de Vales Gasolina(20 Lts.)",colSpan:2, style: 'tablebodycenter'},'',
+            {text: "", style: 'tablebody'},
+            {text: "Numero de Resolución Adminstrativa", colSpan:3,style: 'tablebody'},'','',
+            {text: obj.resolucion_administrativa,colSpan:2,style: 'tablebody'},''
+        ],
+        [
+            {text:"Lugar y Fecha",colSpan:8, style: 'tablebody'},'','','','','','',''
+        ],
+    );
+    recurso.push(
+        [
+            {text: "TOTAL REQUERIMIENTO",colSpan:5, style: 'tablebodycenter'},'','','','',{text: tabla1, style: 'tablebody'},
+        ],
+        [
+            {text: "OBSERVACIONES:",colSpan:6, style: 'tablebody'},'','','','','',
+        ],
+        [
+            {text: "Adjunto: Memorandum\nResolucion Administrativa si corresponde:\n\n\n\n\n\n",colSpan:6, style: 'tablebody',border:[true,true,true,false]},'','','','','',
+        ],
+        [
+            {text: "_______________________________________________\nFUNCIONARIO",colSpan:2,margin:[0,0,90,0],style: 'tablebodycenter',border:[true,false,false,true]},
+            '',{text: "_______________________________________________\nAUTORIZA - ENLACE\nMACROREGIONALPOTOSI - INIAF",border:[false,false,true,true],colSpan:4,margin:[0,0,30,0], style: 'tablebodycenter',border:[false,false,true,true]},'','','',
+        ],
+    );
+    var formulario = {
+        unbreakable: true,
+        pageSize: 'letter',
+        style: 'tableExample',
+        pageOrientation: 'portrait',
+        fontSize: 9,
+        pageMargins: [40,20],
+        footer: function(currentPage, pageCount) {
+            return [{text:"Pagina: "+currentPage+" de "+pageCount,alignment:"right",fontSize:7,marginRight:15}];
+        },
+        content: [
+            {
+                margin:[0,0],
+                table: {
+                    widths: [70,'*',90,80],
+                    body:[
+                        [
+                            {
+                                image: logo,
+                                alignment: 'right',
+                                width: 55,
+                                height:30,
+                                fontSize: 6,
+                                margin: [10,15,0,0],
+                                border:[true,true,false,false],
+                                rowSpan:2,
+                            },  
+                            {text: "Instituto Nacional de Imnovación agropecuaria y forestal - INIAF",fontSize: 8,alignment: 'center',margin: [0,5,0,5],border:[false,true,false,false],colSpan:2},
+                            '',
+                            {
+                                image: iniaf,
+                                alignment: 'right',
+                                width: 30,
+                                height:30,
+                                fontSize: 6,
+                                margin: [25,15,0,0],
+                                border:[false,true,true,false],
+                                rowSpan:2,
+                            }
+                        ],
+                        [
+                            '',
+                            {text: "FORMULARIO No. 15\nSOLICITUD DE VIAJE, USO DE VEHICULO, COMBUSTIBLE Y ASIGNACION DE RECURSOS\nNI/VJUINIAF/DEP-PIN 2018/2019",bold: true,border:[false,false],fontSize: 9,alignment: 'center',colSpan:2},
+                            '',''
+                        ],
+                        [
+                            {text: "",border:[true,false,false,true],colSpan:2},'',
+                            {text: "FECHA DE SOLICITUD",bold: true,fontSize: 9,alignment: 'center'},
+                            {text: obj.fecha, style: 'tablebody'}
+                        ],
+                    ],
+                    
+                }
+            },
+            {
+                style: 'tableExample',
+                table: {
+                    widths: [150,'*'],
+                    "dontBreakRows": true,
+                    headerRows: 1,
+                    body:[
+                        [
+                            {text: "PARTE I. DATOS GENERALES",colSpan:2, style: 'tableHeader'},
+                            ''
+                        ],
+                        [
+                            {text: "Nombre y Apellido del funcionario", style: 'tablebody',
+                                border: [true, true, false, true],
+                            },
+                            {text:obj.usuario,style: 'tablebody',
+                                border: [false, true, true, true],
+                            },
+                        ],
+                        [
+                            {text: "Cargo",style: 'tablebody',
+                                border: [true, true, false, true]
+                            },
+                            {text: "smknj", style: 'tablebody',
+                                border: [false, true, true, true]
+                            },
+                        ],
+                        [
+                            {text: "Descripcion de la actividad",style: 'tablebody',
+                                border: [true, true, false, true]
+                            },
+                            {text: "smknj", style: 'tablebody',
+                                border: [false, true, true, true]
+                            },
+                        ],
+                    ]
+                }
+            },
+            {
+                style: 'tableExample',
+                table: {
+                    widths: ['*',35,100,150,100],
+                    "dontBreakRows": true,
+                    headerRows: 1,
+                    body:[
+                        [
+                            {text: "PARTE II. SOLICITUD DE VIATICOS, VEHICULO Y COMBUSTIBLE",colSpan:5, style: 'tableHeader'},
+                            '','','',''
+                        ],
+                        [
+                            {text: "Descripcion del lugar de viaje:", style: 'tablebody'},
+                            {colSpan:4, text: obj.lugar,style: 'tablebody'},'','','',
+                        ],
+                        [
+                            {colSpan: 2,text: "Fecha de salida",style: 'tablebody'},'',
+                            {text: obj.fecha_salida.substring(0,10), style: 'tablebodycenter'},
+                            {text: "Tipo de Vehiculo", style: 'tablebody'},
+                            {text: obj.vehiculo.tipo, style: 'tablebodycenter'},
+                        ],
+                        [
+                            {colSpan: 2,text: "Hora de salida",style: 'tablebody'},'',
+                            {text: obj.fecha_salida.substring(10,19),style: 'tablebodycenter'},
+                            {text: "No. De Placa", style: 'tablebody'},
+                            {text: obj.vehiculo.placa, style: 'tablebodycenter'},
+                        ],
+                        [
+                            {colSpan: 2,text: "Fecha de Retorno",style: 'tablebody'},'',
+                            {text: obj.fecha_llegada.substring(0,10), style: 'tablebodycenter'},
+                            {text: "Rendimiento Km/1 Lts.", style: 'tablebody'},
+                            {text: obj.vehiculo.rendimiento, style: 'tablebodycenter'},
+                        ],
+                        [
+                            {colSpan: 2,text: "Hora de Retorno (aproximado)",style: 'tablebody'},'',
+                            {text:obj.fecha_llegada.substring(10,19), style: 'tablebodycenter'},
+                            {text: "Kilometraje inicial", style: 'tablebody'},
+                            {text: obj.kilometraje,style: 'tablebodycenter'},
+                        ],
+                        [
+                            {colSpan: 2,text: "Solicitud de Resolución Administrativa (dia)",style: 'tablebody'},'',
+                            {text: obj.resolucion_administrativa, style: 'tablebodycenter'},
+                            {text: "Combustible inicial (aproximado)", style: 'tablebody'},
+                            {text: obj.combustible, style: 'tablebodycenter'},
+                        ],
+                        [
+                            {colSpan: 2,text: "Pasajes Terrestres (Si corresponde)",style: 'tablebody'},'',
+                            {text: "", style: 'tablebodycenter'},
+                            {text: "Kilometraje aproximado del viaje", style: 'tablebody'},
+                            {text: obj.kilometraje_viaje, style: 'tablebodycenter'},
+                        ],
+                        [
+                            {text: "PARTE II. SOLICITUD DE VIATICOS, VEHICULO Y COMBUSTIBLE",colSpan:5, style: 'tablebodycenter'},
+                            '','','',''
+                        ],
+                    ]
+                }
+            },
+            {
+                style: 'tableExample',
+                table: {
+                    widths: ['*',35,40, 40,40,50],
+                    headerRows: 1,
+                    body:recurso,
+                }
+            },
+            {
+                style: 'tableExample',
+                table: {
+                    widths: [25,'*',35,35, 40,52,50,45],
+                    "dontBreakRows": true,
+                    headerRows: 1,
+                    body:viatico,
+                }
+            },
+            {
+                style: 'tableExample',
+                table: {
+                    widths: [175,'*',175],
+                    "dontBreakRows": true,
+                    headerRows: 1,
+                    body:[
+                        [
+                            {text: "|\n|\n|\n|\n|", color: 'white'},
+                            {text: ""},
+                            {text: ""}
+                        ],
+                        [
+                            {text: "ELABORADO POR:", style: 'tableHeadercenter'},
+                            {text: "Vo.Bo.", style: 'tableHeadercenter'},
+                            {text: "RECIBI CONFORME", style: 'tableHeadercenter'}
+                        ],
+                        [
+                            {text: "Adjunto Memorandum, Certificacion Presupuestaria y Resolución Administrativa para fin de semana si corresponde",colSpan:3,style: 'tablebody'},'','',
+                        ],
+                    ],
+                    
+                }
+            },
+        ],
+        styles:{
+            tableExample: {
+                margin: [0, 2, 0, 2]
+            },
+            tableHeader: {
+                bold: true,
+                fontSize: 7,
+                color: 'black',
+                fillColor: '#dddddd'
+            },
+            tableHeadercenter:{
+                bold: true,
+                fontSize: 7,
+                color: 'black',
+                fillColor: '#dddddd',
+                alignment: 'center'
+            },
+            tablebody:{
+                fontSize: 7,
+                alignment: 'left'
+            },
+            tablebodycenter:{ 
+                fontSize: 7,
+                alignment: 'center'
+            },
+            italico:{
+                fontSize: 9,
+                color:'#313131',
+                italics:true,
+            },
+        }
+    }
+    pdfMake.createPdf(formulario).open();
+}
+
+function graficarpdfsalida(obj) { 
+  console.log(obj);
+  var dd = {
+    unbreakable: true,
+    pageSize: 'letter',
+    style: 'tableExample',
+    pageOrientation: 'portrait',
+    fontSize: 9,
+    pageMargins: [25, 53, 25,25],
+    header:function(currentPage, pageCount) {
+        return [{
+            columns: [
+                {
+                    image: logo,
+                    width: 150,
+                    height:35,
+                    margin: [30,15,0,0]
+                },
+                {
+                    
+                  
+                },
+                {
+                    image: iniaf,
+                    alignment: 'right',
+                    width: 150,
+                    height:30,
+                    fontSize: 6,
+                    margin: [25,15,0,0]
+                
+                }  
+            ],
+        }]
+    },
+    content: [
+      {
+        columns: [],
+      },
+      {
+          style: 'tableExample',
+          table: {
+              widths: ['*','*','*','*','*'],
+              "dontBreakRows": true,
+              headerRows: 1,
+              body:[
+                  [
+                  {text: "PAPELETA DE SALIDAS EN \n COMISION/PARTICULAR ", style: 'tableHeader',colSpan: 5},
+                  {text: "", style: 'tableHeader'},
+                  {text: "", style: 'tableHeader'},
+                  {text: "", style: 'tableHeader'},
+                  {text: "", style: 'tableHeader'},
+                  ],
+                  [
+            {text: 'NOMBRE Y APELLIDOS: '+obj.nombre.toUpperCase()+' '+obj.apellido.toUpperCase(), colSpan: 3, alignment: 'left'},
+          '',
+          '',
+          {text: 'FECHA DE SOLICITUD: '+obj.fecha_salida.substring(0,10).split('-').join('/'), colSpan: 2, alignment: 'left'},
+          '',
+        ],
+        [
+            {text: 'CARGO TECNICO EN CONTROL DE COMERCIO DE SEMILLAS', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: 'DIRECION/UNIDAD: '+obj.unidad.toUpperCase(), style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: 'FECHA: ' +obj.fecha_retorno.substring(0,10).split('-').join('/'), style: '', colSpan: 3, alignment: 'left'},
+          '',
+          '',
+          {text: 'TIEMPO: '+obj.tiempo.toUpperCase(), style: '', colSpan: 2, alignment: 'left'},
+          '',
+        ],
+        [
+            {text: 'HORA DE SALIDA: '+obj.fecha_salida.substring(11,16), style: '', colSpan: 2, alignment: 'left'},
+          '',
+          {text: 'HORA DE RETORNO: '+obj.fecha_retorno.substring(11,16), style: '', colSpan: 3, alignment: 'left'},
+          '',
+          '',
+        ],
+        [
+            {text: 'MOTIVO : '+obj.motivo.toUpperCase(), style: '', colSpan: 5,rowSpan: 11, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: ' ', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: ' ', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: ' ', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: ' ', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: ' ', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: ' ', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: ' ', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: ' ', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: ' ', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ],
+        [
+            {text: ' ', style: '', colSpan: 5, alignment: 'left'},
+          '',
+          '',
+          '',
+          '',
+        ]
+              ],
+          }
+      },
+      {
+        style: 'tableExample',
+        table: {
+          widths: ['*'],
+          "dontBreakRows": true,
+          body: [
+            [
+              {
+                columns: [
+                  [
+                    {text: '|',style: 'tablebody',color:'#fff',fontSize: 70},
+                    {
+                      columns:[
+                        {
+                          stack: [
+                            {text: '_____________________'},
+                            {text: 'FIRMA DEL INTERESADO ',marginTop:1},
+                          ],
+                          alignment: 'center',
+                          fontSize: 7,
+                          width:130
+                        },
+                        {
+                          stack: [
+                            {text: '_____________________'},
+                            {text: 'INMEDIATO SUPERIOR ',marginTop:1},
+                          ],
+                          alignment: 'center',
+                          fontSize: 7,
+                          width:130
+                        },
+                        {
+                          stack: [
+                            {text: '______________________'},
+                            {text: 'SELLO DEL LUGAR',marginTop:1},
+                          ],
+                          alignment: 'center',
+                          fontSize: 7,
+                          width:130
+                        },
+                        {
+                          stack: [
+                            {text: '______________________'},
+                            {text: 'UNIDAD DE GESTION INTEGRAL DE RECURSOS HUMANOS',marginTop:1},
+                          ],
+                          alignment: 'center',
+                          fontSize: 7,
+                          width:130
+                        
+                        },
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        },
+      },
+    ],
+    styles: {
+      tableExample: {
+          margin: [0, 5, 0, 5]
+      },
+      tableHeader: {
+          bold: true,
+          fontSize: 15,
+          color: 'black',
+          fillColor: '#dddddd',
+          alignment: 'center'
+      },
+      tablebody:{
+          fontSize: 10,
+          alignment: 'left'
+      },
+      tablebodycenter:{
+          fontSize: 7,
+          alignment: 'center'
+      },
+      italico:{
+          fontSize: 10,
+          color:'#313131',
+          italics:true,
+      },
+    }
+  }
+  pdfMake.createPdf(dd).open();
+} 
 </script>
 {% endblock %}
