@@ -8,6 +8,7 @@ from apps.formulario.models import Formulario
 from apps.partida.models import Partida
 from apps.programa.models import Programa
 from apps.salida.models import Salida
+from apps.mensaje.models import Mensaje
 from django.http import JsonResponse
 
 

@@ -28,7 +28,7 @@ class SalidaUpdate(UpdateView):
     model = Salida
     form_class = SalidaForm
 
-    def form_valid(self, form):
+    def form_valid(self, form): 
         obj = form.save(commit=False)
         obj.id_usuario_id = self.request.session['id']
         obj.save()

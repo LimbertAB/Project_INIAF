@@ -64,6 +64,12 @@
               <p>Vehiculos</p>
             </a>
           </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/mensaje">
+              <i class="material-icons">email</i>
+              <p>Mensajes</p>
+            </a>
+          </li>
           <!-- <li class="nav-item active-pro ">
                 <a class="nav-link" href="./upgrade.html">
                     <i class="material-icons">unarchive</i>
@@ -113,8 +119,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" href="/mensaje/">
                   <i class="material-icons">mail</i>
+                  <span class="notification notificacion_mensaje"></span>
                 </a>
               </li>
               <li class="nav-item dropdown">
@@ -184,7 +191,7 @@
   {% endblock %}
   <script type="text/javascript" >
     $.ajax({
-      url: '/formulario/notificaciones/',
+      url: '/formulario/notificaciones/', 
       type: "GET",
       datatype: 'json'
     }).done(function(data){
@@ -195,16 +202,17 @@
     });
     function verusuarios(id){
       $.ajax({
-        url: '/usuario/obtenerusuario/',
+        url: '/usuario/obtenerusuario/', 
         type: 'GET',
         datatype: 'json'
       }).done(function(obj){
         console.log(obj)
+        $('#id_usuario_mensaje').empty()
         for (let i = 0; i < obj.listausuario.length; i++) {
           $('#id_usuario_mensaje').append($('<option>', {
             value: obj.listausuario[i].id,
             text: obj.listausuario[i].nombre 
-          })); 
+          }));
         }
         $('#Modalmensaje').modal('toggle');
       }).fail(function(){
@@ -214,6 +222,16 @@
     document.getElementById("ejecutar").onclick = function(){
       verusuarios();
     }
+    $.ajax({
+      url: '/mensaje/notificaciones_mensaje/', 
+      type: "GET",
+      datatype: 'json'
+    }).done(function(data){
+      console.log(data);
+      $(".notificacion_mensaje").text(data.mensaje_notificacion)
+    }).fail(function(){
+      showNotification('bottom','left','danger','Error Server: verifique su conexion con el servidor');
+    });
   </script>
 </body>
 

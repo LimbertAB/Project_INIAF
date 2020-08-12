@@ -1,0 +1,98 @@
+{% extends "principal/index.html" %}
+{% block content %}
+
+<div class="col-md-12" name="eliminar_mensaje">
+    <div class="card">
+        <div class="card-header card-header-success">
+        
+          <h4 class="card-title ">Mensajes Recibidos</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table" style="text-align: center">
+                    <thead class="">
+                        <tr>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">FECHA</th>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic;text-shadow: 1px 1px #197348;font-weight: 900;">REMITENTE</th>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">ASUNTO</th>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">ARCHIVOS</th>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">ESTADO</th>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic;text-shadow: 1px 1px #197348;font-weight: 900;">MARCAR LEIDO</th>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">ACCION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for us in object_list%}
+                            <tr>
+                                <td>{{us.fecha}}</td>
+                                <td>{{ us.id_usuario_id }}</td>
+                                <td>{{ us.asunto }}</td>
+                                <td><a href="{{ us.cuerpo }}">descargar archivos</a></td>
+                                {% if us.estado %}
+                                    <td style="color: greenyellow">Nuevo</td>
+                                {% else %}
+                                    <td>LEIDO</td>
+                                {% endif %}
+                                <td>
+                                    <a class="nav-link delete_mensaje" onclick="leermensaje({{ us.id }})" href="#">
+                                        <i class="material-icons">drafts</i>
+                                    </a>
+                                    <!--<button type="button" onclick="leermensaje({{ us.id }})" class="btn btn-secondary">Marcar Leido</button>-->
+                                </td>
+                                <td>
+                                    <a class="nav-link delete_mensaje" onclick="eliminarmensaje({{ us.id }})" href="#">
+                                        <i class="material-icons">delete_forever</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if is_paginated %}
+                    <div class="mt-2">
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a href="?page={{page_obj.previous_page_number}}" class="page-link">Anterior</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a href="#" class="page-link">Anterior</a>
+                                </li>
+                            {% endif %}
+                            {% for i in paginator.page_range %}
+                                <li class="page-item {% if page_obj.number == i %} active {% endif %}" >
+                                    <a href="?page{{ i }}" class="page-link">{{ i }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a href="?page={{page_obj.next_page_number}}" class="page-link">Siguiente</a>
+                                </li>
+                            {% endif %} 
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'movilidad/crear.html' %}
+{% endblock %}
+{% block floating%}
+    <button type="button" class="btn btn-main btn-success has-tooltip" data-placement="left" title="Registrar Movilidad" data-toggle="modal" data-target="#Modalmensaje"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
+{% endblock %}

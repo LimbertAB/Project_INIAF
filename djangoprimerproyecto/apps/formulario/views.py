@@ -194,7 +194,7 @@ class FormularioDetailView(JSONResponseMixin,DetailView):
         }
         return self.render_json_response(context_dict)
 
-class FormularioNotificaciones(TemplateView):
+class FormularioNotificaciones(TemplateView): 
     model = Formulario
     model = Salida
     
