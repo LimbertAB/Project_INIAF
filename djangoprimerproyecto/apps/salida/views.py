@@ -46,7 +46,7 @@ class SalidaDetailView(JSONResponseMixin,DetailView):
             'fecha_salida': str(self.object.fecha_salida),
             'fecha_retorno': str(self.object.fecha_retorno),
             'tiempo': self.object.tiempo,
-            'motivo': self.object.motivo,
+            'motivo': self.object.motivo, 
             'nombre':query_usuario.nombre,
             'apellido':query_usuario.apellido,
         }

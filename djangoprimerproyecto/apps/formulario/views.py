@@ -26,22 +26,30 @@ class FormularioList(ListView):
         
         formulario_output_list = []
         for form in query:
+            usuario_query=Usuario.objects.filter(id=form.id_usuario_id)[0]
             for_dict = {
                 "id": form.id,
+                "nombre":usuario_query.nombre,
+                "lugar":str(form.lugar),
                 "start": str(form.fecha_salida),
                 "end": str(form.fecha_llegada),
+                "estado":str(form.estado)
                 # 'descripcion':form.descripcion
             }
             formulario_output_list.append(for_dict)
         query_salida=Salida.objects.filter(id_usuario_id=self.request.session.get('id'))
         salida_list=[]
         for sal in query_salida:
+            usuario_query=Usuario.objects.filter(id=sal.id_usuario_id)[0]
             sal_list={
                 'id':sal.id,
+                'nombre':usuario_query.nombre,
+                'estado':str(sal.estado),
                 'fecha_salida':str(sal.fecha_salida),
                 'fecha_retorno':str(sal.fecha_retorno),
                 'tiempo':str(sal.tiempo),
-                'motivo':sal.motivo
+                'motivo':sal.motivo,
+                
             }
             salida_list.append(sal_list)
         context["formulario"] = formulario_output_list
@@ -147,7 +155,7 @@ class FormularioDetailView(JSONResponseMixin,DetailView):
             'tipo':vehiculo_query.tipo,
             'marca':vehiculo_query.marca,
             'modelo':vehiculo_query.modelo,
-            'placa':vehiculo_query.placa,
+            'placa':vehiculo_query.placa, 
             'rendimiento':vehiculo_query.rendimiento,
             'estado':vehiculo_query.estado,
         }
