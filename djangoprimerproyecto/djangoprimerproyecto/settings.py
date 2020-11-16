@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'apps.programa',
     'apps.salida',
     'apps.formulario',
-    'apps.mensaje'
+    'apps.mensaje',
+    'apps.asistencia',
 ]
 
 MIDDLEWARE = [
