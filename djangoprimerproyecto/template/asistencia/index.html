@@ -1,0 +1,116 @@
+{% extends "principal/index.html" %}
+{% block content %}
+<div class="form-row">
+    <div class="col-md-4 mb-3">
+      <label for="validationCustom01">Seleccione la gestión</label>
+      <select class="form-control">
+        <option>- - - - - seleccione - - - - -</option>
+        {% for a in object_list%}
+            <option>{{a.titulo}}</option>
+        {% endfor %}
+        
+
+      </select>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label for="validationCustom02">Seleccione Usuarios</label>
+      <select class="form-control">
+        <option>- - - - seleccione un usuario - - - -</option>
+      </select>
+    </div>
+    <div class="col-md-4 mb-3">
+        <button type="submit" class="btn btn-danger mb-2">GENERARA PDF</button>
+    </div>
+  </div>
+
+<div class="col-md-12" name="eliminar_mensaje">
+    <div class="card">
+        <div class="card-header card-header-success">
+          <h4 class="card-title ">Lista de Asistencia de Personal</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table" style="text-align: center">
+                    <thead class="">
+                        <tr>
+                            <th style="font-weight:700">NRO</th>
+                            <th style="font-weight:700">NOMBRE COMPLETO</th>
+                            <th style="font-weight:700">CI</th>
+                            <th style="font-weight:700">ENTRADA M</th>
+                            <th style="font-weight:700">SALIDA M</th>
+                            <th style="font-weight:700">ENTRADA T</th>
+                            <th style="font-weight:700">SALIDA T</th>
+                            <th style="font-weight:700">HORA EXTRA</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>23</td>
+                            <td>fdfsd fdsfsdfsd fsd</td>
+                            <td>34234234</td>
+                            <td>12:00</td>
+                            <td>12:00</td>
+                            <td>12:00</td>
+                            <td>12:00</td>
+                            <td>5 horas</td>
+                        </tr>
+                        <!-- {% for us in object_list%}
+                            <tr>
+                                <td>{{us.fecha}}</td>
+                                <td>{{ us.id_usuario_id }}</td>
+                                <td>{{ us.asunto }}</td>
+                                <td><a href="{{ us.cuerpo }}">descargar archivos</a></td>
+                                {% if us.estado %}
+                                    <td style="color: greenyellow">Nuevo</td>
+                                {% else %}
+                                    <td>LEIDO</td>
+                                {% endif %}
+                                <td>
+                                    <a class="nav-link delete_mensaje" onclick="leermensaje({{ us.id }})" href="#">
+                                        <i class="material-icons">drafts</i>
+                                    </a>
+                                    <button type="button" onclick="leermensaje({{ us.id }})" class="btn btn-secondary">Marcar Leido</button>
+                                </td>
+                                <td>
+                                    <a class="nav-link delete_mensaje" onclick="eliminarmensaje({{ us.id }})" href="#">
+                                        <i class="material-icons">delete_forever</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %} -->
+                    </tbody>
+                </table>
+                <!-- {% if is_paginated %}
+                    <div class="mt-2">
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a href="?page={{page_obj.previous_page_number}}" class="page-link">Anterior</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a href="#" class="page-link">Anterior</a>
+                                </li>
+                            {% endif %}
+                            {% for i in paginator.page_range %}
+                                <li class="page-item {% if page_obj.number == i %} active {% endif %}" >
+                                    <a href="?page{{ i }}" class="page-link">{{ i }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a href="?page={{page_obj.next_page_number}}" class="page-link">Siguiente</a>
+                                </li>
+                            {% endif %} 
+                        </ul>
+                    </div>
+                {% endif %} -->
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'asistencia/crear.html' %}
+{% endblock %}
+{% block floating%}
+    <button type="button" class="btn btn-main btn-success has-tooltip" data-placement="left" title="Registrar Movilidad" data-toggle="modal" data-target="#Modalmensaje"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
+{% endblock %}

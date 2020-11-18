@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView,DeleteView,ListView,UpdateView,DetailView,TemplateView
-from apps.usuario.mixins import JSONResponseMixin
+from apps.usuario.mixins import JSONResponseMixin,UsuarioAdministradorMixin
 from django.http import JsonResponse
 from .forms import ProgramaForm
 from .models import Programa
 
-class ProgramaList(ListView):
+class ProgramaList(LoginRequiredMixin,UsuarioAdministradorMixin,ListView):
     model = Programa
     template_name = 'programa/index.html'
     queryset = Programa.objects.all().order_by('id')
@@ -17,13 +18,13 @@ class ProgramaList(ListView):
         context['form'] = ProgramaForm
         return context
 
-class ProgramaCreate(CreateView):
+class ProgramaCreate(LoginRequiredMixin,UsuarioAdministradorMixin,CreateView):
     model = Programa
     form_class = ProgramaForm
     template_name = 'programa/'
     success_url = reverse_lazy('programa:listar')
 
-class ProgramaUpdate(UpdateView):
+class ProgramaUpdate(LoginRequiredMixin,UsuarioAdministradorMixin,UpdateView):
     model = Programa
     form_class = ProgramaForm
     def form_valid(self, form):
@@ -31,12 +32,12 @@ class ProgramaUpdate(UpdateView):
         print(self.object)
         return JsonResponse({'estado': 1})
 
-class ProgramaDelete(DeleteView):
+class ProgramaDelete(LoginRequiredMixin,UsuarioAdministradorMixin,DeleteView):
     model = Programa
     template_name = 'programa/crear.html'
     success_url = reverse_lazy('programa.index')
 
-class ProgramaDetailView(JSONResponseMixin,DetailView):
+class ProgramaDetailView(LoginRequiredMixin,UsuarioAdministradorMixin,JSONResponseMixin,DetailView):
     model = Programa
     #json_dumps_kwargs={'indent': 1}
 

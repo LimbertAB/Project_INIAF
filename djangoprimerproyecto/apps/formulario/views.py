@@ -11,11 +11,48 @@ from apps.programa.models import Programa
 from .models import Formulario_Recurso
 from django.http import JsonResponse, HttpResponseRedirect
 from apps.usuario.mixins import JSONResponseMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 import pytz
 
-class FormularioList(ListView):
+class FormularioList(LoginRequiredMixin,ListView):
+    model = Formulario
+    template_name = 'formulario/all.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        formulario_output_list = []
+        for form in Formulario.objects.all():
+            usuario_query=Usuario.objects.filter(id=form.id_usuario_id)[0]
+            for_dict = {
+                "id": form.id,
+                "nombre":usuario_query.nombre+" "+usuario_query.apellido,
+                "lugar":str(form.lugar),
+                "fecha":str(form.fecha),
+                "start": str(form.fecha_salida),
+                "end": str(form.fecha_llegada),
+                "estado":str(form.estado)
+            }
+            formulario_output_list.append(for_dict)
+        salida_list=[]
+        for sal in Salida.objects.all():
+            usuario_query=Usuario.objects.filter(id=sal.id_usuario_id)[0]
+            sal_list={
+                'id':sal.id,
+                'nombre':usuario_query.nombre+" "+usuario_query.apellido,
+                'estado':str(sal.estado),
+                'fecha_salida':str(sal.fecha_salida),
+                'fecha_retorno':str(sal.fecha_retorno),
+                'tiempo':str(sal.tiempo),
+                'motivo':sal.motivo
+            }
+            salida_list.append(sal_list)
+        context["formulario"] = formulario_output_list
+        context["salida"] = salida_list
+        return context
+
+class MyFormularioList(LoginRequiredMixin,ListView):
     model = Formulario
     template_name = 'formulario/index.html'
 
@@ -26,30 +63,24 @@ class FormularioList(ListView):
         
         formulario_output_list = []
         for form in query:
-            usuario_query=Usuario.objects.filter(id=form.id_usuario_id)[0]
             for_dict = {
                 "id": form.id,
-                "nombre":usuario_query.nombre,
                 "lugar":str(form.lugar),
                 "start": str(form.fecha_salida),
                 "end": str(form.fecha_llegada),
                 "estado":str(form.estado)
-                # 'descripcion':form.descripcion
             }
             formulario_output_list.append(for_dict)
         query_salida=Salida.objects.filter(id_usuario_id=self.request.session.get('id'))
         salida_list=[]
         for sal in query_salida:
-            usuario_query=Usuario.objects.filter(id=sal.id_usuario_id)[0]
             sal_list={
                 'id':sal.id,
-                'nombre':usuario_query.nombre,
                 'estado':str(sal.estado),
                 'fecha_salida':str(sal.fecha_salida),
                 'fecha_retorno':str(sal.fecha_retorno),
                 'tiempo':str(sal.tiempo),
-                'motivo':sal.motivo,
-                
+                'motivo':sal.motivo
             }
             salida_list.append(sal_list)
         context["formulario"] = formulario_output_list
@@ -57,7 +88,7 @@ class FormularioList(ListView):
         context['form'] = FormularioForm
         return context
     
-class FormularioCreate(CreateView):
+class FormularioCreate(LoginRequiredMixin,CreateView):
     model = Formulario
     form_class = FormularioForm
     template_name = 'Formulario/crear.html'
@@ -83,11 +114,14 @@ class FormularioCreate(CreateView):
                 id_partida_id=i,
             ).save()
 
-class FormularioUpdate(UpdateView):
+class FormularioUpdate(LoginRequiredMixin,UpdateView):
     model = Formulario
     form_class = FormularioForm
 
     def form_valid(self, form):
+        form_query=Formulario.objects.filter(id=self.kwargs['pk'])[0]
+        if form_query.id_usuario_id != self.request.session['id']:
+            return JsonResponse({'estado': 0})
         obj = form.save(commit=False)
         obj.id_usuario_id = self.request.session['id']
         obj.save()
@@ -119,7 +153,7 @@ class FormularioUpdate(UpdateView):
                 )
         return JsonResponse({'estado': 1})
 
-class FormularioPartidaList(TemplateView):
+class FormularioPartidaList(LoginRequiredMixin,TemplateView):
     template_name = "crear.html"
 
     def post(self, request, *args, **kwargs):
@@ -143,7 +177,7 @@ class FormularioPartidaList(TemplateView):
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
 
-class FormularioDetailView(JSONResponseMixin,DetailView):
+class FormularioDetailView(LoginRequiredMixin,JSONResponseMixin,DetailView):
     model = Formulario
 
     def get(self, request, *args, **kwargs):
@@ -155,7 +189,7 @@ class FormularioDetailView(JSONResponseMixin,DetailView):
             'tipo':vehiculo_query.tipo,
             'marca':vehiculo_query.marca,
             'modelo':vehiculo_query.modelo,
-            'placa':vehiculo_query.placa, 
+            'placa':vehiculo_query.placa,
             'rendimiento':vehiculo_query.rendimiento,
             'estado':vehiculo_query.estado,
         }
@@ -196,13 +230,14 @@ class FormularioDetailView(JSONResponseMixin,DetailView):
             'resolucion_administrativa': self.object.resolucion_administrativa,
             'vehiculo':vehiculo_list,
             'usuario':usuario_query.nombre+" "+usuario_query.apellido,
+            'cargo':usuario_query.cargo,
             'partida':partida_list,
             'recurso':recurso_list,
             'programa':programa_query.nombre
         }
         return self.render_json_response(context_dict)
 
-class FormularioNotificaciones(TemplateView): 
+class FormularioNotificaciones(LoginRequiredMixin,TemplateView):
     model = Formulario
     model = Salida
     

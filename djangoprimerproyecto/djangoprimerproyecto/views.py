@@ -11,6 +11,23 @@ from apps.salida.models import Salida
 from apps.mensaje.models import Mensaje
 from django.http import JsonResponse
 
+@login_required
+def dashboard(request):
+    if request.session.get('prioridad')==0:
+        formulario=Formulario.objects.filter(id_usuario_id=request.session.get('id')).count()
+        salida=Salida.objects.filter(id_usuario_id=request.session.get('id')).count()
+        print(formulario)
+        return render(request, 'principal/dashboard.html',{"formulario":formulario,'salida':salida,'mensaje':2})
+    else:
+        formulario=Formulario.objects.count()
+        salida=Salida.objects.count()
+        usuario=Usuario.objects.count()
+        vehiculo=Movilidad.objects.count()
+        partida=Partida.objects.count()
+        programa=Programa.objects.count()
+        # salida=Salida.objects.count()
+        print(formulario)
+        return render(request, 'principal/dashboard.html',{"formulario":formulario,'salida':salida,'usuario':usuario,'vehiculo':vehiculo,'programa':programa,'partida':partida,'mensaje':2 })
 
 def login_user(request):
     if request.method == 'POST':
@@ -25,13 +42,11 @@ def login_user(request):
             request.session['nombre'] = usuario.nombre
             request.session['prioridad'] = usuario.prioridad
             return redirect('dashboard/')
+    elif request.session.get('id') :
+        return redirect('dashboard/')
     context={}
     return render(request,'login.html',context)
-
-@login_required
-def dashboard(request):
-    return render(request, 'principal/dashboard.html')
-
+        
 @login_required
 def baja_objecto(request):
     modelo=request.POST.get('modelo')
@@ -39,6 +54,3 @@ def baja_objecto(request):
     estado=request.POST.get('estado')
     estado=eval(modelo).objects.filter(id=id).update(estado=estado)
     return JsonResponse({'estado':estado})
-
-#def casa(request):
-    #return HttpResponse('<h1 style="color:red">hola mayfrined<small>esto es small</small></h1>')

@@ -69,7 +69,7 @@ function verprograma(id){
 }
 $(function(){
   $('[data-toggle="tooltip"]').tooltip();
-  $("#main").click(function() { 
+  $("#main").click(function() {
     $("#mini-fab").toggleClass('hidden');
   });
   // Ajax - registrar programa
@@ -329,47 +329,64 @@ $(function(){
       });
     }
   });
-});
-//eliminar_mesaje
-function eliminarmensaje(id){
-  console.log(id)
-  Swal.fire({
-    title: "Desea Eliminar el mensaje",
-    type: 'warning',confirmButtonColor: '#3085d6',confirmButtonText: 'Aceptar'
-  }).then((result) => {
-    if(result.value){
-      $.ajax({
-        data:{
-          csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()
-        },
-        url: '/mensaje/eliminar_mensaje/'+id+'/',
-        type: "POST",
-      }).done(function(data){
-          console.log(data);
-          console.log("llegaste al done")
-          if (data.estado == 1) {
-            location.reload();
-            showNotification('bottom','left','success','La eliminacion fue en exito');
-            $('#eliminar_salida_modal').modal('toggle')
-            
-          }else{
-            showNotification('bottom','left','danger','Error Server: llene los datos correctamente');
-          }
-      }).fail(function(){
-        showNotification('bottom','left','danger','Error Server: verifique su conexion con el servidor ');
-      });
-    }else{
+  //eliminar_mesaje
+  function eliminarmensaje(id){
+    console.log(id)
+    Swal.fire({
+      title: "Desea Eliminar el mensaje",
+      type: 'warning',confirmButtonColor: '#3085d6',confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if(result.value){
+        $.ajax({
+          data:{
+            csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()
+          },
+          url: '/mensaje/eliminar_mensaje/'+id+'/',
+          type: "POST",
+        }).done(function(data){
+            console.log(data);
+            console.log("llegaste al done")
+            if (data.estado == 1) {
+              location.reload();
+              showNotification('bottom','left','success','La eliminacion fue en exito');
+              $('#eliminar_salida_modal').modal('toggle')
 
-    }
-  })
-}
-//leer mensaje
-function leermensaje(id){
+            }else{
+              showNotification('bottom','left','danger','Error Server: llene los datos correctamente');
+            }
+        }).fail(function(){
+          showNotification('bottom','left','danger','Error Server: verifique su conexion con el servidor ');
+        });
+      }else{
+
+      }
+    })
+  }
+  //leer mensaje
+  function leermensaje(id){
+    console.log(id)
+    $.ajax({
+      url: '/usuario/baja/',
+      type: 'POST',
+      data:{'estado':0,'id':id,'modelo':"Mensaje",'csrfmiddlewaretoken':$("[name='csrfmiddlewaretoken']").val()},
+      datatype: 'json'
+    }).done(function(data){
+      console.log(data);
+      console.log("llegaste al done")
+      location.reload();
+    }).fail(function(){
+      showNotification('bottom','left','danger','Error Server: verifique su conexion con el servidor ');
+    });
+  }
+});
+
+//aprobar formulario de salida
+function aprobarformulario(id){
   console.log(id)
   $.ajax({
     url: '/usuario/baja/',
     type: 'POST',
-    data:{'estado':0,'id':id,'modelo':"Mensaje",'csrfmiddlewaretoken':$("[name='csrfmiddlewaretoken']").val()},
+    data:{'estado':0,'id':id,'modelo':"Salida",'csrfmiddlewaretoken':$("[name='csrfmiddlewaretoken']").val()},
     datatype: 'json'
   }).done(function(data){
     console.log(data);
@@ -379,6 +396,23 @@ function leermensaje(id){
     showNotification('bottom','left','danger','Error Server: verifique su conexion con el servidor ');
   });
 }
+//aprobar formulario f15
+function aprobarformulariof15(id){
+  console.log(id)
+  $.ajax({
+    url: '/usuario/baja/',
+    type: 'POST',
+    data:{'estado':0,'id':id,'modelo':"Formulario",'csrfmiddlewaretoken':$("[name='csrfmiddlewaretoken']").val()},
+    datatype: 'json'
+  }).done(function(data){
+    console.log(data);
+    console.log("llegaste al done")
+    location.reload();
+  }).fail(function(){
+    showNotification('bottom','left','danger','Error Server: verifique su conexion con el servidor ');
+  });
+}
+
 //registra modelos como programa, partida vehiculo
 function Registro_Object(id,modelo,tag){
   var token=document.getElementsByName('csrfmiddlewaretoken')[0].value;
@@ -533,7 +567,6 @@ function modal_vermodificar_salida(obj){
 }
 
 function cambios_inputtabla_formulario(fila){
-  
   var cantidad=$('.tabla1_cantidad'+fila).val();
   var precio=$('.tabla1_preciounitario'+fila).val();
   var total=cantidad*precio;

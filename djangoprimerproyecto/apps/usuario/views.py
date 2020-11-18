@@ -20,7 +20,7 @@ class UsuarioList(LoginRequiredMixin,UsuarioAdministradorMixin,ListView):
 class UsuarioCreate(LoginRequiredMixin,UsuarioAdministradorMixin,CreateView):
     model = Usuario
     form_class = UsuarioForm
-    success_url = reverse_lazy('usuario:listar')
+    success_url = reverse_lazy('usuario:listar') 
 
 class UsuarioUpdate(LoginRequiredMixin,UsuarioAdministradorMixin,UpdateView):
     model = Usuario

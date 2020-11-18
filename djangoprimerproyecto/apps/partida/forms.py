@@ -9,7 +9,7 @@ class PartidaForm(forms.ModelForm):
         fields = ['fuente', 'numero', 'glosa_uno', 'glosa_dos','unidad','id_programa']
 
         widgets = {'fuente': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....'}), 
+            'numero': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....','type':'number'}), 
             'glosa_uno': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....'}),
             'glosa_dos': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....'}),
             'unidad': forms.TextInput(attrs={'class': 'form-control','placeholder':'Ejemplo....'}),

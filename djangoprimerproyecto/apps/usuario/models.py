@@ -24,10 +24,10 @@ class UsuarioManager(BaseUserManager):
             email=self.normalize_email(email),
             nombre=nombre,
             apellido=apellido,
-
+            password=password
         )
-        usuario.set_password(password)
-        usuario.save()
+        #usuario.set_password(password)
+        #usuario.save()
         return usuario
     def create_superuser(self,ci,email,nombre,apellido,password):
         usuario = self.create_user(
@@ -51,6 +51,7 @@ class Usuario(AbstractBaseUser):
     estado = models.IntegerField("Estado", default=1, choices=ESTADO_USUARIO)
     prioridad = models.IntegerField("Tipo de Usuario", blank=False,default=0, null=False, choices=TIPO_USUARIO)
     unidad = models.CharField("Unidad", max_length=200, blank=False, null=False,default="Semillas")
+    cargo = models.CharField("Cargo", max_length=500, blank=False, null=False,default="Tecnico")
     last_login = models.DateTimeField('last login', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -72,5 +73,6 @@ class Usuario(AbstractBaseUser):
         return self.prioridad
     
     def save(self, *args, **kwargs):
+         
         self.password = make_password(self.password)
         super(Usuario, self).save(*args, **kwargs)

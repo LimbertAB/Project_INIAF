@@ -26,56 +26,68 @@
           {{ request.session.nombre }}
         </a></div>
       <div class="sidebar-wrapper">
-        <ul class="nav">
-          <li class="nav-item active  ">
+        <ul class="nav" id="sidebar_iniaf">
+          <li class="nav-item dashboard">
             <a class="nav-link" href="/dashboard">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
           </li>
-          
-          <li class="nav-item ">
+          <!-- <li class="nav-item">
+            <a href="#">
+              <i class="material-icons">insert_invitation</i>
+              <span>Lugares</span>
+              <i class="material-icons">keyboard_arrow_down</i>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="#"><i class="material-icons">fiber_manual_record</i>Mis Formularios</a></li>
+              <li><a href="#"><i class="material-icons">fiber_manual_record</i>Formularios</a></li>
+            </ul>
+          </li> -->
+          <li class="nav-item formulario">
             <a class="nav-link" href="/formulario">
               <i class="material-icons">insert_invitation</i>
-              <p>Formularios</p>
+              <p>Mis Formularios</p>
             </a>
+            <li class="nav-item ">
+              <a class="nav-link" href="/formulario/all" style="margin: 0 0 0 40px;padding: 0 0 0 20px;">
+                <i class="material-icons">rule</i>
+                <p style="font-size: .9em;">Revisar Formularios</p>
+              </a>
+            </li>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="/programa">
-              <i class="material-icons">content_paste</i>
-              <p>Programas</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="/partida">
-              <i class="material-icons">format_list_bulleted</i>
-              <p>Partidas</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="/usuario">
-              <i class="material-icons">perm_identity</i>
-              <p>Usuario</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="/movilidad">
-              <i class="material-icons">notifications</i>
-              <p>Vehiculos</p>
-            </a>
-          </li>
+          {% if request.session.prioridad != 0 %}
+            <li class="nav-item ">
+              <a class="nav-link" href="/programa">
+                <i class="material-icons">content_paste</i>
+                <p>Programas</p>
+              </a>
+            </li>
+            <li class="nav-item partida">
+              <a class="nav-link" href="/partida">
+                <i class="material-icons">format_list_bulleted</i>
+                <p>Partidas</p>
+              </a>
+            </li>
+            <li class="nav-item usuario">
+              <a class="nav-link" href="/usuario">
+                <i class="material-icons">perm_identity</i>
+                <p>Usuario</p>
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="/movilidad">
+                <i class="material-icons">notifications</i>
+                <p>Vehiculos</p>
+              </a>
+            </li>
+          {% endif %}
           <li class="nav-item ">
             <a class="nav-link" href="/mensaje">
               <i class="material-icons">email</i>
               <p>Mensajes</p>
             </a>
           </li>
-          <!-- <li class="nav-item active-pro ">
-                <a class="nav-link" href="./upgrade.html">
-                    <i class="material-icons">unarchive</i>
-                    <p>Upgrade to PRO</p>
-                </a>
-            </li> -->
         </ul>
       </div>
     </div>
@@ -133,11 +145,7 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="javascript:void(0)">Mike John responded to your email</a>
-                  <a class="dropdown-item" href="javascript:void(0)">You have 5 new tasks</a>
-                  <a class="dropdown-item" href="javascript:void(0)">You're now friend with Andrew</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Another Notification</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Another One</a>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                 </div>
               </li>
               <li class="nav-item">
@@ -177,7 +185,7 @@
   <script type="text/javascript" src="{% static 'js/moment.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/bootstrap-notify.js' %}"></script>
-  <!-- <script type="text/javascript" src="{% static 'js/perfect-scrollbar.jquery.min.js' %}"></script> -->
+  <script type="text/javascript" src="{% static 'js/perfect-scrollbar.jquery.min.js' %}"></script>
 
   <script type="text/javascript" src="{% static 'js/bootstrap-material-design.min.js' %}"></script>
   <script src="{% static 'js/sweetalert.min.js' %}"></script>
@@ -189,7 +197,8 @@
 
   {% block javascript %}
   {% endblock %}
-  <script type="text/javascript" >
+  <script type="text/javascript">
+    $('#sidebar_iniaf .'+$(location).attr('pathname').split('/')[1]).addClass('active');
     $.ajax({
       url: '/formulario/notificaciones/', 
       type: "GET",
@@ -234,5 +243,4 @@
     });
   </script>
 </body>
-
 </html>

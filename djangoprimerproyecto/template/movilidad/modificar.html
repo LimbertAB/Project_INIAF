@@ -3,7 +3,7 @@
 {% block title %} Modificar Usuarios {% endblock %}
 {% block content %}
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-7">
         <div class="card">
           <div class="card-header">
             <h5 class="title">MODIFICAR MOVILIDAD</h5>
@@ -52,20 +52,51 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-5">
         <div class="card card-profile">
-          <div class="card-avatar">
-            <a href="#pablo">
-              <img class="img" src="{% static 'images/logos/mov1.jpg' %}" />
-            </a>
+          <div class="card-avatar" style="margin: -37px auto 0;">
+            <a><img class="img" src="{% static 'images/icons/64/car.png' %}"/></a>
           </div>
-          <div class="card-body">
-            <h6 class="card-category">{{ form.marca.value }}</h6>
-            <h4 class="card-title">{{ form.tipo.value }} {{ form.placa.value }}</h4>
-            <p class="card-description">
-              Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-            </p>
-            <a href="#pablo" class="btn btn-primary btn-round">Follow</a>
+          <div class="card-body m-0">
+            <h6 class="card-category">{{ form.tipo.value }}</h6>
+            <h4 class="card-title"></h4>
+            <div class="row">
+              <div class="col-6" >
+                <img class="mx-auto d-block" src="{% static 'images/icons/32/capacidad.png' %}">
+                <div class="text-center">
+                    <h6 class="m-0">ESTADO</h6>
+                    <p class="vvehiculoestado"><small class="blockquote-footer"> {{form.estado.value | yesno:"Activo,Inactivo"}} </small></p>
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom:20px;">
+                  <img class="mx-auto d-block" src="{% static 'images/icons/32/placa.png' %}">
+                  <div class="text-center">
+                      <h6 class="m-0">PLACA</h6>
+                      <p><small class="blockquote-footer">{{ form.placa.value }}</small></p>
+                  </div>
+              </div>
+              <div class="col-6" >
+                  <img class="mx-auto d-block" src="{% static 'images/icons/32/marca.png' %}">
+                  <div class="text-center">
+                      <h6 class="m-0">MARCA</h6>
+                      <p class="vmarca"><small class="blockquote-footer">{{ form.marca.value }}</small></p>
+                  </div>
+              </div>
+              <div class="col-6" >
+                  <img class="mx-auto d-block" src="{% static 'images/icons/32/modelo.png' %}">
+                  <div class="text-center">
+                      <h6 class="m-0">MODELO</h6>
+                      <p class="vmodelo"><small class="blockquote-footer">{{ form.modelo.value }}</small></p>
+                  </div>
+              </div>
+              <div class="col-6" style="margin-bottom:20px;">
+                  <img class="mx-auto d-block" src="{% static 'images/icons/32/rendimiento.png' %}">
+                  <div class="text-center">
+                      <h6 class="m-0">RENDIMIENTO</h6>
+                      <p class="vrendimiento"><small class="blockquote-footer">{{ form.rendimiento.value }}</small></p>
+                  </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

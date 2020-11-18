@@ -8,4 +8,3 @@ class Asistencia(models.Model):
     descripcion = models.CharField(max_length=900, blank=False, null=False)
     estado = models.BooleanField(default=True)
     id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-

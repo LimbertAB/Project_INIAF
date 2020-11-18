@@ -4,12 +4,13 @@ from .forms import MensajeForm
 from .models import Mensaje
 from apps.usuario.models import Usuario
 from apps.usuario.views import JSONResponseMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.core.files.storage import FileSystemStorage
 import os
 import glob
 
-class MensajeList(ListView):
+class MensajeList(LoginRequiredMixin,ListView):
     model = Mensaje
     template_name = 'mensaje/index.html' 
     paginate_by = 4
@@ -31,7 +32,7 @@ class MensajeList(ListView):
         context['object_list'] = mensaje_list
         return context
 
-class MensajeCreate(CreateView):
+class MensajeCreate(LoginRequiredMixin,CreateView):
     def post(self, request, *args, **kwargs):
         mensaje = Mensaje ()
         if request.method == 'POST':
@@ -46,7 +47,7 @@ class MensajeCreate(CreateView):
             mensaje.save()
             return JsonResponse({'estado': 1})
 
-class FormularioNotificaciones(TemplateView): 
+class FormularioNotificaciones(LoginRequiredMixin,TemplateView): 
     model = Mensaje
 
     def get(self, request, *args, **kwargs):
@@ -56,8 +57,7 @@ class FormularioNotificaciones(TemplateView):
         }
         return JsonResponse(context_dict)
 
-
-class MensajeDelete(DeleteView):
+class MensajeDelete(LoginRequiredMixin,DeleteView):
     model = Mensaje
     form_class = MensajeForm
 
@@ -66,7 +66,7 @@ class MensajeDelete(DeleteView):
             Mensaje.objects.filter(id=pk).delete()
             return JsonResponse({'estado': 1})
 
-class MensajeUpdate(UpdateView):
+class MensajeUpdate(LoginRequiredMixin,UpdateView):
     model = Mensaje
     form_class = MensajeForm
     def form_valid(self,request, pk, *args, **kwargs):

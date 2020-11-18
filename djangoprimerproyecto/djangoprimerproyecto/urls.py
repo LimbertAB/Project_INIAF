@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path,include
 from django.contrib.auth import views
+from django.contrib.auth.views import logout_then_login
 from . import views
 from django.conf import settings
 
@@ -26,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('',views.LoginView.as_view(template_name='login.html'), name='login'),
     path('',views.login_user, name='login'),
+    path('logout/',logout_then_login, name='logout'),
     path('usuario/', include(('apps.usuario.urls'), namespace='usuario'), name='usuario'),
     path('dashboard/', views.dashboard, name='dashboard'),
     #path('area/', include(('apps.area.urls'))),
@@ -35,7 +37,8 @@ urlpatterns = [
     path('movilidad/', include(('apps.movilidad.urls'), namespace='movilidad'), name='movilidad'),
     path('formulario/', include(('apps.formulario.urls'), namespace='formulario'), name='formulario'),
     path('salida/', include(('apps.salida.urls'), namespace='salida'), name='salida'),
-    path('mensaje/', include(('apps.mensaje.urls'), namespace='mensaje'), name='mensaje')
+    path('mensaje/', include(('apps.mensaje.urls'), namespace='mensaje'), name='mensaje'),
+    path('asistencia/', include(('apps.asistencia.urls'), namespace='asistencia'), name='asistencia')
 ]
 
 if settings.DEBUG:

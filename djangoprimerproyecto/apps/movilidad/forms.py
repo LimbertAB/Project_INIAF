@@ -6,11 +6,12 @@ from .models import Movilidad
 class MovilidadForm(forms.ModelForm):
     class Meta:
         model = Movilidad
-        fields = ['marca' , 'modelo' , 'tipo' , 'placa' , 'rendimiento'  ]
+        fields = ['marca' , 'modelo' , 'tipo' , 'placa' , 'rendimiento','estado'  ]
 
         widgets = {'marca': forms.TextInput(attrs={'class': 'form-control'}),
             'modelo': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'placa': forms.TextInput(attrs={'class': 'form-control'}),
             'rendimiento': forms.TextInput(attrs={'class': 'form-control'}),
+            'estado': forms.TextInput(),
         }

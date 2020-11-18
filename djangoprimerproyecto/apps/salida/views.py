@@ -1,18 +1,19 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView,DeleteView,ListView,UpdateView,DetailView
 from .forms import SalidaForm
 from .models import Salida 
 from apps.usuario.models import Usuario
-from apps.usuario.mixins import JSONResponseMixin
+from apps.usuario.mixins import JSONResponseMixin,UsuarioAdministradorMixin
 from django.http import JsonResponse
 
-class SalidaList(CreateView):
+class SalidaList(LoginRequiredMixin,CreateView):
     model = Salida
     form_class = SalidaForm
     template_name = 'Salida/crear.html'
 
-class SalidaCreate(CreateView):
+class SalidaCreate(LoginRequiredMixin,CreateView):
 
     model = Salida
     form_class = SalidaForm
@@ -24,17 +25,20 @@ class SalidaCreate(CreateView):
         obj.save()
         return JsonResponse({'estado': 1})
 
-class SalidaUpdate(UpdateView):
+class SalidaUpdate(LoginRequiredMixin,UpdateView):
     model = Salida
     form_class = SalidaForm
 
-    def form_valid(self, form): 
+    def form_valid(self, form):
+        salida_query=Salida.objects.filter(id=self.kwargs['pk'])[0]
+        if salida_query.id_usuario_id != self.request.session['id']:
+            return JsonResponse({'estado': 0})
         obj = form.save(commit=False)
         obj.id_usuario_id = self.request.session['id']
         obj.save()
         return JsonResponse({'estado': 1})
 
-class SalidaDetailView(JSONResponseMixin,DetailView):
+class SalidaDetailView(LoginRequiredMixin,JSONResponseMixin,DetailView):
     model = Salida
     #json_dumps_kwargs={'indent': 1}
 
@@ -46,13 +50,15 @@ class SalidaDetailView(JSONResponseMixin,DetailView):
             'fecha_salida': str(self.object.fecha_salida),
             'fecha_retorno': str(self.object.fecha_retorno),
             'tiempo': self.object.tiempo,
-            'motivo': self.object.motivo, 
+            'motivo': self.object.motivo,
             'nombre':query_usuario.nombre,
             'apellido':query_usuario.apellido,
+            'cargo':query_usuario.cargo,
+            'unidad':query_usuario.unidad,
         }
         return self.render_json_response(context_dict)
 
-class SalidaDelete(DeleteView):
+class SalidaDelete(LoginRequiredMixin,DeleteView):
     model = Salida
     form_class = SalidaForm
 

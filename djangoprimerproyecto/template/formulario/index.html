@@ -1,164 +1,153 @@
 {% extends "principal/index.html" %}
 {% load static %}
 {% block content %}
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" data-toggle="tab" href="#calendario">CALENDARIO</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link"  data-toggle="tab" href="#papeletas" >PAPELETAS DE SALIDA</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#formulariof15" >FORMULARIOS F15</a>
-    </li>
-</ul>
-<div class="tab-content">
-    <div id="formulariof15" class="container tab-pane fade"><br>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header card-header-success">
-                    <h4 class="card-title ">LISTA DE F15</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table" style="text-align: center">
-                            <thead class="">
-                                <tr>
-                                    <th style="color: black;
-                                    font-size: large;
-                                    font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">NOMBRE</th>
-                                    <th style="color: black;
-                                    font-size: large;
-                                    font-style: italic;text-shadow: 1px 1px #197348;font-weight: 900;">DESTINO</th>
-                                    <th style="color: black;
-                                    font-size: large;
-                                    font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">FECHA</th>
-                                    <th style="color: black;
-                                    font-size: large;
-                                    font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">ACCION</th>
-                                    <th style="color: black;
-                                    font-size: large;
-                                    font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">ESTADO</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for us in formulario %}
-                                    <tr>
-                                        <td>{{us.nombre}}</td>
-                                        <td>{{us.lugar}}</td>
-                                        <td>{{us.start}}</td>
-                                        <td><span class="material-icons icon-image-preview ver">visibility</span></td>
-                                        {% if us.estado %}
-                                            <td style="color: red">Nuevo</td>
-                                        {% else %}
-                                            <td>LEIDO</td>
-                                        {% endif %}
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>  
-    </div>
-    <div id="papeletas" class="container tab-pane fade"><br>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header card-header-success">
-                    <h4 class="card-title ">PAPELETAS DE SALIDA </h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table" style="text-align: center" >
-                            <thead class="">
-                                <tr>
-                                    <th style="color: black;
-                                    font-size: large;
-                                    font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">NOMBRE</th>
-                                    <th style="color: black;
-                                    font-size: large;
-                                    font-style: italic;text-shadow: 1px 1px #197348;font-weight: 900;">MOTIVO</th>
-                                    <th style="color: black;
-                                    font-size: large;
-                                    font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">FECHA</th>
-                                    <th style="color: black;
-                                    font-size: large;
-                                    font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">ACCION</th>
-                                    <th style="color: black;
-                                    font-size: large;
-                                    font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">ESTADO</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for us in salida %}
-                                    <tr>
-                                        <td>{{us.nombre}}</td>
-                                        <td>{{us.motivo}}</td>
-                                        <td>{{ us.fecha_salida}}</td>
-                                        <td><span class="material-icons icon-image-preview ver">visibility</span></td>
-                                        {% if us.estado %}
-                                            <td style="color: red">Nuevo</td>
-                                        {% else %}
-                                            <td>LEIDO</td>
-                                        {% endif %}
-                                        
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {% if is_paginated %}
-                            <div class="mt-2">
-                                <ul class="pagination">
-                                    {% if page_obj.has_previous %}
-                                        <li class="page-item">
-                                            <a href="?page={{page_obj.previous_page_number}}" class="page-link">Anterior</a>
-                                        </li>
-                                    {% else %}
-                                        <li class="page-item disabled">
-                                            <a href="#" class="page-link">Anterior</a>
-                                        </li>
-                                    {% endif %}
-                                    {% for i in paginator.page_range %}
-                                        <li class="page-item {% if page_obj.number == i %} active {% endif %}" >
-                                            <a href="?page{{ i }}" class="page-link">{{ i }}</a>
-                                        </li>
-                                    {% endfor %}
-                                    {% if page_obj.has_next %}
-                                        <li class="page-item">
-                                            <a href="?page={{page_obj.next_page_number}}" class="page-link">Siguiente</a>
-                                        </li>
-                                    {% endif %} 
-                                </ul>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+<div class="col-lg-12 col-md-12">
+    <div class="card">
+      <div class="card-header card-header-tabs card-header-success">
+        <div class="nav-tabs-navigation">
+          <div class="nav-tabs-wrapper">
+            <span class="nav-tabs-title">Vistas:</span>
+            <ul class="nav nav-tabs" data-tabs="tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#vista_formulario" data-toggle="tab">
+                  <i class="material-icons">table_view</i> FORMULARIO F15
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#vista_salida" data-toggle="tab">
+                  <i class="material-icons">table_view</i> SALIDAS
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#vista_calendario" data-toggle="tab">
+                  <i class="material-icons">today</i> CALENDARIO
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+                <center>
+                  <a href="/formulario/all" class="btn btn-warning btn-round btn-sm">Administrar formularios<div class="ripple-container"></div></a>
+                </center>
+            </ul>
+          </div>
         </div>
-    </div>
-    <div id="calendario" class="container tab-pane active"><br>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header card-header-success">
-                <h4 class="card-title ">LISTA DE FORMULARIOS</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class=" text-primary">
-                            </thead>
-                            <tbody>
-                                <div id='calendar'></div>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+      </div>
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="tab-pane active" id="vista_formulario">
+            <div class="table-responsive">
+                <table class="table" style="text-align: center">
+                    <thead class="">
+                        <tr>
+                            <th style="font-weight:900;">DESTINO</th>
+                            <th style="font-weight: 900;">FECHA CREACION</th>
+                            <th style="font-weight: 900;">ESTADO</th>                            
+                            <th style="font-weight: 900;">OPCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for us in formulario %}
+                            <tr>
+                                <td>{{us.lugar}}</td>
+                                <td>{{us.start}}</td>
+                                {% if us.estado == "True" %}
+                                    <td class="text-danger">
+                                        <small>NO REVISADO <i style="font-size: 1.2em;" class="material-icons">clear</i></small>
+                                    </td>
+                                {% else %}
+                                    <td class="text-success" style="font-size: .8em;">
+                                        APROBADO <i class="material-icons" style="font-size: 1em;">done</i>
+                                    </td>
+                                {% endif %}
+                                <td class="p-0"> 
+                                    <a data-toggle="modal" data-target="#verformulariomodal" onclick="ver_formulario_ajax( {{ us.id }} , 'formulario','ver')">
+                                        <img class="img" src="{% static 'images/icons/32/caracteristica.png' %}"/>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
+          </div>
+          <div class="tab-pane" id="vista_salida">
+            <div class="table-responsive">
+                <table class="table" style="text-align: center" >
+                    <thead class="">
+                        <tr>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic;text-shadow: 1px 1px #197348;font-weight: 900;">MOTIVO</th>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">FECHA</th>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">ESTADO</th>
+                            <th style="color: black;
+                            font-size: large;
+                            font-style: italic; text-shadow: 1px 1px #197348;font-weight: 900;">VER</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for us in salida %}
+                            <tr>
+                                <td>{{us.motivo}}</td>
+                                <td>{{ us.fecha_salida}}</td>
+                                {% if us.estado == "True" %}
+                                    <td class="text-danger">
+                                        <small>NO REVISADO <i style="font-size: 1.2em;" class="material-icons">clear</i></small>
+                                    </td> 
+                                {% else %}
+                                    <td class="text-success" style="font-size: .8em;">
+                                        APROBADO <i class="material-icons" style="font-size: 1em;">done</i>
+                                    </td>
+                                {% endif %}
+                                <td class="p-0"> 
+                                    <a data-toggle="modal" data-target="#eliminar_salida_modal" onclick="ver_formulario_ajax( {{ us.id }} , 'salida','ver')">
+                                        <img class="img" src="{% static 'images/icons/32/caracteristica.png' %}"/>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if is_paginated %}
+                    <div class="mt-2">
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a href="?page={{page_obj.previous_page_number}}" class="page-link">Anterior</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a href="#" class="page-link">Anterior</a>
+                                </li>
+                            {% endif %}
+                            {% for i in paginator.page_range %}
+                                <li class="page-item {% if page_obj.number == i %} active {% endif %}" >
+                                    <a href="?page{{ i }}" class="page-link">{{ i }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a href="?page={{page_obj.next_page_number}}" class="page-link">Siguiente</a>
+                                </li>
+                            {% endif %} 
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+          </div>
+          <div class="tab-pane" id="vista_calendario">
+            <div id='calendar'></div>
+          </div>
         </div>
+      </div>
     </div>
 </div>
+
 {% include 'salida/ver.html' %}
 {% include 'salida/modificar.html' %}
 {% include 'formulario/modificar.html' %}
@@ -197,7 +186,8 @@
        
 var iniaf='data:image/jpeg;base64,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';
 var logo='data:image/jpeg;base64,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';
-  
+
+    
   $(function(){
     $('#fech_salida, #fech_retorno').datetimepicker({
         format:'Y-m-d H:i',
@@ -220,7 +210,6 @@ var logo='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAcHBwcIBwgJCQg
             color: '#30522e'
         }
         formulario_all.push(form_row);
-
     }
     for (let i = 0; i < salida_list.length; i++) {
         form_row={
@@ -232,7 +221,6 @@ var logo='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAcHBwcIBwgJCQg
             color: '#a73a00'
         }
         formulario_all.push(form_row);
-        
     }
 
     $('#calendar').fullCalendar({
@@ -247,8 +235,8 @@ var logo='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAcHBwcIBwgJCQg
           eventLimit: true,
           events: formulario_all,
           eventClick: function(event) {
-            if (event.description=='salida') { 
-                $('#eliminar_salida_modal').modal('toggle'); 
+            if (event.description=='salida') {
+                $('#eliminar_salida_modal').modal('toggle');
                 ver_formulario_ajax(event.id,event.description,"ver");
             } else {
               //ejecutar o abrir modal
@@ -259,6 +247,8 @@ var logo='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAcHBwcIBwgJCQg
           //evente
       });
   });
+
+
 function formulario_pdf(obj){
     console.log("desde pdf");
     console.log(obj);
@@ -438,7 +428,7 @@ function formulario_pdf(obj){
                             {text: "Cargo",style: 'tablebody',
                                 border: [true, true, false, true]
                             },
-                            {text: "smknj", style: 'tablebody',
+                            {text: obj.cargo, style: 'tablebody',
                                 border: [false, true, true, true]
                             },
                         ],
@@ -446,7 +436,7 @@ function formulario_pdf(obj){
                             {text: "Descripcion de la actividad",style: 'tablebody',
                                 border: [true, true, false, true]
                             },
-                            {text: "smknj", style: 'tablebody',
+                            {text: "", style: 'tablebody',
                                 border: [false, true, true, true]
                             },
                         ],
@@ -607,8 +597,6 @@ function graficarpdfsalida(obj) {
                     margin: [30,15,0,0]
                 },
                 {
-                    
-                  
                 },
                 {
                     image: iniaf,
@@ -648,7 +636,7 @@ function graficarpdfsalida(obj) {
           '',
         ],
         [
-            {text: 'CARGO TECNICO EN CONTROL DE COMERCIO DE SEMILLAS', style: '', colSpan: 5, alignment: 'left'},
+            {text:'CARGO: '+obj.cargo.toUpperCase(), style: '', colSpan: 5, alignment: 'left'},
           '',
           '',
           '',
@@ -843,28 +831,5 @@ function graficarpdfsalida(obj) {
   }
   pdfMake.createPdf(dd).open();
 } 
-
-
-function tablasalidas(){
-    var salida_list = {{salida|safe}};
-    console.log(salida_list)
-    $('#papeletasalida').empty();
-    for (i = 0; i < salida_list.length; i++) {
-        $("#papeletasalida").append('<tr> <td>'+salida_list[i].nombre+'</td> <td>'+salida_list[i].motivo+'</td> <td>'+salida_list[i].fecha_salida+'</td> <td></td> <td>'+salida_list[i].estado+'</td></tr>');
-    }
-}
-
-
-function tablasf15(){
-    var formulario_list = {{ formulario|safe }};
-    console.log(formulario_list)
-    $('#formulariosf15').empty();
-    for (i = 0; i < formulario_list.length; i++) {
-        $("#formulariosf15").append('<tr> <td>'+formulario_list[i].nombre+'</td> <td>'+formulario_list[i].lugar+'</td> <td>'+formulario_list[i].start+'</td> <td>+formulario_list[i].descripcion+</td><td><span class="material-icons icon-image-preview ver">visibility</span></td> <td>+formulario_list[i].estado+</td></tr>');
-        $('.ver').off().click(function(e) {
-            $(this).parent('td').parent('tr').remove();
-        });
-    } 
-}
 </script>
 {% endblock %}
