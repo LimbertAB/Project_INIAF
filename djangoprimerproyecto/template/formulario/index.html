@@ -433,10 +433,10 @@ function formulario_pdf(obj){
                             },
                         ],
                         [
-                            {text: "Descripcion de la actividad",style: 'tablebody',
+                            {text: "Descripcion de la actividad: "+obj.programa_actividad,style: 'tablebody',
                                 border: [true, true, false, true]
                             },
-                            {text: obj.programa+"\n"+obj.subprograma, style: 'tablebody',
+                            {text: "- "+obj.programa_descripcion+"\n- "+obj.subprograma, style: 'tablebody',
                                 border: [false, true, true, true]
                             },
                         ],

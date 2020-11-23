@@ -16,7 +16,13 @@
         <option>- - - - seleccione un usuario - - - -</option>
       </select>
     </div>
-    <div class="col-md-4 mb-3">
+    <div class="col-md-4 mb-3" style="padding: 0 20px 0 20px;">
+        <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
+            <div class="card-header" style="padding: 1px 0px 0px 0;text-align: center;color: #000000;font-weight: 300;">Total horas extras</div>
+            <div class="card-body m-0 p-0">
+                <h2 class="card-title" id="hora_extra_usuario" style="margin: 0;padding: 0;text-align: center;color: #efe788;font-weight: 700;">0 horas</h2>
+            </div>
+        </div>
         <!-- <button type="submit" class="btn btn-danger mb-2">GENERARA PDF</button> -->
     </div>
   </div>
@@ -83,9 +89,8 @@
                 datatype: 'json'
             }).done(function(obj){
                 console.log(obj);
+                total_hora_extra=0;
                 font_noticket='<p style="color:#c5413e;font-size: .9em;font-style: italic">sin registro</p>';
-    
-    
                 $('#tablalistaasistencia tbody').empty();
                 var row_date=obj.usuario[0].fecha.substring(0,10);
                 var row_user=obj.usuario[0].id;
@@ -116,12 +121,14 @@
                         if (i==obj.usuario.length-1) {
                             if(entradam.substring(10,11)=='T' && salidam.substring(10,11)=='T' && entradat.substring(10,11)=='T' && salidat.substring(10,11)=='T'){
                                 horaextra=(parseInt(salidat.substring(11,13))-18)+' horas';
+                                total_hora_extra=total_hora_extra+(parseInt(salidat.substring(11,13))-18);
                             }
                             $('#tablalistaasistencia tbody').append('<tr><td>'+obj.usuario[i].id+'</td><td>'+obj.usuario[i].nombre+'</td><td>'+obj.usuario[i].ci+'</td><td>'+entradam+'</td><td>'+salidam+'</td><td>'+entradat+'</td><td>'+salidat+'</td><td>'+horaextra+'</td>');
                         }
                     }else{
                         if(entradam.substring(10,11)=='T' && salidam.substring(10,11)=='T' && entradat.substring(10,11)=='T' && salidat.substring(10,11)=='T'){
                             horaextra=(parseInt(salidat.substring(11,13))-18)+' horas';
+                            total_hora_extra=total_hora_extra+(parseInt(salidat.substring(11,13))-18);
                         }
                         $('#tablalistaasistencia tbody').append('<tr><td>'+obj.usuario[i-1].id+'</td><td>'+obj.usuario[i-1].nombre+'</td><td>'+obj.usuario[i-1].ci+'</td><td>'+entradam+'</td><td>'+salidam+'</td><td>'+entradat+'</td><td>'+salidat+'</td><td>'+horaextra+'</td>');
                         if(hora>6 && hora<11){
@@ -146,6 +153,7 @@
                         if (i==obj.usuario.length-1) {
                             if(entradam.substring(10,11)=='T' && salidam.substring(10,11)=='T' && entradat.substring(10,11)=='T' && salidat.substring(10,11)=='T'){
                                 horaextra=(parseInt(salidat.substring(11,13))-18)+' horas';
+                                total_hora_extra=total_hora_extra+(parseInt(salidat.substring(11,13))-18);
                             }
                             $('#tablalistaasistencia tbody').append('<tr><td>'+obj.usuario[i].id+'</td><td>'+obj.usuario[i].nombre+'</td><td>'+obj.usuario[i].ci+'</td><td>'+entradam+'</td><td>'+salidam+'</td><td>'+entradat+'</td><td>'+salidat+'</td><td>'+horaextra+'</td>');
                         }
@@ -154,6 +162,7 @@
                         entradam=font_noticket,salidam=font_noticket,entradat=font_noticket,salidat=font_noticket,horaextra=0;
                     }                   
                 }
+                $('#hora_extra_usuario').text(total_hora_extra+" horas");
             }).fail(function(){
                 showNotification('bottom','left','error','Error Server: verifique su conexion con el servidor');
             });

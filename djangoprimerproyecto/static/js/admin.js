@@ -564,6 +564,7 @@ function modal_modificarformulario(obj){
   console.log(obj);
   $('#modificarformulariomodal input[name="combustible"]').val(obj.combustible);
   $('#modificarformulariomodal textarea[name="descripcion"]').val(obj.descripcion);
+  $('#modificarformulariomodal input[name="subprograma"]').val(obj.subprograma);
   $('#modificarformulariomodal input[name="fecha"]').val(obj.fecha);
   $('#modificarformulariomodal input[name="kilometraje"]').val(obj.kilometraje);
   $('#modificarformulariomodal input[name="kilometraje_viaje"]').val(obj.kilometraje_viaje);

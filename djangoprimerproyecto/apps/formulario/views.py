@@ -113,6 +113,7 @@ class FormularioCreate(LoginRequiredMixin,CreateView):
                 id_formulario_id=obj.id,
                 id_partida_id=i,
             ).save()
+        
 
 class FormularioUpdate(LoginRequiredMixin,UpdateView):
     model = Formulario
@@ -234,6 +235,8 @@ class FormularioDetailView(LoginRequiredMixin,JSONResponseMixin,DetailView):
             'partida':partida_list,
             'recurso':recurso_list,
             'programa':programa_query.nombre,
+            'programa_descripcion':programa_query.descripcion,
+            'programa_actividad':programa_query.actividad,
             'subprograma':self.object.subprograma,
         }
         return self.render_json_response(context_dict)
