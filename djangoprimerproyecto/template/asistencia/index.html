@@ -3,34 +3,32 @@
 <div class="form-row">
     <div class="col-md-4 mb-3">
       <label for="validationCustom01">Seleccione la gestión</label>
-      <select class="form-control">
-        <option>- - - - - seleccione - - - - -</option>
+      <select class="form-control" id="selectgestionasistencia">
+        <option disabled selected>- - - - - seleccione una gestión- - - - -</option>
         {% for a in object_list%}
-            <option>{{a.titulo}}</option>
+            <option value="{{a.id}}">{{a.titulo}}</option>
         {% endfor %}
-        
-
       </select>
     </div>
     <div class="col-md-4 mb-3">
       <label for="validationCustom02">Seleccione Usuarios</label>
-      <select class="form-control">
+      <select class="form-control" id="selectusuarioasistencia">
         <option>- - - - seleccione un usuario - - - -</option>
       </select>
     </div>
     <div class="col-md-4 mb-3">
-        <button type="submit" class="btn btn-danger mb-2">GENERARA PDF</button>
+        <!-- <button type="submit" class="btn btn-danger mb-2">GENERARA PDF</button> -->
     </div>
   </div>
 
-<div class="col-md-12" name="eliminar_mensaje">
+<div class="col-md-12">
     <div class="card">
         <div class="card-header card-header-success">
           <h4 class="card-title ">Lista de Asistencia de Personal</h4>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table" style="text-align: center">
+                <table class="table" style="text-align: center" id="tablalistaasistencia">
                     <thead class="">
                         <tr>
                             <th style="font-weight:700">NRO</th>
@@ -45,66 +43,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>23</td>
-                            <td>fdfsd fdsfsdfsd fsd</td>
-                            <td>34234234</td>
-                            <td>12:00</td>
-                            <td>12:00</td>
-                            <td>12:00</td>
-                            <td>12:00</td>
-                            <td>5 horas</td>
+                            
                         </tr>
-                        <!-- {% for us in object_list%}
-                            <tr>
-                                <td>{{us.fecha}}</td>
-                                <td>{{ us.id_usuario_id }}</td>
-                                <td>{{ us.asunto }}</td>
-                                <td><a href="{{ us.cuerpo }}">descargar archivos</a></td>
-                                {% if us.estado %}
-                                    <td style="color: greenyellow">Nuevo</td>
-                                {% else %}
-                                    <td>LEIDO</td>
-                                {% endif %}
-                                <td>
-                                    <a class="nav-link delete_mensaje" onclick="leermensaje({{ us.id }})" href="#">
-                                        <i class="material-icons">drafts</i>
-                                    </a>
-                                    <button type="button" onclick="leermensaje({{ us.id }})" class="btn btn-secondary">Marcar Leido</button>
-                                </td>
-                                <td>
-                                    <a class="nav-link delete_mensaje" onclick="eliminarmensaje({{ us.id }})" href="#">
-                                        <i class="material-icons">delete_forever</i>
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %} -->
                     </tbody>
                 </table>
-                <!-- {% if is_paginated %}
-                    <div class="mt-2">
-                        <ul class="pagination">
-                            {% if page_obj.has_previous %}
-                                <li class="page-item">
-                                    <a href="?page={{page_obj.previous_page_number}}" class="page-link">Anterior</a>
-                                </li>
-                            {% else %}
-                                <li class="page-item disabled">
-                                    <a href="#" class="page-link">Anterior</a>
-                                </li>
-                            {% endif %}
-                            {% for i in paginator.page_range %}
-                                <li class="page-item {% if page_obj.number == i %} active {% endif %}" >
-                                    <a href="?page{{ i }}" class="page-link">{{ i }}</a>
-                                </li>
-                            {% endfor %}
-                            {% if page_obj.has_next %}
-                                <li class="page-item">
-                                    <a href="?page={{page_obj.next_page_number}}" class="page-link">Siguiente</a>
-                                </li>
-                            {% endif %} 
-                        </ul>
-                    </div>
-                {% endif %} -->
             </div>
         </div>
     </div>
@@ -113,4 +55,113 @@
 {% endblock %}
 {% block floating%}
     <button type="button" class="btn btn-main btn-success has-tooltip" data-placement="left" title="Registrar Movilidad" data-toggle="modal" data-target="#Modalmensaje"> <i class="fa fa-plus" style="font-weight: 100 !important;font-size: 25px;"></i> </button>
+{% endblock %}
+{% block javascript%}
+<script>
+    $(function(){
+        $('#selectgestionasistencia').change(function(){
+            $.ajax({
+                url: '/asistencia/verusuario/'+$(this).val()+'/',
+                type: 'GET',
+                datatype: 'json'
+            }).done(function(obj){
+                console.log(obj);
+                $('#selectusuarioasistencia').empty();
+                $('#selectusuarioasistencia').append('<option disabled selected>- - - - - seleccione un usuario- - - - -</option>');
+                // $('#selectusuarioasistencia').append('<option value="0">Todos los usuarios</option>');
+                for (let i = 0; i < obj.usuario.length; i++) {
+                    $('#selectusuarioasistencia').append('<option value="'+obj.usuario[i].id+'">'+obj.usuario[i].nombre+'</option>');
+                }
+            }).fail(function(){
+                showNotification('bottom','left','error','Error Server: verifique su conexion con el servidor');
+            });
+        })
+        $('#selectusuarioasistencia').change(function(){
+            $.ajax({
+                url: '/asistencia/verhora/'+$('#selectgestionasistencia').val()+'/?user='+$(this).val(),
+                type: 'GET',
+                datatype: 'json'
+            }).done(function(obj){
+                console.log(obj);
+                font_noticket='<p style="color:#c5413e;font-size: .9em;font-style: italic">sin registro</p>';
+    
+    
+                $('#tablalistaasistencia tbody').empty();
+                var row_date=obj.usuario[0].fecha.substring(0,10);
+                var row_user=obj.usuario[0].id;
+                var entradam=font_noticket,salidam=font_noticket,entradat=font_noticket,salidat=font_noticket,horaextra=0;
+                for (let i = 0; i < obj.usuario.length; i++) {
+                    fecha_actual=obj.usuario[i].fecha;
+                    hora=parseInt(fecha_actual.substring(11,13));
+                    if (row_date==fecha_actual.substring(0,10) && row_user==obj.usuario[i].id) {
+                        if(hora>6 && hora<11){
+                            console.log("hora>6: "+hora);
+                            entradam=fecha_actual;
+                        }else{
+                            if(hora>10 && hora<14){
+                                console.log("hora>10: "+hora);
+                                salidam=fecha_actual;
+                            }else{
+                                if(hora>13 && hora<17){
+                                    console.log("hora>13: "+hora);
+                                    entradat=fecha_actual;
+                                }else{
+                                    if (hora>16){
+                                        console.log("hora>16: "+hora);
+                                        salidat=fecha_actual;
+                                    }
+                                }
+                            }
+                        }
+                        if (i==obj.usuario.length-1) {
+                            if(entradam.substring(10,11)=='T' && salidam.substring(10,11)=='T' && entradat.substring(10,11)=='T' && salidat.substring(10,11)=='T'){
+                                horaextra=(parseInt(salidat.substring(11,13))-18)+' horas';
+                            }
+                            $('#tablalistaasistencia tbody').append('<tr><td>'+obj.usuario[i].id+'</td><td>'+obj.usuario[i].nombre+'</td><td>'+obj.usuario[i].ci+'</td><td>'+entradam+'</td><td>'+salidam+'</td><td>'+entradat+'</td><td>'+salidat+'</td><td>'+horaextra+'</td>');
+                        }
+                    }else{
+                        if(entradam.substring(10,11)=='T' && salidam.substring(10,11)=='T' && entradat.substring(10,11)=='T' && salidat.substring(10,11)=='T'){
+                            horaextra=(parseInt(salidat.substring(11,13))-18)+' horas';
+                        }
+                        $('#tablalistaasistencia tbody').append('<tr><td>'+obj.usuario[i-1].id+'</td><td>'+obj.usuario[i-1].nombre+'</td><td>'+obj.usuario[i-1].ci+'</td><td>'+entradam+'</td><td>'+salidam+'</td><td>'+entradat+'</td><td>'+salidat+'</td><td>'+horaextra+'</td>');
+                        if(hora>6 && hora<11){
+                            console.log("hora>6: "+hora);
+                            entradam=fecha_actual;
+                        }else{
+                            if(hora>10 && hora<14){
+                                console.log("hora>10: "+hora);
+                                salidam=fecha_actual;
+                            }else{
+                                if(hora>13 && hora<17){
+                                    console.log("hora>13: "+hora);
+                                    entradat=fecha_actual;
+                                }else{
+                                    if (hora>16){
+                                        console.log("hora>16: "+hora);
+                                        salidat=fecha_actual;
+                                    }
+                                }
+                            }
+                        }
+                        if (i==obj.usuario.length-1) {
+                            if(entradam.substring(10,11)=='T' && salidam.substring(10,11)=='T' && entradat.substring(10,11)=='T' && salidat.substring(10,11)=='T'){
+                                horaextra=(parseInt(salidat.substring(11,13))-18)+' horas';
+                            }
+                            $('#tablalistaasistencia tbody').append('<tr><td>'+obj.usuario[i].id+'</td><td>'+obj.usuario[i].nombre+'</td><td>'+obj.usuario[i].ci+'</td><td>'+entradam+'</td><td>'+salidam+'</td><td>'+entradat+'</td><td>'+salidat+'</td><td>'+horaextra+'</td>');
+                        }
+                        row_date=obj.usuario[i].fecha.substring(0,10);
+                        row_user=obj.usuario[i].id;
+                        entradam=font_noticket,salidam=font_noticket,entradat=font_noticket,salidat=font_noticket,horaextra=0;
+                    }                   
+                }
+            }).fail(function(){
+                showNotification('bottom','left','error','Error Server: verifique su conexion con el servidor');
+            });
+        })
+    });
+    function get_numer_columna_fecha(hora){
+        
+    }
+
+</script>
 {% endblock %}

@@ -288,8 +288,47 @@ $(function(){
       }
     })
   });
-  
-  // CRUD MENSAJE
+ //____________________MODULO ASISTENCIA_____________
+  //crear asistencia
+  $('#registrar_asistencia .btnregistrarasistencia').click(function(e){
+    console.log("hizo click en guardar asistencia");
+    var valid= this.form.checkValidity();
+    $('#valid').html(valid);
+    if (valid) {
+      var token=document.getElementsByName('csrfmiddlewaretoken')[0].value;
+      e.preventDefault();
+      console.log("paso la validacion");
+      var parametros=new FormData($("#registrar_asistencia")[0]);
+      parametros.append('csrfmiddlewaretoken',token);
+      $.ajax({
+        data: parametros,
+        url: '/asistencia/crear/',
+        cache:false,
+        method: "POST",
+        type: "POST",
+        contentType:false,
+        processData:false,
+        datatype: 'json'
+      }).done(function(data){
+        console.log(data);
+        if (data.estado == 1) {
+          Swal.fire({
+            title: "Felicidades",text: "Mensaje enviado satisfactoriamente",
+            type: 'success',confirmButtonColor: '#3085d6',confirmButtonText: 'Aceptar'
+          }).then((result) => {
+            if(result.value){
+              $('#Modalmensaje').modal('toggle');
+            }
+          })
+        }else{
+          showNotification('bottom','left','danger','Error Server: llene los datos correctamente');
+        }
+      }).fail(function(){
+        showNotification('bottom','left','danger','Error Server: verifique su conexion con el servidor');
+      });
+    }
+  });
+  //____________________MODULO MENSAJE_____________
   //crear mensaje
   $('#registrar_mensaje .btnregistrarmensaje').click(function(e){
     console.log("hizo click en guarda salida");

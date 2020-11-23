@@ -9,6 +9,7 @@ class Formulario(models.Model):
     id = models.AutoField(primary_key=True)
     numero = models.IntegerField(blank=False, null=False, default=0)
     fecha = models.DateField(blank=False, null=False)
+    subprograma = models.CharField(max_length=900, blank=False, null=False)
     lugar = models.CharField(max_length=900, blank=False, null=False)
     fecha_salida = models.DateTimeField(blank=False, null=False)
     fecha_llegada = models.DateTimeField(blank=False, null=False)

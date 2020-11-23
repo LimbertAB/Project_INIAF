@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('numero', models.IntegerField(default=0)),
                 ('fecha', models.DateField()),
+                ('subprograma', models.CharField(max_length=900)),
                 ('lugar', models.CharField(max_length=900)),
                 ('fecha_salida', models.DateTimeField()),
                 ('fecha_llegada', models.DateTimeField()),

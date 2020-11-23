@@ -341,7 +341,7 @@ function formulario_pdf(obj){
             {text: "TOTAL REQUERIMIENTO",colSpan:5, style: 'tablebodycenter'},'','','','',{text: tabla1, style: 'tablebody'},
         ],
         [
-            {text: "OBSERVACIONES:",colSpan:6, style: 'tablebody'},'','','','','',
+            {text: "OBSERVACIONES: "+obj.observacion,colSpan:6, style: 'tablebody'},'','','','','',
         ],
         [
             {text: "Adjunto: Memorandum\nResolucion Administrativa si corresponde:\n\n\n\n\n\n",colSpan:6, style: 'tablebody',border:[true,true,true,false]},'','','','','',
@@ -436,7 +436,7 @@ function formulario_pdf(obj){
                             {text: "Descripcion de la actividad",style: 'tablebody',
                                 border: [true, true, false, true]
                             },
-                            {text: "", style: 'tablebody',
+                            {text: obj.programa+"\n"+obj.subprograma, style: 'tablebody',
                                 border: [false, true, true, true]
                             },
                         ],

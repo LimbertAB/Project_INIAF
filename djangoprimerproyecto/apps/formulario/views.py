@@ -233,7 +233,8 @@ class FormularioDetailView(LoginRequiredMixin,JSONResponseMixin,DetailView):
             'cargo':usuario_query.cargo,
             'partida':partida_list,
             'recurso':recurso_list,
-            'programa':programa_query.nombre
+            'programa':programa_query.nombre,
+            'subprograma':self.object.subprograma,
         }
         return self.render_json_response(context_dict)
 

@@ -9,7 +9,7 @@
       </button>
     </div>
      <div class="modal-body" style="background-color: #202940;">
-      <form method="POST" name="registrar_mensaje" id="registrar_mensaje" autocomplete="off"  enctype="multipart/form-data">
+      <form method="POST" name="registrar_asistencia" id="registrar_asistencia" autocomplete="off"  enctype="multipart/form-data">
          {% csrf_token %}
          <div class="row">
            <div class="col-md-12"> 
@@ -19,7 +19,7 @@
                       <div class="col-md-12 pr-md-1">
                         <div class="form-group">
                           <label class="bmd-label-floating">TITULO</label>
-                          <input type="text" name="asunto" id="titulo" required class="form-control"><br>
+                          <input type="text" name="asunto"  required class="form-control"><br>
                         </div>
                       </div>
                       <div class="col-md-12 pr-md-1">
@@ -36,7 +36,7 @@
                       <div class="col-md-12 pr-md-1">
                         <div class="form-group">
                           <label class="bmd-label-floating">DESCRIPCION</label>
-                          <input type="text" name="asunto" id="titulo" required class="form-control"><br>
+                          <input type="text" name="descripcion" id="titulo" required class="form-control"><br>
                         </div>
                       </div>
                    </div>
@@ -44,7 +44,7 @@
              </div>
            </div>
          </div> 
-         <button type="submit" class="btn btn-fill btn-success btnregistrarmensaje">GUARDAR</button>
+         <button type="submit" class="btn btn-fill btn-success btnregistrarasistencia">GUARDAR</button>
        </form>
      </div>
    </div>
